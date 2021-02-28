@@ -3,11 +3,13 @@ package com.hikari.hellofx;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Model {
+import com.hikari.hellofx.Base.BaseModel;
+
+public class AppModel extends BaseModel{
 	private final ArrayList<String> sceneClasses;
 	private String currentSceneName = "MenuScene";
 	
-	public Model(){
+	public AppModel(){
 		sceneClasses = new ArrayList<String>(Arrays.asList(
 				"GameScene", "MenuScene"/*, "LoadScene", "SaveScene"*/
 				));
@@ -26,5 +28,6 @@ public class Model {
 			throw new Exception("badNextSceneName");
 		}
 		currentSceneName = nextSceneName;
+		super.notifySubs();
 	}
 }

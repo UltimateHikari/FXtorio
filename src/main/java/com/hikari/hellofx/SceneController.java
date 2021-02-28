@@ -1,9 +1,9 @@
 package com.hikari.hellofx;
 
-public class Controller {
-	private Model model;
+public class SceneController {
+	private AppModel model;
 	
-	public Controller(Model model_) {
+	public SceneController(AppModel model_) {
 		model = model_;
 	}
 	
@@ -11,7 +11,7 @@ public class Controller {
 		try {
 			model.setCurrentScene(nextSceneName);
 		} catch (Exception e) {
-			
+			System.out.println("Error changing scene: " + e.getMessage());
 		}
 	}
 }

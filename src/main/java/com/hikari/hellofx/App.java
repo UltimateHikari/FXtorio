@@ -3,6 +3,9 @@ package com.hikari.hellofx;
 import java.lang.reflect.*;
 import java.util.HashMap;
 
+import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.IModelSubscriber;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -11,47 +14,50 @@ import javafx.stage.Stage;
 /**
  * JavaFX App
  */
-public class App extends Application {
+public class App extends Application implements IModelSubscriber{
 	
-	private Model model;
-	private Controller controller;
+	private Stage stage;
+	private AppModel appModel = new AppModel();
+	private SceneController sceneController = new SceneController(appModel);
 	private HashMap<String, Scene> scenes = new HashMap<String, Scene>();
 	private final Integer width = 1280;
 	private final Integer height = 720;
-
-	/**
-	 * extrafat view without subscription;
-	 * with cycle polling instead (?)
-	 * ok mb tomorrow i will change to subscribtion + updates model
-	 */
 	
     @Override
-    public void start(@SuppressWarnings("exports") Stage stage) {
+    public void start(@SuppressWarnings("exports") Stage stage_) throws Exception {
+    	stage = stage_;
     	stage.setTitle("fxtorio");
-    	model = new Model();
-    	controller = new Controller(model);
+    	appModel.subscribe(this);
     	
-    	for(String sceneClassName : model.getSceneClasses()) {
-    		try{
-    			Class<?> clazz = Class.forName("com.hikari.hellofx." + sceneClassName);
-    			GridPane newPane = (GridPane) clazz.getDeclaredConstructor(controller.getClass()).newInstance(controller);
-    			scenes.put(sceneClassName, new Scene(newPane, width, height));
-    		}catch (Exception e) {
-    			// oh no tons of exceptions.. anyway
-    			System.out.println("oh no " + e.getMessage());
-    		}
+    	try {
+    		prepareScenes();
+    	}catch(Exception e) {
+    		System.out.println("Failed to get instance of " + e.getMessage());
+    		this.stop();
     	}
     	
-        stage.setScene(getCurrentScene()); 
+        ModelChanged(appModel); 
         stage.show();
     }
-    
-    private Scene getCurrentScene() {
-    	return scenes.get(model.getCurrentScene());
+  
+    private void prepareScenes() throws Exception {
+    	for(String sceneClassName : appModel.getSceneClasses()) {
+			Class<?> clazz = Class.forName("com.hikari.hellofx." + sceneClassName);
+			GridPane newPane = (GridPane) clazz.getDeclaredConstructor(sceneController.getClass()).newInstance(sceneController);
+			scenes.put(sceneClassName, new Scene(newPane, width, height));
+    	}
     }
 
     public static void main(String[] args) {
         launch();
     }
+
+	@Override
+	public void ModelChanged(BaseModel model) {
+//		if(!(model instanceof AppModel)) {
+//			throw new IllegalArgumentException("wrong appmodel");
+//		}
+		stage.setScene(scenes.get(((AppModel) model).getCurrentScene()));
+	}
 
 }
