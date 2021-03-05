@@ -1,5 +1,5 @@
 package com.hikari.hellofx.Entities;
 
-public class Entity {
+public interface PowerConnectable {
 
 }
