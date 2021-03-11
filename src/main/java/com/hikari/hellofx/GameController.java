@@ -8,13 +8,13 @@ import com.hikari.hellofx.Entities.Connectable;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.ConstructorView;
 
+import javafx.event.ActionEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 public class GameController {
 	private Integer state = 0;
 	private final GameScene scene;
-	private MouseEvent lastEvent;
 	private final Queue<BaseModel> noticed = new ArrayDeque<BaseModel>();
 
 	
@@ -36,13 +36,18 @@ public class GameController {
 
 	public void notice(BaseModel model, MouseEvent event) {
 		noticed.add(model);	
-		lastEvent = event;
-		changeState();
+		changeState(event);
 	}
 	
-	public void changeState() {
-		System.out.println(lastEvent.getButton());
-		if(lastEvent.getButton() == MouseButton.PRIMARY) {
+	public void notice(BaseModel model, ActionEvent event) {
+		noticed.add(model);	
+		System.out.println(event.getEventType());
+		//changeState();
+	}
+	
+	private void changeState(MouseEvent event) {
+		System.out.println(event.getButton());
+		if(event.getButton() == MouseButton.PRIMARY) {
 			if(state == 0) {
 				BaseModel model = noticed.remove();
 				if(((ConstructorModel)model).getState() == false){
