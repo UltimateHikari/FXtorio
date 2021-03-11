@@ -5,7 +5,6 @@ import com.hikari.hellofx.Base.IModelSubscriber;
 
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.event.ActionEvent;
 
 /*
  * stores information about model

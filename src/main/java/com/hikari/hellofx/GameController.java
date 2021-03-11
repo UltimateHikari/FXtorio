@@ -42,7 +42,7 @@ public class GameController {
 	public void notice(BaseModel model, ActionEvent event) {
 		noticed.add(model);	
 		System.out.println(event.getEventType());
-		//changeState();
+		changeState(event);
 	}
 	
 	private void changeState(MouseEvent event) {
@@ -50,17 +50,18 @@ public class GameController {
 		if(event.getButton() == MouseButton.PRIMARY) {
 			if(state == 0) {
 				BaseModel model = noticed.remove();
-				if(((ConstructorModel)model).getState() == false){
-					((ConstructorModel)model).turnOn();
-				}else {
-					((ConstructorModel)model).turnOff();
-				}
+				scene.showInfo((ConstructorModel)model);
 			}
-		} else {
-			BaseModel model = noticed.remove();
-			scene.showInfo((ConstructorModel)model);
 		}
 	}
 	
+	private void changeState(ActionEvent event) {
+		BaseModel model = noticed.remove();
+		if(((ConstructorModel)model).getState() == false){
+			((ConstructorModel)model).turnOn();
+		}else {
+			((ConstructorModel)model).turnOff();
+		}
+	}
 
 }

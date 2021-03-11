@@ -2,7 +2,6 @@ package com.hikari.hellofx;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
-import com.hikari.hellofx.Base.IModelSubscriber;
 import com.hikari.hellofx.Entities.Suspendable;
 
 import javafx.scene.layout.VBox;
@@ -16,7 +15,7 @@ public class ConnectableInfo extends VBox implements IModelInfo{
 	public ConnectableInfo(BindingController bController) {
 		controller = bController;
 		add(text);
-		btn = new InfoButton(bController, "turn ");
+		btn = new InfoButton(bController, "");
 		add(btn);
 	}
 	@Override
@@ -31,8 +30,5 @@ public class ConnectableInfo extends VBox implements IModelInfo{
 	}
 	private void add(Node node) {
 		getChildren().add(node);
-	}
-	private void remove(Node node) {
-		getChildren().remove(node);
 	}
 }
