@@ -17,8 +17,7 @@ public class ConstructorView extends Rectangle implements IModelSubscriber{
 		super(x,y,40,40);
 		System.out.println(x + " " + y);
 		setFill(colorOff);
-		setOnMouseClicked((event) -> System.out.println("Constructing lol"));
-		setOnMouseClicked((event) -> controller.handleClick());
+		setOnMouseClicked((event) -> controller.handleClick(event));
 	}
 
 	@Override

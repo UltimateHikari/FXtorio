@@ -1,6 +1,9 @@
 package com.hikari.hellofx;
 
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.IModelSubscriber;
+
+import javafx.scene.input.MouseEvent;
 
 /*
  * stores information about model
@@ -15,7 +18,11 @@ public class BindingController {
 		model = model_;
 	}
 	
-	public void handleClick() {
-		gController.notice(model);
+	public void handleClick(MouseEvent event) {
+		gController.notice(model, event);
 	}
+	public void breakBond(IModelSubscriber view) {
+		model.unsubscribe(view);
+	}
+	
 }

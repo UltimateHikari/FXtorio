@@ -3,18 +3,24 @@ package com.hikari.hellofx;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.IModelInfo;
+import com.hikari.hellofx.Base.IModelSubscriber;
+import com.hikari.hellofx.Entities.Connectable;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.ConstructorView;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class GameScene extends GridPane{
 	//private final Collection<ConstructorModel> entityModels = new CopyOnWriteArrayList<ConstructorModel>();
 	private final Collection<ConstructorModel> entityModels = new CopyOnWriteArrayList<ConstructorModel>();
 	private final GameController gController = new GameController(this);
 	private final GameField gameField = new GameField(gController);
+	private VBox infoMenu;
 	
 	public GameScene(SceneController controller) {
 		setAlignment(Pos.TOP_LEFT);
@@ -22,8 +28,9 @@ public class GameScene extends GridPane{
 		setHgap(10);
 		setPadding(new Insets(25,25,25,25));
 		add(gameField, 0, 0);
+		infoMenu = new InfoMenu();
 		add(new SpawnMenu(controller, gController), 0, 1, 2, 1);
-		add(new InfoMenu(controller),1,0);
+		add(infoMenu,1,0);
 	}
 	
 	public void spawn(Double x, Double y) {
@@ -34,5 +41,19 @@ public class GameScene extends GridPane{
 		entityModels.add(model); //зачем?
 		gameField.add(spawned, x, y);
 		
+	}
+	
+	public void showInfo(Connectable model) {
+		//probably snowball with subs here; //fixed here
+		if(infoMenu instanceof IModelInfo) {
+			((IModelInfo)infoMenu).disable();
+		}
+		BindingController bController = new BindingController(gController, (BaseModel) model);
+		ConnectableInfo info = new ConnectableInfo(bController);
+		((BaseModel)model).subscribe(info);
+		((BaseModel)model).notifySubs();
+		getChildren().remove(infoMenu);
+		infoMenu = info;
+		add(infoMenu, 1, 0);
 	}
 }
