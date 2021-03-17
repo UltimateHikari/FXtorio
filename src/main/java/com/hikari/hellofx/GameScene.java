@@ -7,8 +7,10 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.Connectable;
 import com.hikari.hellofx.Entities.ConstructorModel;
+import com.hikari.hellofx.Entities.EntityShadow;
 import com.hikari.hellofx.Views.ConnectableInfo;
 import com.hikari.hellofx.Views.ConstructorView;
+import com.hikari.hellofx.Views.EntityShadowView;
 import com.hikari.hellofx.Views.InfoMenu;
 
 import javafx.geometry.Insets;
@@ -17,9 +19,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class GameScene extends GridPane{
-	//private final Collection<ConstructorModel> entityModels = new CopyOnWriteArrayList<ConstructorModel>();
 	private final Collection<ConstructorModel> entityModels = new CopyOnWriteArrayList<ConstructorModel>();
-	private final GameController gController = new GameController(this);
+	GameFieldModel gameFieldModel = new GameFieldModel();
+	private final GameController gController = new GameController(this, gameFieldModel);
 	private final GameField gameField = new GameField(gController);
 	private VBox infoMenu;
 	
@@ -28,7 +30,10 @@ public class GameScene extends GridPane{
 		setVgap(10);
 		setHgap(10);
 		setPadding(new Insets(25,25,25,25));
+		
+		gameFieldModel.subscribe(gameField);
 		add(gameField, 0, 0);
+		
 		infoMenu = new InfoMenu();
 		add(new SpawnMenu(controller, gController), 0, 1, 2, 1);
 		add(infoMenu,1,0);
@@ -56,5 +61,12 @@ public class GameScene extends GridPane{
 		getChildren().remove(infoMenu);
 		infoMenu = info;
 		add(infoMenu, 1, 0);
+	}
+
+	public void showShadow(EntityShadow shadow) {
+		EntityShadowView shadowView = new EntityShadowView();
+		shadow.subscribe(shadowView);
+		gameField.add(shadowView, shadow.getPosition().getX(), shadow.getPosition().getY());
+		
 	}
 }

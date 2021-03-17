@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.ConstructorModel;
+import com.hikari.hellofx.Entities.EntityShadow;
 
 import javafx.scene.input.MouseEvent;
 
@@ -18,10 +19,13 @@ public class GameController {
 	private State state = State.Idle;
 	private GameAction action = GameAction.NOP;
 	private final GameScene scene;
+	private final GameFieldModel gameFieldModel;
+	private final EntityShadow shadow = new EntityShadow();
 	private final Queue<BaseModel> noticed = new ArrayDeque<BaseModel>();
 
 	
-	public GameController(GameScene scene_) {
+	public GameController(GameScene scene_, GameFieldModel gameFieldModel_) {
+		gameFieldModel = gameFieldModel_;
 		scene = scene_;
 	}
 	
@@ -34,6 +38,9 @@ public class GameController {
 
 	public void enableSpawningState() {
 		state = State.Spawning;
+		System.out.println("enabling");
+		gameFieldModel.setSpawningState(true);
+		scene.showShadow(shadow);
 	}
 
 	public void notice(BaseModel model, MouseEvent event, GameAction action_) {
@@ -47,8 +54,10 @@ public class GameController {
 		switch(action) {
 			case SUSPEND:
 				suspendEntity();
+				break;
 			case INFO:
 				showInfo();
+				break;
 			default:
 				System.out.println("oopsie");
 		}
@@ -66,5 +75,11 @@ public class GameController {
 	private void showInfo() {
 		BaseModel model = noticed.remove();
 		scene.showInfo((ConstructorModel)model);
+	}
+
+	public Object moveShadow(MouseEvent event) {
+		System.out.println("movement on " + event.getX() + event.getY());
+		shadow.move(event.getX(), event.getY());
+		return null;
 	}
 }
