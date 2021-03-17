@@ -1,9 +1,10 @@
-package com.hikari.hellofx.Entities;
+package com.hikari.hellofx.Views;
 
 import com.hikari.hellofx.BindingController;
-import com.hikari.hellofx.GameController;
+import com.hikari.hellofx.GameAction;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
+import com.hikari.hellofx.Entities.ConstructorModel;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -17,7 +18,7 @@ public class ConstructorView extends Rectangle implements IModelSubscriber{
 		super(x,y,40,40);
 		System.out.println(x + " " + y);
 		setFill(colorOff);
-		setOnMouseClicked((event) -> controller.handleClick(event));
+		setOnMouseClicked((event) -> controller.handleClick(event, GameAction.INFO));
 	}
 
 	@Override

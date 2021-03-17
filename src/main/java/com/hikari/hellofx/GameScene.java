@@ -5,10 +5,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
-import com.hikari.hellofx.Base.IModelSubscriber;
 import com.hikari.hellofx.Entities.Connectable;
 import com.hikari.hellofx.Entities.ConstructorModel;
-import com.hikari.hellofx.Entities.ConstructorView;
+import com.hikari.hellofx.Views.ConnectableInfo;
+import com.hikari.hellofx.Views.ConstructorView;
+import com.hikari.hellofx.Views.InfoMenu;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

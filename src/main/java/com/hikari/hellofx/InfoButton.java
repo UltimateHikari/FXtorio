@@ -5,6 +5,6 @@ import javafx.scene.control.Button;
 public class InfoButton extends Button{
 	public InfoButton(BindingController bController, String label) {
 		super(label);
-		setOnAction((event)->bController.handleClick(event));
+		setOnMouseClicked((event)->bController.handleClick(event, GameAction.SUSPEND));
 	}
 }

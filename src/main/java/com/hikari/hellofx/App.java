@@ -1,6 +1,5 @@
 package com.hikari.hellofx;
 
-import java.lang.reflect.*;
 import java.util.HashMap;
 
 import com.hikari.hellofx.Base.BaseModel;
@@ -24,7 +23,7 @@ public class App extends Application implements IModelSubscriber{
 	private final Integer height = 720;
 	
     @Override
-    public void start(@SuppressWarnings("exports") Stage stage_) throws Exception {
+    public void start(Stage stage_) throws Exception {
     	stage = stage_;
     	stage.setTitle("fxtorio");
     	appModel.subscribe(this);

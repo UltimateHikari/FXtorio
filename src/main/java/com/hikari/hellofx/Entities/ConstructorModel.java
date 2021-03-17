@@ -27,12 +27,6 @@ public class ConstructorModel extends BaseModel implements Runnable, Connectable
 	}
 
 	@Override
-	public void showFreePoints() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void connect(Connectable other, Integer pointId) {
 		// TODO Auto-generated method stub
 		

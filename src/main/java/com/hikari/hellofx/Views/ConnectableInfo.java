@@ -1,5 +1,7 @@
-package com.hikari.hellofx;
+package com.hikari.hellofx.Views;
 
+import com.hikari.hellofx.BindingController;
+import com.hikari.hellofx.InfoButton;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.Suspendable;
