@@ -3,6 +3,8 @@ package com.hikari.hellofx;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
+import com.hikari.hellofx.Views.EntityShadowView;
+
 import javafx.event.*;
 
 import javafx.scene.Node;
@@ -33,6 +35,10 @@ public class GameField extends Pane implements IModelSubscriber{
 	public void add(Shape child) {
 		getChildren().add(child);
 	}
+	
+	public void remove(Shape child) {
+		getChildren().remove(child);
+	}
 	@Override
 	public void ModelChanged(BaseModel model) {
 		System.out.println("hello there");
@@ -44,4 +50,5 @@ public class GameField extends Pane implements IModelSubscriber{
 		}
 		
 	}
+	
 }

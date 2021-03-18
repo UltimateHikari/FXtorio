@@ -23,6 +23,7 @@ public class GameScene extends GridPane{
 	GameFieldModel gameFieldModel = new GameFieldModel();
 	private final GameController gController = new GameController(this, gameFieldModel);
 	private final GameField gameField = new GameField(gController);
+	private EntityShadowView shadowView = null;
 	private VBox infoMenu;
 	
 	public GameScene(SceneController controller) {
@@ -64,9 +65,14 @@ public class GameScene extends GridPane{
 	}
 
 	public void showShadow(EntityShadow shadow) {
-		EntityShadowView shadowView = new EntityShadowView();
+		shadowView = new EntityShadowView(gController);
 		shadow.subscribe(shadowView);
 		gameField.add(shadowView/*, shadow.getPosition().getX(), shadow.getPosition().getY()*/);
-		
 	}
+
+	public void hideShadow(EntityShadow shadow) {
+		shadow.unsubscribe(shadowView);
+		gameField.remove(shadowView);
+	}
+	
 }

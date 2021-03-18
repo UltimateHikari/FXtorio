@@ -28,13 +28,6 @@ public class GameController {
 		gameFieldModel = gameFieldModel_;
 		scene = scene_;
 	}
-	
-	public void handleFieldClick(MouseEvent event) {
-		if(state == State.Spawning) {
-			scene.spawn(event.getX(), event.getY()/*), entityName*/);
-			state = State.Idle;
-		}
-	}
 
 	public void enableSpawningState() {
 		state = State.Spawning;
@@ -43,6 +36,11 @@ public class GameController {
 		scene.showShadow(shadow);
 	}
 
+	public void act(MouseEvent event, GameAction action_) {
+		action = action_;
+		assignHandler(event);
+	}
+	
 	public void notice(BaseModel model, MouseEvent event, GameAction action_) {
 		noticed.add(model);	
 		action = action_;
@@ -58,11 +56,24 @@ public class GameController {
 			case INFO:
 				showInfo();
 				break;
+			case SPAWN:
+				spawnEntity(event);
+				break;
 			default:
 				System.out.println("oopsie");
 		}
 	}
 	
+	private void spawnEntity(MouseEvent event) {
+		System.out.println("going deep");
+		if(state == State.Spawning) {
+			scene.spawn(event.getX(), event.getY()/*), entityName*/);
+			state = State.Idle;
+			gameFieldModel.setSpawningState(false);
+			scene.hideShadow(shadow);
+		}
+	}
+
 	private void suspendEntity() {
 		BaseModel model = noticed.remove();
 		if(((ConstructorModel)model).getState() == false){
@@ -78,7 +89,7 @@ public class GameController {
 	}
 
 	public Object moveShadow(MouseEvent event) {
-		System.out.println("movement on " + event.getX() + event.getY());
+		//System.out.println("movement on " + event.getX() + event.getY());
 		shadow.move(event.getX(), event.getY());
 		return null;
 	}
