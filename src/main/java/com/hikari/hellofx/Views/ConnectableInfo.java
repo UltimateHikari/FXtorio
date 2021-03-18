@@ -1,7 +1,8 @@
 package com.hikari.hellofx.Views;
 
 import com.hikari.hellofx.BindingController;
-import com.hikari.hellofx.InfoButton;
+import com.hikari.hellofx.DespawnButton;
+import com.hikari.hellofx.SuspendButton;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.Suspendable;
@@ -12,13 +13,14 @@ import javafx.scene.Node;
 
 public class ConnectableInfo extends VBox implements IModelInfo{
 	private Text text = new Text("");
-	private InfoButton btn;
+	private SuspendButton btn;
 	BindingController controller;
 	public ConnectableInfo(BindingController bController) {
 		controller = bController;
 		add(text);
-		btn = new InfoButton(bController, "");
+		btn = new SuspendButton(bController, "");
 		add(btn);
+		add(new DespawnButton(bController, "deconstruct"));
 	}
 	@Override
 	public void ModelChanged(BaseModel model) {		

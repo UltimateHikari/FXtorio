@@ -6,5 +6,6 @@ public enum GameAction {
 	INFO,
 	CONNECT_IN,
 	CONNECT_OUT,
-	NOP
+	DESPAWN,
+	NOP,
 }

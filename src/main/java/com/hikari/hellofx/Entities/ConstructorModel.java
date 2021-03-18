@@ -32,4 +32,8 @@ public class ConstructorModel extends BaseModel implements Connectable, PowerCon
 		
 	}
 
+	public void despawn() {
+		System.out.println("goodbye");
+	}
+
 }

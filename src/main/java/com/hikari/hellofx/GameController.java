@@ -58,9 +58,17 @@ public class GameController {
 			case SPAWN:
 				spawnEntity(event);
 				break;
+			case DESPAWN:
+				despawnEntity(event);
+				break;
 			default:
 				System.out.println("oopsie, wrong command");
 		}
+	}
+	
+	private void despawnEntity(MouseEvent event) {
+		BaseModel model = noticed.remove();
+		((ConstructorModel)model).despawn(); //??? mb interface && handler?
 	}
 	
 	private void spawnEntity(MouseEvent event) {
@@ -71,6 +79,7 @@ public class GameController {
 			scene.hideShadow(shadow);
 		}
 	}
+	
 
 	private void suspendEntity() {
 		BaseModel model = noticed.remove();
