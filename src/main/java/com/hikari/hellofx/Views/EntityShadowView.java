@@ -11,14 +11,15 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class EntityShadowView extends Circle implements IModelSubscriber{
-
 	public EntityShadowView() {
 		super(0,0,40);
 		setFill(Color.ALICEBLUE);
+		setVisible(false);
 	}
 	
 	@Override
 	public void ModelChanged(BaseModel model) {
+		setVisible(true);
 		Point2D point =((EntityShadow)model).getPosition();
 		TranslateTransition tt = new TranslateTransition(Duration.millis(10), this);
 		tt.setToX(point.getX());
