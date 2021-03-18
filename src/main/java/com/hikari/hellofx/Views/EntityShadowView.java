@@ -22,11 +22,10 @@ public class EntityShadowView extends Circle implements IModelSubscriber{
 	
 	@Override
 	public void ModelChanged(BaseModel model) {
-		setVisible(true);
-		Point2D point =((EntityShadow)model).getPosition();
+		setVisible(true);		
 		TranslateTransition tt = new TranslateTransition(Duration.millis(10), this);
-		tt.setToX(point.getX());
-		tt.setToY(point.getY());
+		tt.setToX(((EntityShadow)model).getX());
+		tt.setToY(((EntityShadow)model).getY());
 		tt.play();
 //		setCenterX(point.getX());
 //		setCenterY(point.getY());

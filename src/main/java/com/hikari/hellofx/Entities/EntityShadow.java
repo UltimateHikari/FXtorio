@@ -12,7 +12,10 @@ public class EntityShadow extends BaseModel{
 		y = y_;
 		notifySubs();
 	}
-	public Point2D getPosition() {
-		return new Point2D(x, y);
+	public double getX() {
+		return x;
+	}
+	public double getY() {
+		return y;
 	}
 }
