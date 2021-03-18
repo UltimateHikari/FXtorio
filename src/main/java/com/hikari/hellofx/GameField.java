@@ -41,8 +41,7 @@ public class GameField extends Pane implements IModelSubscriber{
 	}
 	@Override
 	public void ModelChanged(BaseModel model) {
-		System.out.println("hello there");
-		if(((GameFieldModel)model).getSpawningState() == true) {
+		if(((GameFieldModel)model).getState() == true) {
 			//field.setOnMouseMoved((event) -> gcontroller.moveShadow(event));
 			field.setOnMouseMoved(handler);
 		}else {

@@ -31,7 +31,7 @@ public class GameController {
 
 	public void enableSpawningState() {
 		state = State.Spawning;
-		gameFieldModel.setSpawningState(true);
+		gameFieldModel.turnOn();
 		scene.showShadow(shadow);
 	}
 
@@ -59,7 +59,7 @@ public class GameController {
 				spawnEntity(event);
 				break;
 			default:
-				System.out.println("oopsie");
+				System.out.println("oopsie, wrong command");
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class GameController {
 		if(state == State.Spawning) {
 			scene.spawn(shadow.getX(), shadow.getY()/*), entityName*/);
 			state = State.Idle;
-			gameFieldModel.setSpawningState(false);
+			gameFieldModel.turnOff();
 			scene.hideShadow(shadow);
 		}
 	}
