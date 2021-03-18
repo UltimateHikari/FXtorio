@@ -13,9 +13,11 @@ import javafx.scene.shape.Rectangle;
 public class ConstructorView extends Rectangle implements IModelSubscriber{
 	private final Paint colorOn = Color.BLUE;
 	private final Paint colorOff = Color.RED;
+	private final static int SIZE = 40;
+
 	
 	public ConstructorView(Double x, Double y, BindingController controller) {
-		super(x,y,40,40);
+		super(x - SIZE/2, y - SIZE/2, SIZE, SIZE);
 		System.out.println(x + " " + y);
 		setFill(colorOff);
 		setOnMouseClicked((event) -> controller.handleClick(event, GameAction.INFO));

@@ -31,7 +31,6 @@ public class GameController {
 
 	public void enableSpawningState() {
 		state = State.Spawning;
-		System.out.println("enabling");
 		gameFieldModel.setSpawningState(true);
 		scene.showShadow(shadow);
 	}
@@ -65,7 +64,6 @@ public class GameController {
 	}
 	
 	private void spawnEntity(MouseEvent event) {
-		System.out.println("going deep");
 		if(state == State.Spawning) {
 			scene.spawn(shadow.getX(), shadow.getY()/*), entityName*/);
 			state = State.Idle;
