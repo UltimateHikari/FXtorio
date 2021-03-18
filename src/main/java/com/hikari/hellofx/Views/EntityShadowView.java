@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 public class EntityShadowView extends Circle implements IModelSubscriber{
 
 	public EntityShadowView() {
-		super(0,0,40);
+		super(100,100,40);
 		setFill(Color.ALICEBLUE);
 	}
 	

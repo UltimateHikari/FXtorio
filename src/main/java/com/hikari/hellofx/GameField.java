@@ -8,11 +8,12 @@ import javafx.event.*;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-public class GameField extends AnchorPane implements IModelSubscriber{
+public class GameField extends Pane implements IModelSubscriber{
 	private Rectangle field;
 	private GameController gcontroller = null;
 	private EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>(){
@@ -27,12 +28,10 @@ public class GameField extends AnchorPane implements IModelSubscriber{
 		field = new Rectangle(0,0, 640,480);
 		field.setFill(Color.GAINSBORO);
 //		field.setOnMouseClicked((event) -> gcontroller.handleFieldClick(event));
-		add(field, 0.0, 0.0);
+		add(field);
 	}
-	public void add(Shape child, Double x, Double y) {
+	public void add(Shape child) {
 		getChildren().add(child);
-		setTopAnchor(child, y);
-		setLeftAnchor(child, x);
 	}
 	@Override
 	public void ModelChanged(BaseModel model) {

@@ -45,7 +45,7 @@ public class GameScene extends GridPane{
 		ConstructorView spawned = new ConstructorView(x,y, bController);
 		model.subscribe(spawned);
 		entityModels.add(model); //зачем?
-		gameField.add(spawned, x, y);
+		gameField.add(spawned/*, x, y*/);
 		
 	}
 	
@@ -66,7 +66,7 @@ public class GameScene extends GridPane{
 	public void showShadow(EntityShadow shadow) {
 		EntityShadowView shadowView = new EntityShadowView();
 		shadow.subscribe(shadowView);
-		gameField.add(shadowView, shadow.getPosition().getX(), shadow.getPosition().getY());
+		gameField.add(shadowView/*, shadow.getPosition().getX(), shadow.getPosition().getY()*/);
 		
 	}
 }
