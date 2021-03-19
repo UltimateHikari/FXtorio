@@ -2,8 +2,6 @@ package com.hikari.hellofx.Entities;
 
 import com.hikari.hellofx.Base.BaseModel;
 
-import javafx.geometry.Point2D;
-
 public class EntityShadow extends BaseModel{
 	private double x = 0.0;
 	private double y = 0.0;

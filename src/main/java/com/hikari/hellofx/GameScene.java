@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
-import com.hikari.hellofx.Entities.Connectable;
+import com.hikari.hellofx.Entities.IConnectable;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.EntityShadow;
 import com.hikari.hellofx.Views.ConnectableInfo;
@@ -50,7 +50,7 @@ public class GameScene extends GridPane{
 		
 	}
 	
-	public void showInfo(Connectable model) {
+	public void showInfo(IConnectable model) {
 		//probably snowball with subs here; //fixed here
 		if(infoMenu instanceof IModelInfo) {
 			((IModelInfo)infoMenu).disable();

@@ -5,7 +5,7 @@ import com.hikari.hellofx.DespawnButton;
 import com.hikari.hellofx.SuspendButton;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
-import com.hikari.hellofx.Entities.Suspendable;
+import com.hikari.hellofx.Entities.ISuspendable;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -24,8 +24,8 @@ public class ConnectableInfo extends VBox implements IModelInfo{
 	}
 	@Override
 	public void ModelChanged(BaseModel model) {		
-		text.setText("My state is " + ((Suspendable)model).getState());
-		btn.setText("turn " + ((Suspendable)model).getState());
+		text.setText("My state is " + ((ISuspendable)model).getState());
+		btn.setText("turn " + ((ISuspendable)model).getState());
 		System.out.println(text.getText());
 	}
 	

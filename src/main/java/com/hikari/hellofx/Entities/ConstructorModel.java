@@ -2,7 +2,7 @@ package com.hikari.hellofx.Entities;
 
 import com.hikari.hellofx.Base.BaseModel;
 
-public class ConstructorModel extends BaseModel implements Connectable, PowerConnectable, Suspendable{
+public class ConstructorModel extends BaseModel implements IConnectable, IPowerConnectable, ISuspendable{
 	private boolean isTurnedOn = false;
 	@Override
 	public void turnOff() {
@@ -27,7 +27,7 @@ public class ConstructorModel extends BaseModel implements Connectable, PowerCon
 	}
 
 	@Override
-	public void connect(Connection other, ConnectionPoint point) {
+	public void connect(IConnection other, ConnectionPoint point) {
 		// TODO Auto-generated method stub
 		
 	}

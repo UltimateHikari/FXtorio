@@ -2,11 +2,11 @@ package com.hikari.hellofx.Entities;
 
 import com.hikari.hellofx.Base.BaseModel;
 
-public class Conveyor extends BaseModel implements Connection, Suspendable{
-	private Connectable destination;
+public class Conveyor extends BaseModel implements IConnection, ISuspendable{
+	private IConnectable destination;
 	private boolean isTurnedOn = false;
 	
-	public Conveyor(Connectable destination_) {
+	public Conveyor(IConnectable destination_) {
 		destination = destination_;
 		// TODO Auto-generated constructor stub
 	}
@@ -39,13 +39,13 @@ public class Conveyor extends BaseModel implements Connection, Suspendable{
 	}
 
 	@Override
-	public void connectSource(Connectable o) {
+	public void connectSource(IConnectable o) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void connectDestination(Connectable o) {
+	public void connectDestination(IConnectable o) {
 		// TODO Auto-generated method stub
 		
 	}

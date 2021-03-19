@@ -1,6 +1,6 @@
 package com.hikari.hellofx.Entities;
 
-public interface Suspendable {
+public interface ISuspendable {
 	public void turnOff();
 	public void turnOn();
 	public boolean getState();
