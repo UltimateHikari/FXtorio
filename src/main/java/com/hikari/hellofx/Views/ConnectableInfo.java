@@ -1,11 +1,11 @@
 package com.hikari.hellofx.Views;
 
 import com.hikari.hellofx.BindingController;
-import com.hikari.hellofx.DespawnButton;
-import com.hikari.hellofx.SuspendButton;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.ISuspendable;
+import com.hikari.hellofx.Views.GameScene.DespawnButton;
+import com.hikari.hellofx.Views.GameScene.SuspendButton;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;

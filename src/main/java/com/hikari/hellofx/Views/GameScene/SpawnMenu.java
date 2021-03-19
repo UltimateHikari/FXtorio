@@ -1,4 +1,7 @@
-package com.hikari.hellofx;
+package com.hikari.hellofx.Views.GameScene;
+
+import com.hikari.hellofx.GameController;
+import com.hikari.hellofx.SceneController;
 
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;

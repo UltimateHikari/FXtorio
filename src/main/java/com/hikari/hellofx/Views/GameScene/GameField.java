@@ -1,6 +1,8 @@
-package com.hikari.hellofx;
+package com.hikari.hellofx.Views.GameScene;
 
 
+import com.hikari.hellofx.GameController;
+import com.hikari.hellofx.GameFieldModel;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
 
@@ -10,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 public class GameField extends Pane implements IModelSubscriber{
 	private Rectangle field;

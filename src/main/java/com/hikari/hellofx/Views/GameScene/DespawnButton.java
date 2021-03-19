@@ -1,4 +1,7 @@
-package com.hikari.hellofx;
+package com.hikari.hellofx.Views.GameScene;
+
+import com.hikari.hellofx.BindingController;
+import com.hikari.hellofx.GameAction;
 
 import javafx.scene.control.Button;
 
