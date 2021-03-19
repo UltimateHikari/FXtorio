@@ -8,7 +8,6 @@ import com.hikari.hellofx.Entities.EntityShadow;
 
 import javafx.scene.paint.Color;
 import javafx.animation.TranslateTransition;
-import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 

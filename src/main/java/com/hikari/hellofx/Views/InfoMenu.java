@@ -1,8 +1,5 @@
 package com.hikari.hellofx.Views;
 
-import com.hikari.hellofx.Base.BaseModel;
-import com.hikari.hellofx.Base.IModelSubscriber;
-
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
