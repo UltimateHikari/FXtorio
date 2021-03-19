@@ -5,7 +5,7 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
 
 import javafx.event.*;
-
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -29,11 +29,11 @@ public class GameField extends Pane implements IModelSubscriber{
 //		field.setOnMouseClicked((event) -> gcontroller.handleFieldClick(event));
 		add(field);
 	}
-	public void add(Shape child) {
+	public void add(Node child) {
 		getChildren().add(child);
 	}
 	
-	public void remove(Shape child) {
+	public void remove(Node child) {
 		getChildren().remove(child);
 	}
 	@Override

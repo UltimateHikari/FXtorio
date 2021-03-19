@@ -6,20 +6,31 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
 import com.hikari.hellofx.Entities.ConstructorModel;
 
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
-public class ConstructorView extends Rectangle implements IModelSubscriber{
+public class ConstructorView extends StackPane implements IModelSubscriber{
 	private final Paint colorOn = Color.BLUE;
 	private final Paint colorOff = Color.RED;
 	private final static int SIZE = 40;
+	private final Rectangle field;
+	private final Text label;
 
 	
 	public ConstructorView(Double x, Double y, BindingController controller) {
-		super(x - SIZE/2, y - SIZE/2, SIZE, SIZE);
-		System.out.println(x + " " + y);
-		setFill(colorOff);
+		field = new Rectangle(0, 0, SIZE, SIZE);
+		setLayoutX(x - SIZE/2);
+		setLayoutY(y - SIZE/2);
+
+		setPrefSize(SIZE,SIZE);
+		//System.out.println(x + " " + y);
+		field.setFill(colorOff);
+		label = new Text("off");
+		getChildren().add(field);
+		getChildren().add(label);
 		setOnMouseClicked((event) -> controller.handleClick(event, GameAction.INFO));
 	}
 
@@ -29,9 +40,11 @@ public class ConstructorView extends Rectangle implements IModelSubscriber{
 //			throw new IllegalArgumentException();
 //		}
 		if(((ConstructorModel)model).getState()){
-			setFill(colorOn);
+			label.setText("on");
+			field.setFill(colorOn);
 		}else {
-			setFill(colorOff);
+			label.setText("off");
+			field.setFill(colorOff);
 		}
 		
 	}
