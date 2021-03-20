@@ -7,7 +7,7 @@ import com.hikari.hellofx.Base.BaseModel;
 
 public class AppModel extends BaseModel{
 	private final ArrayList<String> sceneClasses;
-	private final Game game = new Game();
+	//private final Game game = new Game();
 	private String currentSceneName = "MenuView";
 	
 	public AppModel(){
@@ -18,10 +18,6 @@ public class AppModel extends BaseModel{
 	
 	public String getCurrentScene() {
 		return currentSceneName;
-	}
-	
-	public Game getGameModel() {
-		return game;
 	}
 	
 	public ArrayList<String> getSceneClasses() {

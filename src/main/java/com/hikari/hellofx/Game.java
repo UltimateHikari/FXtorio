@@ -14,11 +14,6 @@ public class Game extends BaseModel{
 	private final Collection<ConstructorModel> entityModels = new CopyOnWriteArrayList<ConstructorModel>();
 	GameFieldModel gameFieldModel = new GameFieldModel();
 	
-	public Game() {
-		// TODO Auto-generated constructor stub
-		System.out.println(":constructed");
-	}
-	
 	public GameFieldModel getField() {
 		return gameFieldModel;
 	}
