@@ -1,13 +1,23 @@
 package com.hikari.hellofx.Entities;
 
 public class ConnectionPoint {
-	private final IConnectable parentEntity;
-	//private final ConnectionType type
+	protected final IConnectable parentEntity;
+	protected IConnection connection = null;
+
 	public ConnectionPoint(IConnectable entity) {
 		parentEntity = entity;
 	}
 	
-	public void connect(IConnection connection) {
-		parentEntity.connect(connection, this);
+	public boolean isFree() {
+		return(connection == null);
+	}
+	
+	public void connect(IConnection connection_) {
+		connection = connection_;
+	}
+	
+	public void disconnect() {
+		//connection.disconnect()?
+		connection = null;
 	}
 }

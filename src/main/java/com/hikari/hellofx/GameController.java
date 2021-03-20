@@ -110,6 +110,11 @@ public class GameController {
 		model.notifySubs();
 		view.showInfo((IConnectable)model, info);
 	}
+	
+//	private void showInPoints() {
+//		game.foreachEntity(method to activate showing) 
+//	}
+	//private void showOutPoints();
 
 	public Object moveShadow(MouseEvent event) {
 		//System.out.println("movement on " + event.getX() + event.getY());

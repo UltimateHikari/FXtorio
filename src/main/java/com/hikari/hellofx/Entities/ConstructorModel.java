@@ -4,6 +4,8 @@ import com.hikari.hellofx.Base.BaseModel;
 
 public class ConstructorModel extends BaseModel implements IConnectable, IPowerConnectable, ISuspendable{
 	private boolean isTurnedOn = false;
+	private final ConnectionInPoint in = new ConnectionInPoint(this);
+	private final ConnectionOutPoint out = new ConnectionOutPoint(this);
 	@Override
 	public void turnOff() {
 		isTurnedOn = false;
@@ -27,7 +29,7 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 	}
 
 	@Override
-	public void connect(IConnection other, ConnectionPoint point) {
+	public void connect(IConnection connection, ConnectionPoint point) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -33,8 +33,9 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	}
 
 	@Override
-	public void send(Object o) {
+	public Object send() {
 		// TODO Auto-generated method stub
+		return new Object();
 		
 	}
 
