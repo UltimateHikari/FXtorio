@@ -39,6 +39,12 @@ public class App extends Application implements IModelSubscriber{
         stage.show();
     }
   
+    /*
+     * Mandatory pairs
+     * Model + View
+     * Name + NameView
+     */
+    
     private void prepareScenes() throws Exception {
     	for(String sceneClassName : appModel.getSceneClasses()) {
 			Class<?> clazz = Class.forName("com.hikari.hellofx." + sceneClassName);
@@ -56,7 +62,7 @@ public class App extends Application implements IModelSubscriber{
 //		if(!(model instanceof AppModel)) {
 //			throw new IllegalArgumentException("wrong appmodel");
 //		}
-		stage.setScene(scenes.get(((AppModel) model).getCurrentScene()));
+		stage.setScene(scenes.get(appModel.getCurrentScene()));
 	}
 
 }

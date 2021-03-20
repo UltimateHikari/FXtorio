@@ -6,6 +6,10 @@ import java.util.Queue;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.EntityShadow;
+import com.hikari.hellofx.Entities.IConnectable;
+import com.hikari.hellofx.Views.ConnectableInfo;
+import com.hikari.hellofx.Views.ConstructorView;
+import com.hikari.hellofx.Views.GameScene.GameField;
 
 import javafx.scene.input.MouseEvent;
 
@@ -18,23 +22,31 @@ public class GameController {
 	}
 	private State state = State.Idle;
 	private GameAction action = GameAction.NOP;
-	private final GameScene scene;
-	private final GameFieldModel gameFieldModel;
+	private final Game game = new Game();
+	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
 	private final Queue<BaseModel> noticed = new ArrayDeque<BaseModel>();
 
 	
-	public GameController(GameScene scene_, GameFieldModel gameFieldModel_) {
-		gameFieldModel = gameFieldModel_;
-		scene = scene_;
+	public GameController(GameView view_) {
+		view = view_;
 	}
 
 	public void enableSpawningState() {
 		state = State.Spawning;
-		gameFieldModel.turnOn();
-		scene.showShadow(shadow);
+		game.getField().turnOn();
+		view.showShadow(shadow);
 	}
 
+	private void spawn(Double x, Double y) {
+		ConstructorModel model = new ConstructorModel();
+		BindingController bController = new BindingController(this, model);
+		ConstructorView spawned = new ConstructorView(x,y, bController);
+		model.subscribe(spawned);
+		view.showSpawned(spawned);
+		game.addEntity(model); 
+	}
+	
 	public void act(MouseEvent event, GameAction action_) {
 		action = action_;
 		assignHandler(event);
@@ -73,10 +85,10 @@ public class GameController {
 	
 	private void spawnEntity(MouseEvent event) {
 		if(state == State.Spawning) {
-			scene.spawn(shadow.getX(), shadow.getY()/*), entityName*/);
+			spawn(shadow.getX(), shadow.getY()/*), entityName*/);
 			state = State.Idle;
-			gameFieldModel.turnOff();
-			scene.hideShadow(shadow);
+			game.getField().turnOff();
+			view.hideShadow(shadow);
 		}
 	}
 	
@@ -92,12 +104,21 @@ public class GameController {
 	
 	private void showInfo() {
 		BaseModel model = noticed.remove();
-		scene.showInfo((ConstructorModel)model);
+		BindingController bController = new BindingController(this, model);
+		ConnectableInfo info = new ConnectableInfo(bController);
+		model.subscribe(info);
+		model.notifySubs();
+		view.showInfo((IConnectable)model, info);
 	}
 
 	public Object moveShadow(MouseEvent event) {
 		//System.out.println("movement on " + event.getX() + event.getY());
 		shadow.move(event.getX(), event.getY());
 		return null;
+	}
+
+	public void subscribeGameField(GameField gameField) {
+		game.getField().subscribe(gameField);
+		
 	}
 }

@@ -1,6 +1,6 @@
-package com.hikari.hellofx.Views.GameScene;
+package com.hikari.hellofx;
 
-import com.hikari.hellofx.SceneController;
+import com.hikari.hellofx.Views.GameScene.NavButton;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,15 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 
-public class MenuScene extends GridPane{
-	public MenuScene(SceneController controller) {
+public class MenuView extends GridPane{
+	public MenuView(SceneController controller) {
 		setAlignment(Pos.CENTER);
 		setVgap(10);
 		setHgap(10);
 		setPadding(new Insets(25,25,25,25));
 
 		
-		add(new NavButton(controller, "Continue", "GameScene"), 0, 0);
+		add(new NavButton(controller, "Continue", "GameView"), 0, 0);
 		add(new Button("New game"), 0, 1);
 		add(new Button("Load game"), 0, 2);
 		add(new Button("Credits"), 0, 3);
