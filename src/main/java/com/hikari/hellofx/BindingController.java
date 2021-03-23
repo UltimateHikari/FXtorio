@@ -2,6 +2,8 @@ package com.hikari.hellofx;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
+import com.hikari.hellofx.Entities.ConnectionOutPoint;
+import com.hikari.hellofx.Entities.ConnectionPoint;
 
 import javafx.scene.input.MouseEvent;
 
@@ -21,6 +23,11 @@ public class BindingController {
 	public void handleClick(MouseEvent event, GameAction action) {
 		gController.notice(model, event, action);
 	}
+	
+	public void handleConnection(MouseEvent event, GameAction action, ConnectionPoint point) {
+		gController.notice(point, event, action);
+	}
+	
 	public void breakBond(IModelSubscriber view) {
 		model.unsubscribe(view);
 	}

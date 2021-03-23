@@ -1,11 +1,21 @@
 package com.hikari.hellofx.Entities;
 
-public class ConnectionPoint {
+import com.hikari.hellofx.Base.BaseModel;
+
+/*
+ * offset in relative to whole figure
+ */
+
+public class ConnectionPoint extends BaseModel{
 	protected final IConnectable parentEntity;
+	private final Double offsetX; 
+	private final Double offsetY;
 	protected IConnection connection = null;
 
-	public ConnectionPoint(IConnectable entity) {
+	public ConnectionPoint(IConnectable entity, Double offsetX_, Double offsetY_) {
 		parentEntity = entity;
+		offsetX = offsetX_;
+		offsetY = offsetY_;
 	}
 	
 	public boolean isFree() {
@@ -19,5 +29,11 @@ public class ConnectionPoint {
 	public void disconnect() {
 		//connection.disconnect()?
 		connection = null;
+	}
+	public Double getOffsetX() {
+		return offsetX;
+	}
+	public Double getOffsetY() {
+		return offsetY;
 	}
 }
