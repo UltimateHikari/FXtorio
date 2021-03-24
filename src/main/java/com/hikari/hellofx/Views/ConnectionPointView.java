@@ -33,9 +33,9 @@ public class ConnectionPointView extends Circle implements IModelSubscriber {
 				parentX + PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetX()
 				); // acturally its controller work
 		model.setLastViewY(
-				parentX + PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetY()
+				parentY + PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetY()
 				); // anyway
-		
+		//arr super constructor forces copypaste
 		GameAction action = (model_ instanceof ConnectionInPoint ? GameAction.CONNECT_IN : GameAction.CONNECT_OUT);
 		setOnMouseClicked((event) -> controller.handleConnection(event, action, model));
 	}

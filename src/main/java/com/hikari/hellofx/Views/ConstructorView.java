@@ -100,7 +100,7 @@ public class ConstructorView extends Pane implements IModelSubscriber{
 	
 	private void showPoints(ArrayList<? extends ConnectionPoint> points) {
 		for( ConnectionPoint p : points) {
-			getChildren().add(new ConnectionPointView(p, SIZE, bController, this.getLayoutX(), this.getLayoutY()));
+			getChildren().add(new ConnectionPointView(p, SIZE, bController, getLayoutX(), getLayoutY()));
 		}
 	}	
 	
