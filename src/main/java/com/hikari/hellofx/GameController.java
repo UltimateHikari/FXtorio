@@ -5,7 +5,10 @@ import java.util.Queue;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.ConnectableState;
+import com.hikari.hellofx.Entities.ConnectionInPoint;
+import com.hikari.hellofx.Entities.ConnectionPoint;
 import com.hikari.hellofx.Entities.ConstructorModel;
+import com.hikari.hellofx.Entities.Conveyor;
 import com.hikari.hellofx.Entities.EntityShadow;
 import com.hikari.hellofx.Entities.IConnectable;
 import com.hikari.hellofx.Views.ConnectableInfo;
@@ -41,7 +44,7 @@ public class GameController {
 	
 	public void enableConnectingState() {
 		state = State.ConnectingFirst;
-		game.forEachEntity(w -> w.setConnectableState(ConnectableState.IN_POINTS));
+		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
 
 	private void spawn(Double x, Double y) {
@@ -91,14 +94,24 @@ public class GameController {
 	}
 	
 	private void connectIn(MouseEvent event) {
-		state = State.ConnectingSecond;
-		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
-	}
-	private void connectOut(MouseEvent event) {
 		state = State.Idle;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
-		System.out.println("oh ya got me");
-		
+		spawnConnection();
+	}
+	private void connectOut(MouseEvent event) {
+		state = State.ConnectingSecond;
+		game.forEachEntity(w -> w.setConnectableState(ConnectableState.IN_POINTS));
+	}
+
+	private void spawnConnection() {
+		//TODO some exceptions if not instanceof
+		ConnectionPoint out = (ConnectionPoint)noticed.remove();
+		ConnectionInPoint in = (ConnectionInPoint)noticed.remove();
+		Conveyor conveyor = new Conveyor(in);
+		out.connect(conveyor);
+		in.connect(conveyor);
+		game.addConnection(conveyor);
+		System.out.println("connected");
 	}
 
 	private void despawnEntity(MouseEvent event) {

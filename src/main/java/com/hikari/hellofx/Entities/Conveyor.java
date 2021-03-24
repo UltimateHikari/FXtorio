@@ -3,10 +3,10 @@ package com.hikari.hellofx.Entities;
 import com.hikari.hellofx.Base.BaseModel;
 
 public class Conveyor extends BaseModel implements IConnection, ISuspendable{
-	private IConnectable destination;
+	private ConnectionInPoint destination;
 	private boolean isTurnedOn = false;
 	
-	public Conveyor(IConnectable destination_) {
+	public Conveyor(ConnectionInPoint destination_) {
 		destination = destination_;
 		// TODO Auto-generated constructor stub
 	}

@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.ConstructorModel;
+import com.hikari.hellofx.Entities.Conveyor;
 
 
 	/* TODO: decompose GameScene's model logic to here
@@ -12,6 +13,7 @@ import com.hikari.hellofx.Entities.ConstructorModel;
 	 */
 public class Game extends BaseModel{
 	private final ArrayList<ConstructorModel> entityModels = new ArrayList<ConstructorModel>();
+	private final ArrayList<Conveyor> connections = new ArrayList<Conveyor>();
 	GameFieldModel gameFieldModel = new GameFieldModel();
 	
 	public GameFieldModel getField() {
@@ -20,6 +22,10 @@ public class Game extends BaseModel{
 
 	public void addEntity(ConstructorModel model) {
 		entityModels.add(model);
+	}
+	
+	public void addConnection(Conveyor connection) {
+		connections.add(connection);
 	}
 	
 	public void forEachEntity(Consumer<ConstructorModel> f) {

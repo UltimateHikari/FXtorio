@@ -49,7 +49,7 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 
 	@Override
 	public void setConnectableState(ConnectableState state_) {
-		System.out.println("new state " + state_.toString());
+		//System.out.println("new state " + state_.toString());
 		state = state_;
 		notifySubs();
 	}
