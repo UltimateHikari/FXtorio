@@ -6,17 +6,18 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
 import com.hikari.hellofx.Entities.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint;
-
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class ConnectionPointView extends Circle implements IModelSubscriber {
 	private final ConnectionPoint model;
-	private static final int SIZE = 20;
+	private static final int SIZE = 10;
 	public ConnectionPointView(ConnectionPoint model_, int PARENT_SIZE, BindingController controller) {
 		super(
-				PARENT_SIZE/2 + model_.getOffsetX(), 
-				PARENT_SIZE/2 + model_.getOffsetY(),
+				PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetX(), 
+				PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetY(),
 				SIZE);
+		setFill(Color.AQUA);
 		model = model_;
 		model.subscribe(this);
 		GameAction action = (model_ instanceof ConnectionInPoint ? GameAction.CONNECT_IN : GameAction.CONNECT_OUT);

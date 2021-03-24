@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Entities.ConnectableState;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.EntityShadow;
 import com.hikari.hellofx.Entities.IConnectable;
@@ -36,6 +37,11 @@ public class GameController {
 		state = State.Spawning;
 		game.getField().turnOn();
 		view.showShadow(shadow);
+	}
+	
+	public void enableConnectingState() {
+		state = State.ConnectingFirst;
+		game.forEachEntity(w -> w.setConnectableState(ConnectableState.IN_POINTS));
 	}
 
 	private void spawn(Double x, Double y) {
@@ -73,11 +79,28 @@ public class GameController {
 			case DESPAWN:
 				despawnEntity(event);
 				break;
+			case CONNECT_IN:
+				connectIn(event);
+				break;
+			case CONNECT_OUT:
+				connectOut(event);
+				break;
 			default:
 				System.out.println("oopsie, wrong command");
 		}
 	}
 	
+	private void connectIn(MouseEvent event) {
+		state = State.ConnectingSecond;
+		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
+	}
+	private void connectOut(MouseEvent event) {
+		state = State.Idle;
+		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
+		System.out.println("oh ya got me");
+		
+	}
+
 	private void despawnEntity(MouseEvent event) {
 		BaseModel model = noticed.remove();
 		((ConstructorModel)model).despawn(); //??? mb interface && handler?

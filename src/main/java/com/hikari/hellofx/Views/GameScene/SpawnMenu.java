@@ -12,7 +12,8 @@ public class SpawnMenu extends HBox {
 		add(new Text("spawn menu here"));
 		setSpacing(10);
 		add(new Text("and here"));
-		add(new SpawnButton(gcontroller, "SampleSpawn"));
+		add(new SpawnButton(gcontroller, "Spawn"));
+		add(new ConnectionButton(gcontroller, "Connect"));
 		add(new NavButton(controller, "Main menu", "MenuScene"));
 	}
 	/*
