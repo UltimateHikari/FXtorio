@@ -10,6 +10,7 @@ import com.hikari.hellofx.Views.InfoMenu;
 import com.hikari.hellofx.Views.GameScene.GameField;
 import com.hikari.hellofx.Views.GameScene.SpawnMenu;
 
+import javafx.scene.Node;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -37,7 +38,7 @@ public class GameView extends GridPane{
 		add(infoMenu,1,0);
 	}
 	
-	public void showSpawned(ConstructorView spawned) {
+	public void showSpawned(Node spawned) {
 		gameField.add(spawned);
 	}
 	

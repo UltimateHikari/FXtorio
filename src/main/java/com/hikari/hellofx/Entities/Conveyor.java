@@ -5,6 +5,7 @@ import com.hikari.hellofx.Base.BaseModel;
 public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	private ConnectionInPoint destination;
 	private boolean isTurnedOn = false;
+	private Object transiting;
 	
 	public Conveyor(ConnectionInPoint destination_) {
 		destination = destination_;
@@ -28,15 +29,12 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 
 	@Override
 	public void recieve(Object o) {
-		// TODO Auto-generated method stub
-		
+		transiting = o;
 	}
 
 	@Override
 	public Object send() {
-		// TODO Auto-generated method stub
-		return new Object();
-		
+		return transiting;
 	}
 
 	@Override

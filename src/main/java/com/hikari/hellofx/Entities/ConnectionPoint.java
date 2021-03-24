@@ -7,9 +7,11 @@ import com.hikari.hellofx.Base.BaseModel;
  */
 
 public class ConnectionPoint extends BaseModel{
-	protected final IConnectable parentEntity;
+	private final IConnectable parentEntity;
 	private final Double offsetX; 
 	private final Double offsetY;
+	private double lastViewX; // may be mvc leak??
+	private double lastViewY; //
 	protected IConnection connection = null;
 
 	public ConnectionPoint(IConnectable entity, Double offsetX_, Double offsetY_) {
@@ -35,5 +37,17 @@ public class ConnectionPoint extends BaseModel{
 	}
 	public Double getOffsetY() {
 		return offsetY;
+	}
+	public Double getLastViewX() {
+		return lastViewX;
+	}
+	public Double getLastViewY() {
+		return lastViewY;
+	}
+	public void setLastViewX(Double lastViewX_) {
+		lastViewX = lastViewX_;
+	}
+	public void setLastViewY(Double lastViewY_) {
+		lastViewY = lastViewY_;
 	}
 }

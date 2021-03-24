@@ -6,6 +6,7 @@ import java.util.Queue;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.ConnectableState;
 import com.hikari.hellofx.Entities.ConnectionInPoint;
+import com.hikari.hellofx.Entities.ConnectionOutPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.Conveyor;
@@ -13,6 +14,7 @@ import com.hikari.hellofx.Entities.EntityShadow;
 import com.hikari.hellofx.Entities.IConnectable;
 import com.hikari.hellofx.Views.ConnectableInfo;
 import com.hikari.hellofx.Views.ConstructorView;
+import com.hikari.hellofx.Views.ConveyorView;
 import com.hikari.hellofx.Views.GameScene.GameField;
 
 import javafx.scene.input.MouseEvent;
@@ -105,12 +107,14 @@ public class GameController {
 
 	private void spawnConnection() {
 		//TODO some exceptions if not instanceof
-		ConnectionPoint out = (ConnectionPoint)noticed.remove();
+		ConnectionOutPoint out = (ConnectionOutPoint)noticed.remove();
 		ConnectionInPoint in = (ConnectionInPoint)noticed.remove();
 		Conveyor conveyor = new Conveyor(in);
+		ConveyorView spawned = new ConveyorView(out,in);
 		out.connect(conveyor);
 		in.connect(conveyor);
 		game.addConnection(conveyor);
+		view.showSpawned(spawned);
 		System.out.println("connected");
 	}
 
