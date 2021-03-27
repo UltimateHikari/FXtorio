@@ -8,5 +8,4 @@ public interface IConnectable {
 	public void setConnectableState(ConnectableState state_);
 	public ArrayList<ConnectionInPoint> getInPoints();
 	public ArrayList<ConnectionOutPoint> getOutPoints();
-	public void connect(IConnection other, ConnectionPoint point);
 }

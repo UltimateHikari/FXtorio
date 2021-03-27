@@ -35,12 +35,6 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 		return false;
 	}
 
-	@Override
-	public void connect(IConnection connection, ConnectionPoint point) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void despawn() {
 		System.out.println("goodbye");
 	}
