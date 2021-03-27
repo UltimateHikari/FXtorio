@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.ConnectableState;
 import com.hikari.hellofx.Entities.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionOutPoint;
@@ -18,6 +19,7 @@ import com.hikari.hellofx.Views.ConveyorView;
 import com.hikari.hellofx.Views.GameScene.GameField;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 public class GameController {
 	enum State{
@@ -70,7 +72,8 @@ public class GameController {
 	}
 	
 	private void assignHandler(MouseEvent event) {
-		System.out.println("Doing " + action + " because of " + event.getButton());
+		System.out.println("Doing " + action + " because of "
+	+ event.getButton() + "; have " + noticed.size() + " noticed");
 		switch(action) {
 			case SUSPEND:
 				suspendEntity();
@@ -146,6 +149,10 @@ public class GameController {
 		BaseModel model = noticed.remove();
 		BindingController bController = new BindingController(this, model);
 		ConnectableInfo info = new ConnectableInfo(bController);
+		VBox currentInfo = view.getInfo();
+		if(currentInfo instanceof IModelInfo) {
+			((IModelInfo)currentInfo).disable();
+		}
 		model.subscribe(info);
 		model.notifySubs();
 		view.showInfo((IConnectable)model, info);

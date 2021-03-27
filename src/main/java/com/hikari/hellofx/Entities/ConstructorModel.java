@@ -2,6 +2,9 @@ package com.hikari.hellofx.Entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.hikari.hellofx.Base.BaseModel;
 
@@ -56,13 +59,18 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 
 	@Override
 	public ArrayList<ConnectionInPoint> getInPoints() {
-		return new ArrayList<ConnectionInPoint>(Arrays.asList(in));
+		return packPoints(in);
 	}
 
 	@Override
 	public ArrayList<ConnectionOutPoint> getOutPoints() {
-		return new ArrayList<ConnectionOutPoint>(Arrays.asList(out));
-
+		return packPoints(out);
+	}
+	
+	@SafeVarargs
+	private <T> ArrayList<T> packPoints(T ... args) {
+		return new ArrayList<T>(Arrays.asList(args).stream()
+				.filter(w -> (((ConnectionPoint) w).isFree() == true)).collect(Collectors.toList()));
 	}
 
 }

@@ -42,10 +42,11 @@ public class GameView extends GridPane{
 		gameField.add(spawned);
 	}
 	
+	public VBox getInfo() {
+		return infoMenu;
+	}
+	
 	public void showInfo(IConnectable model, ConnectableInfo info) {
-		if(infoMenu instanceof IModelInfo) {
-			((IModelInfo)infoMenu).disable();
-		}
 		getChildren().remove(infoMenu);
 		infoMenu = info;
 		add(infoMenu, 1, 0);

@@ -53,10 +53,10 @@ public class ConstructorView extends Pane implements IModelSubscriber{
 
 		//System.out.println(x + " " + y);
 		field.setFill(colorOff);
-		field.setOnMouseClicked((event) -> bController.handleClick(event, GameAction.INFO));
 		Text label = new Text("off");
 		
 		shapePane = new ShapePane(field, label);
+		shapePane.setOnMouseClicked((event) -> bController.handleClick(event, GameAction.INFO));
 		placeDefaultChildren();
 	}
 

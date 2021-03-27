@@ -23,10 +23,11 @@ public class ConnectableInfo extends VBox implements IModelInfo{
 		add(new DespawnButton(bController, "deconstruct"));
 	}
 	@Override
-	public void ModelChanged(BaseModel model) {		
-		text.setText("My state is " + ((ISuspendable)model).getState());
+	public void ModelChanged(BaseModel model) {
+		String state = "My state is " + ((ISuspendable)model).getState();
+		text.setText(state + "\n I am " + model.toString().split("\\@")[1]);
 		btn.setText("turn " + ((ISuspendable)model).getState());
-		System.out.println(text.getText());
+		System.out.println(state + "\n I am " + model.toString());
 	}
 	
 	public void disable() {
