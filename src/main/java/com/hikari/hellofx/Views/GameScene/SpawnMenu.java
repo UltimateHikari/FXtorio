@@ -15,6 +15,7 @@ public class SpawnMenu extends HBox {
 		add(new SpawnButton(gcontroller, "Spawn"));
 		add(new ConnectionButton(gcontroller, "Connect"));
 		add(new NavButton(controller, "Main menu", "MenuScene"));
+		add(new CancelButton(gcontroller, "LazyCancel"));
 	}
 	/*
 	 * Syntax sugar

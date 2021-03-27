@@ -40,13 +40,13 @@ public class GameController {
 		view = view_;
 	}
 
-	public void enableSpawningState() {
+	private void enableSpawningState() {
 		state = State.Spawning;
 		game.getField().turnOn();
 		view.showShadow(shadow);
 	}
 	
-	public void enableConnectingState() {
+	private void enableConnectingState() {
 		state = State.ConnectingFirst;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
@@ -81,6 +81,12 @@ public class GameController {
 			case INFO:
 				showInfo();
 				break;
+			case ENTER_SPAWN:
+				enableSpawningState();
+				break;
+			case ENTER_CONNECT:
+				enableConnectingState();
+				break;
 			case SPAWN:
 				spawnEntity(event);
 				break;
@@ -93,11 +99,23 @@ public class GameController {
 			case CONNECT_OUT:
 				connectOut(event);
 				break;
+			case CANCEL:
+				returnToIdle();
+				break;
 			default:
 				System.out.println("oopsie, wrong command");
 		}
 	}
 	
+	private void returnToIdle() {
+		if(state == State.Spawning) {
+			disableShadow();
+		}
+		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
+		state = State.Idle;
+		noticed.clear();
+	}
+
 	private void connectIn(MouseEvent event) {
 		state = State.Idle;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
@@ -130,9 +148,13 @@ public class GameController {
 		if(state == State.Spawning) {
 			spawn(shadow.getX(), shadow.getY()/*), entityName*/);
 			state = State.Idle;
-			game.getField().turnOff();
-			view.hideShadow(shadow);
+			disableShadow();
 		}
+	}
+	
+	private void disableShadow() {
+		game.getField().turnOff();
+		view.hideShadow(shadow);
 	}
 	
 
@@ -158,10 +180,6 @@ public class GameController {
 		view.showInfo((IConnectable)model, info);
 	}
 	
-//	private void showInPoints() {
-//		game.foreachEntity(method to activate showing) 
-//	}
-	//private void showOutPoints();
 
 	public Object moveShadow(MouseEvent event) {
 		//System.out.println("movement on " + event.getX() + event.getY());

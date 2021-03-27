@@ -5,9 +5,9 @@ import com.hikari.hellofx.GameController;
 
 import javafx.scene.control.Button;
 
-public class SpawnButton extends Button{
-	public SpawnButton(GameController gcontroller, String label){
+public class CancelButton extends Button{
+	public CancelButton(GameController gcontroller, String label){
 		super(label);
-		setOnMouseClicked((event) -> gcontroller.act(event, GameAction.ENTER_SPAWN));
+		setOnMouseClicked((event) -> gcontroller.act(event, GameAction.CANCEL));
 	}
 }
