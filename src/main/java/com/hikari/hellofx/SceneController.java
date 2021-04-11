@@ -11,6 +11,7 @@ public class SceneController {
 		try {
 			model.setCurrentScene(nextSceneName);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Error changing scene: " + e.getMessage());
 		}
 	}
