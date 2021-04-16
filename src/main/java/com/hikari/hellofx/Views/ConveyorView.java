@@ -4,6 +4,7 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
 import com.hikari.hellofx.Entities.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionOutPoint;
+import com.hikari.hellofx.Entities.Conveyor;
 
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -33,6 +34,7 @@ public class ConveyorView extends Pane implements IModelSubscriber{
 	
 	@Override
 	public void ModelChanged(BaseModel model) {
+		tr.setDuration(Duration.millis(((Conveyor)model).getTravelTime()));
 		showTransition();
 	}
 	

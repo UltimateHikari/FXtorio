@@ -5,11 +5,15 @@ import com.hikari.hellofx.Base.BaseModel;
 public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	private ConnectionInPoint destination;
 	private boolean isTurnedOn = false;
+	private long travelTime = 1000;
 	private Object transiting;
 	
+	public Conveyor() {
+		
+	}
+	
 	public Conveyor(ConnectionInPoint destination_) {
-		destination = destination_;
-		// TODO Auto-generated constructor stub
+		connectDestination(destination_);
 	}
 	
 	@Override
@@ -23,7 +27,7 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	}
 
 	@Override
-	public boolean getState() {
+	public boolean isOn() {
 		return isTurnedOn;
 	}
 
@@ -38,15 +42,28 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	}
 
 	@Override
-	public void connectSource(IConnectable o) {
-		// TODO Auto-generated method stub
-		
+	public void connectDestination(ConnectionInPoint o) {
+		destination = o;
 	}
-
-	@Override
-	public void connectDestination(IConnectable o) {
-		// TODO Auto-generated method stub
-		
+	
+	public long getTravelTime() {
+		return travelTime;
+	}
+	
+	public void run() {
+		while(true) {
+				try {
+					wait();
+					synchronized (this) {
+						//TODO draw plan of entity/conveyor lifetime with waits
+						notifySubs();
+						sleep(travelTime);
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 
 }

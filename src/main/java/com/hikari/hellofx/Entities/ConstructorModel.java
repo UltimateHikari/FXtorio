@@ -2,9 +2,7 @@ package com.hikari.hellofx.Entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.hikari.hellofx.Base.BaseModel;
 
@@ -25,7 +23,7 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 		super.notifySubs();
 	}
 
-	public boolean getState() {
+	public boolean isOn() {
 		return isTurnedOn;
 	}
 	

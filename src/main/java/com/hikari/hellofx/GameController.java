@@ -172,10 +172,13 @@ public class GameController {
 		ConnectionInPoint in = (ConnectionInPoint)noticed.remove();
 		Conveyor conveyor = new Conveyor(in);
 		ConveyorView spawned = new ConveyorView(out,in);
+		
 		out.connect(conveyor);
 		in.connect(conveyor);
-		game.addConnection(conveyor);
+		
 		conveyor.subscribe(spawned);
+		
+		game.addConnection(conveyor);
 		view.showSpawned(spawned);
 		System.out.println("connected");
 		conveyor.notifySubs();
@@ -202,7 +205,7 @@ public class GameController {
 
 	private void suspendEntity() {
 		BaseModel model = noticed.remove();
-		if(((ConstructorModel)model).getState() == false){
+		if(((ConstructorModel)model).isOn() == false){
 			((ConstructorModel)model).turnOn();
 		}else {
 			((ConstructorModel)model).turnOff();

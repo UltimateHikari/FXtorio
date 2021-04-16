@@ -109,7 +109,7 @@ public class ConstructorView extends Pane implements IModelSubscriber{
 	}
 
 	private void checkPower(ConstructorModel model) {
-		if(model.getState()){
+		if(model.isOn()){
 			shapePane.getLabel().setText("on");
 			shapePane.getField().setFill(colorOn);
 		}else {

@@ -24,9 +24,9 @@ public class ConnectableInfo extends VBox implements IModelInfo{
 	}
 	@Override
 	public void ModelChanged(BaseModel model) {
-		String state = "My state is " + ((ISuspendable)model).getState();
+		String state = "My state is " + ((ISuspendable)model).isOn();
 		text.setText(state + "\n I am " + model.toString().split("\\@")[1]);
-		btn.setText("turn " + ((ISuspendable)model).getState());
+		btn.setText("turn " + ((ISuspendable)model).isOn());
 		System.out.println(state + "\n I am " + model.toString());
 	}
 	
