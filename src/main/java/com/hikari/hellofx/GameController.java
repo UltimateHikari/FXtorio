@@ -135,8 +135,10 @@ public class GameController {
 		out.connect(conveyor);
 		in.connect(conveyor);
 		game.addConnection(conveyor);
+		conveyor.subscribe(spawned);
 		view.showSpawned(spawned);
 		System.out.println("connected");
+		conveyor.notifySubs();
 	}
 
 	private void despawnEntity(MouseEvent event) {
