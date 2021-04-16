@@ -74,6 +74,22 @@ public class GameController {
 	private void assignHandler(MouseEvent event) {
 		System.out.println("Doing " + action + " because of "
 	+ event.getButton() + "; have " + noticed.size() + " noticed");
+		switch(state) {
+			case Idle:
+				assignIfIdle(event);
+				break;
+			case Spawning:
+				assignIfSpawning(event);
+				break;
+			case ConnectingFirst:
+			case ConnectingSecond:
+				assignIfConnecting(event);
+				break;
+			default:
+		}
+	}
+
+	private void assignIfIdle(MouseEvent event) {
 		switch(action) {
 			case SUSPEND:
 				suspendEntity();
@@ -87,12 +103,35 @@ public class GameController {
 			case ENTER_CONNECT:
 				enableConnectingState();
 				break;
-			case SPAWN:
-				spawnEntity(event);
-				break;
 			case DESPAWN:
 				despawnEntity(event);
 				break;
+			case CANCEL:
+				returnToIdle();
+				break;
+			default:
+				//wrong action
+				System.out.println("ignoring");
+				noticed.remove();
+		}
+	}
+	
+	private void assignIfSpawning(MouseEvent event) {
+		switch(action) {
+			case SPAWN:
+				spawnEntity(event);
+				break;
+			case CANCEL:
+				returnToIdle();
+				break;
+			default:
+				System.out.println("ignoring");
+				noticed.remove();
+		}
+	}
+	
+	private void assignIfConnecting(MouseEvent event) {
+		switch(action) {
 			case CONNECT_IN:
 				connectIn(event);
 				break;
@@ -103,10 +142,11 @@ public class GameController {
 				returnToIdle();
 				break;
 			default:
-				System.out.println("oopsie, wrong command");
+				System.out.println("ignoring");
+				noticed.remove();
 		}
 	}
-	
+		
 	private void returnToIdle() {
 		if(state == State.Spawning) {
 			disableShadow();
