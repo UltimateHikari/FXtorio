@@ -47,7 +47,7 @@ public class App extends Application implements IModelSubscriber{
     
     private void prepareScenes() throws Exception {
     	for(String sceneClassName : appModel.getSceneClasses()) {
-			Class<?> clazz = Class.forName("com.hikari.hellofx." + sceneClassName);
+			Class<?> clazz = Class.forName(sceneClassName);
 			GridPane newPane = (GridPane) clazz.getDeclaredConstructor(sceneController.getClass()).newInstance(sceneController);
 			scenes.put(sceneClassName, new Scene(newPane, width, height));
     	}
