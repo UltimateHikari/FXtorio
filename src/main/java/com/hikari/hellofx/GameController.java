@@ -3,6 +3,7 @@ package com.hikari.hellofx;
 import java.util.ArrayDeque;
 
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.ConnectableState;
 import com.hikari.hellofx.Entities.ConnectionInPoint;
@@ -19,7 +20,7 @@ import com.hikari.hellofx.Views.GameScene.GameField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-public class GameController {
+public class GameController implements ILoggable{
 	enum State{
 		Idle,
 		Spawning,
@@ -70,7 +71,7 @@ public class GameController {
 	}
 	
 	private void assignHandler(MouseEvent event) {
-		System.out.println("Doing " + action + " because of "
+		log("Doing " + action + " because of "
 	+ event.getButton() + "; have " + noticed.toString() + " noticed");
 		switch(state) {
 			case Idle:
@@ -162,7 +163,7 @@ public class GameController {
 	
 	private void cancelOperation() {
 		noticed.removeLast();
-		System.out.println("ignoring " + noticed.toString());
+		log("ignoring " + noticed.toString());
 	}
 
 	private void spawnConnection() {
@@ -179,7 +180,7 @@ public class GameController {
 		
 		game.addConnection(conveyor);
 		view.showSpawned(spawned);
-		System.out.println("connected");
+		log("connected");
 		conveyor.notifySubs();
 	}
 
@@ -226,7 +227,7 @@ public class GameController {
 	
 
 	public Object moveShadow(MouseEvent event) {
-		//System.out.println("movement on " + event.getX() + event.getY());
+		//log("movement on " + event.getX() + event.getY());
 		shadow.move(event.getX(), event.getY());
 		return null;
 	}

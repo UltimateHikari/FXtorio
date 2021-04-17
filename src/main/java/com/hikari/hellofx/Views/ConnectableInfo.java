@@ -2,6 +2,7 @@ package com.hikari.hellofx.Views;
 
 import com.hikari.hellofx.BindingController;
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.ISuspendable;
 import com.hikari.hellofx.Views.GameScene.DespawnButton;
@@ -11,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.Node;
 
-public class ConnectableInfo extends VBox implements IModelInfo{
+public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
 	private Text text = new Text("");
 	private SuspendButton btn;
 	BindingController controller;
@@ -27,7 +28,7 @@ public class ConnectableInfo extends VBox implements IModelInfo{
 		String state = "My state is " + ((ISuspendable)model).isOn();
 		text.setText(state + "\n I am " + model.toString());
 		btn.setText("turn " + ((ISuspendable)model).isOn());
-		System.out.println(state + "\n I am " + model.toString());
+		log(state + "\n I am " + model.toString());
 	}
 	
 	public void disable() {

@@ -34,7 +34,6 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 	}
 
 	public void despawn() {
-		System.out.println("goodbye");
 	}
 
 	@Override
@@ -44,7 +43,6 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 
 	@Override
 	public void setConnectableState(ConnectableState state_) {
-		//System.out.println("new state " + state_.toString());
 		state = state_;
 		notifySubs();
 	}
