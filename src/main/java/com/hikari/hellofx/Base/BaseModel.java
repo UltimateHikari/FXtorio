@@ -4,11 +4,13 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BaseModel extends Thread{
-	private static Integer id = 0;
+	private static Integer lastId = 0;
+	private final Integer id;
 	private Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<IModelSubscriber>();
 
 	public BaseModel() {
-		id++;
+		id = lastId;
+		lastId++;
 	}
 	
 	@Override
