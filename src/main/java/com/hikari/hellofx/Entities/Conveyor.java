@@ -65,5 +65,4 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 				}
 		}
 	}
-
 }

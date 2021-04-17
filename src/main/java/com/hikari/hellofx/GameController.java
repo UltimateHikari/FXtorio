@@ -1,14 +1,12 @@
 package com.hikari.hellofx;
 
 import java.util.ArrayDeque;
-import java.util.Queue;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.ConnectableState;
 import com.hikari.hellofx.Entities.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionOutPoint;
-import com.hikari.hellofx.Entities.ConnectionPoint;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.Conveyor;
 import com.hikari.hellofx.Entities.EntityShadow;
@@ -33,7 +31,7 @@ public class GameController {
 	private final Game game = new Game();
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
-	private final Queue<BaseModel> noticed = new ArrayDeque<BaseModel>();
+	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<BaseModel>();
 
 	
 	public GameController(GameView view_) {
@@ -73,7 +71,7 @@ public class GameController {
 	
 	private void assignHandler(MouseEvent event) {
 		System.out.println("Doing " + action + " because of "
-	+ event.getButton() + "; have " + noticed.size() + " noticed");
+	+ event.getButton() + "; have " + noticed.toString() + " noticed");
 		switch(state) {
 			case Idle:
 				assignIfIdle(event);
@@ -110,9 +108,7 @@ public class GameController {
 				returnToIdle();
 				break;
 			default:
-				//wrong action
-				System.out.println("ignoring");
-				noticed.remove();
+				cancelOperation();
 		}
 	}
 	
@@ -125,8 +121,7 @@ public class GameController {
 				returnToIdle();
 				break;
 			default:
-				System.out.println("ignoring");
-				noticed.remove();
+				cancelOperation();
 		}
 	}
 	
@@ -142,8 +137,7 @@ public class GameController {
 				returnToIdle();
 				break;
 			default:
-				System.out.println("ignoring");
-				noticed.remove();
+				cancelOperation();
 		}
 	}
 		
@@ -164,6 +158,11 @@ public class GameController {
 	private void connectOut(MouseEvent event) {
 		state = State.ConnectingSecond;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.IN_POINTS));
+	}
+	
+	private void cancelOperation() {
+		noticed.removeLast();
+		System.out.println("ignoring " + noticed.toString());
 	}
 
 	private void spawnConnection() {

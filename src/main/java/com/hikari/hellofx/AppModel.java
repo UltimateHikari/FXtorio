@@ -31,4 +31,5 @@ public class AppModel extends BaseModel{
 		currentSceneName = nextSceneName;
 		super.notifySubs();
 	}
+	
 }

@@ -49,5 +49,5 @@ public class ConnectionPoint extends BaseModel{
 	}
 	public void setLastViewY(Double lastViewY_) {
 		lastViewY = lastViewY_;
-	}
+	}	
 }

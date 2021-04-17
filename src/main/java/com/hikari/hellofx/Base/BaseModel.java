@@ -13,7 +13,10 @@ public class BaseModel extends Thread{
 	
 	@Override
 	public String toString() {
-		return "BaseModel@" + id.toString();
+		return "BaseModel@" + id.toString() + ":" + getType();
+	}
+	private String getType() {
+		return this.getClass().getSimpleName();
 	}
 	
 	public void subscribe(IModelSubscriber subscriber) {

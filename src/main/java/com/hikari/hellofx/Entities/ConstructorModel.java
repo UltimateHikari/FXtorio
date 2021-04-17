@@ -64,5 +64,4 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 		return new ArrayList<T>(Arrays.asList(args).stream()
 				.filter(w -> (((ConnectionPoint) w).isFree() == true)).collect(Collectors.toList()));
 	}
-
 }
