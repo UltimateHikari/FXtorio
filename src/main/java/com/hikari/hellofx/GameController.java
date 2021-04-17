@@ -1,5 +1,6 @@
 package com.hikari.hellofx;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayDeque;
 
 import com.hikari.hellofx.Base.BaseModel;
@@ -33,6 +34,7 @@ public class GameController implements ILoggable{
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
 	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<BaseModel>();
+	private String entityClassName = null;
 
 	
 	public GameController(GameView view_) {
@@ -49,19 +51,15 @@ public class GameController implements ILoggable{
 		state = State.ConnectingFirst;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
-
-	private void spawn(Double x, Double y) {
-		ConstructorModel model = new ConstructorModel();
-		BindingController bController = new BindingController(this, model);
-		ConstructorView spawned = new ConstructorView(x,y, bController);
-		model.subscribe(spawned);
-		view.showSpawned(spawned);
-		game.addEntity(model); 
+	
+	public void act(MouseEvent event, GameAction action_, String entityClassName_) {
+		action = action_;
+		entityClassName = entityClassName_;
+		assignHandler(event);
 	}
 	
 	public void act(MouseEvent event, GameAction action_) {
-		action = action_;
-		assignHandler(event);
+		act(event, action_, entityClassName);
 	}
 	
 	public void notice(BaseModel model, MouseEvent event, GameAction action_) {
@@ -113,7 +111,7 @@ public class GameController implements ILoggable{
 		}
 	}
 	
-	private void assignIfSpawning(MouseEvent event) {
+	private void assignIfSpawning(MouseEvent event){
 		switch(action) {
 			case SPAWN:
 				spawnEntity(event);
@@ -189,12 +187,28 @@ public class GameController implements ILoggable{
 		((ConstructorModel)model).despawn(); //??? mb interface && handler?
 	}
 	
-	private void spawnEntity(MouseEvent event) {
+	private void spawnEntity(MouseEvent event){
 		if(state == State.Spawning) {
-			spawn(shadow.getX(), shadow.getY()/*), entityName*/);
-			state = State.Idle;
-			disableShadow();
+			try {
+				spawn(shadow.getX(), shadow.getY()/*), entityName*/);
+			} catch (Exception e) {
+				log("Spawn of [ " + entityClassName + " ] failed. "
+						+ "Returning to normal state.");
+			} finally {
+				state = State.Idle;
+				disableShadow();
+			}
 		}
+	}
+	
+	private void spawn(Double x, Double y) throws Exception{
+		Class<?> clazz = Class.forName(entityClassName);
+		BaseModel model = (BaseModel) clazz.getDeclaredConstructor().newInstance();
+		BindingController bController = new BindingController(this, model);
+		ConstructorView spawned = new ConstructorView(x,y, bController);
+		model.subscribe(spawned);
+		view.showSpawned(spawned);
+		game.addEntity((IConnectable)model); 
 	}
 	
 	private void disableShadow() {

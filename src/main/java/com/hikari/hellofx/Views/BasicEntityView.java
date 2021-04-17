@@ -13,7 +13,6 @@ import com.hikari.hellofx.Entities.ISuspendable;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class BasicEntityView extends Pane implements IModelSubscriber{
 	private final ShapePane shapePane;
@@ -24,9 +23,9 @@ public class BasicEntityView extends Pane implements IModelSubscriber{
 	
 	public BasicEntityView(Double x, Double y, BindingController controller, Color color) {
 		bController = controller;
-		Rectangle field = new Rectangle(0, 0, SIZE, SIZE);
 		setLayoutX(x - SIZE/2);
 		setLayoutY(y - SIZE/2);
+		setPrefSize(SIZE, SIZE);
 		
 		shapePane = new ShapePane(SIZE, color);
 		shapePane.setOnMouseClicked((event) -> bController.handleClick(event, GameAction.INFO));
