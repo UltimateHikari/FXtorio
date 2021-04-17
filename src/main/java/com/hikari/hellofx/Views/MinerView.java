@@ -4,9 +4,9 @@ import com.hikari.hellofx.BindingController;
 import javafx.scene.paint.Color;
 
 
-public class ConstructorView extends BasicEntityView {
+public class MinerView extends BasicEntityView {
 	private static final Color constructorColor = Color.GREENYELLOW;
-	public ConstructorView(Double x, Double y, BindingController controller) {
+	public MinerView(Double x, Double y, BindingController controller) {
 		super(x,y,controller, constructorColor);
 	}
 }
