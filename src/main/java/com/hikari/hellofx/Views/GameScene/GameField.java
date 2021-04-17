@@ -39,7 +39,7 @@ public class GameField extends Pane implements IModelSubscriber{
 	}
 	@Override
 	public void ModelChanged(BaseModel model) {
-		if(((GameFieldModel)model).getState() == true) {
+		if(((GameFieldModel)model).isOn() == true) {
 			//field.setOnMouseMoved((event) -> gcontroller.moveShadow(event));
 			field.setOnMouseMoved(handler);
 		}else {

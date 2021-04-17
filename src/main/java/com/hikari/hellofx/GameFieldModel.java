@@ -21,7 +21,7 @@ public class GameFieldModel extends BaseModel implements ISuspendable{
 		notifySubs();
 	}
 	@Override
-	public boolean getState() {
+	public boolean isOn() {
 		return isSpawning;
 	}
 }

@@ -21,10 +21,12 @@ public class BindingController {
 	}
 	
 	public void handleClick(MouseEvent event, GameAction action) {
+		System.out.println("noticing " + model.toString());
 		gController.notice(model, event, action);
 	}
 	
 	public void handleConnection(MouseEvent event, GameAction action, ConnectionPoint point) {
+		System.out.println("noticing " + point.toString());
 		gController.notice(point, event, action);
 	}
 	

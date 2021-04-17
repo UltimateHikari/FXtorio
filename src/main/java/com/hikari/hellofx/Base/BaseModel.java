@@ -4,12 +4,18 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BaseModel extends Thread{
-	private Integer property;
+	private static Integer id = 0;
 	private Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<IModelSubscriber>();
 
-	public Integer getProperty() {
-		return property;
+	public BaseModel() {
+		id++;
 	}
+	
+	@Override
+	public String toString() {
+		return "BaseModel@" + id.toString();
+	}
+	
 	public void subscribe(IModelSubscriber subscriber) {
 		if(subscribers.contains(subscriber)) {
 			throw new IllegalArgumentException("already subscribed");
