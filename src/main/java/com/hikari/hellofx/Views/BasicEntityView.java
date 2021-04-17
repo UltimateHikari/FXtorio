@@ -21,7 +21,7 @@ public class BasicEntityView extends Pane implements IModelSubscriber{
 	private final BindingController bController;
 
 	
-	public BasicEntityView(Double x, Double y, BindingController controller, Color color) {
+	public BasicEntityView(double x, double y, BindingController controller, Color color) {
 		bController = controller;
 		setLayoutX(x - SIZE/2);
 		setLayoutY(y - SIZE/2);

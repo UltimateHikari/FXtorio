@@ -13,8 +13,8 @@ import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.Conveyor;
 import com.hikari.hellofx.Entities.EntityShadow;
 import com.hikari.hellofx.Entities.IConnectable;
+import com.hikari.hellofx.Views.BasicEntityView;
 import com.hikari.hellofx.Views.ConnectableInfo;
-import com.hikari.hellofx.Views.ConstructorView;
 import com.hikari.hellofx.Views.ConveyorView;
 import com.hikari.hellofx.Views.GameScene.GameField;
 
@@ -34,7 +34,7 @@ public class GameController implements ILoggable{
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
 	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<BaseModel>();
-	private String entityClassName = null;
+	private EntityClassPair entityClassPair = null;
 
 	
 	public GameController(GameView view_) {
@@ -52,14 +52,14 @@ public class GameController implements ILoggable{
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
 	
-	public void act(MouseEvent event, GameAction action_, String entityClassName_) {
+	public void act(MouseEvent event, GameAction action_, EntityClassPair entityClassPair_) {
 		action = action_;
-		entityClassName = entityClassName_;
+		entityClassPair = entityClassPair_;
 		assignHandler(event);
 	}
 	
 	public void act(MouseEvent event, GameAction action_) {
-		act(event, action_, entityClassName);
+		act(event, action_, entityClassPair);
 	}
 	
 	public void notice(BaseModel model, MouseEvent event, GameAction action_) {
@@ -192,7 +192,7 @@ public class GameController implements ILoggable{
 			try {
 				spawn(shadow.getX(), shadow.getY()/*), entityName*/);
 			} catch (Exception e) {
-				log("Spawn of [ " + entityClassName + " ] failed. "
+				log("Spawn of [ " + entityClassPair.toString() + " ] failed. "
 						+ "Returning to normal state.");
 			} finally {
 				state = State.Idle;
@@ -202,10 +202,9 @@ public class GameController implements ILoggable{
 	}
 	
 	private void spawn(Double x, Double y) throws Exception{
-		Class<?> clazz = Class.forName(entityClassName);
-		BaseModel model = (BaseModel) clazz.getDeclaredConstructor().newInstance();
+		BaseModel model = entityClassPair.getModelInstance();
 		BindingController bController = new BindingController(this, model);
-		ConstructorView spawned = new ConstructorView(x,y, bController);
+		BasicEntityView spawned = entityClassPair.getViewInstance(x, y, bController);
 		model.subscribe(spawned);
 		view.showSpawned(spawned);
 		game.addEntity((IConnectable)model); 
