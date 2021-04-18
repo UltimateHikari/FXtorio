@@ -27,6 +27,8 @@ public class ConveyorView extends Pane implements IModelSubscriber{
 		cart = new Circle(out.getLastViewX(),out.getLastViewY(), 10);
 		getChildren().add(road);
 		getChildren().add(cart);
+		setMouseTransparent(true);
+		
 		start = new Point2D(out.getLastViewX(), out.getLastViewY());
 		end = new Point2D(in.getLastViewX(), in.getLastViewY());
 		initTransition();
