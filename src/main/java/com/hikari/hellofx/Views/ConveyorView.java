@@ -6,7 +6,6 @@ import com.hikari.hellofx.Entities.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionOutPoint;
 import com.hikari.hellofx.Entities.Conveyor;
 
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
@@ -19,6 +18,7 @@ public class ConveyorView extends Pane implements IModelSubscriber{
 	TranslateTransition tr;
 	Line road;
 	Circle cart;
+	Duration duration = Duration.millis(1000); //default
 	private final Point2D start;
 	private final Point2D end;
 	
@@ -34,17 +34,25 @@ public class ConveyorView extends Pane implements IModelSubscriber{
 	
 	@Override
 	public void ModelChanged(BaseModel model) {
-		tr.setDuration(Duration.millis(((Conveyor)model).getTravelTime()));
-		showTransition();
+		duration = (Duration.millis(((Conveyor)model).getTravelTime()));
+		switch(((Conveyor)model).getLastConnectionEvent()) {
+			case DEPARTED:
+				cart.setVisible(true);
+				tr.setDuration(duration);
+				showTransition();
+			case ARRIVED:
+				cart.setVisible(false);
+				cart.setCenterX(start.getX());
+				cart.setCenterY(start.getY());
+		}
+		
 	}
 	
 	private void initTransition() {
 		cart.setFill(Color.VIOLET);
-		tr = new TranslateTransition(Duration.millis(1000), cart);
+		tr = new TranslateTransition(duration, cart);
 		tr.setByX(end.getX() - start.getX());
 		tr.setByY(end.getY() - start.getY());
-		tr.setCycleCount(Timeline.INDEFINITE);
-		tr.setAutoReverse(true);
 	}
 	
 	private void showTransition() {

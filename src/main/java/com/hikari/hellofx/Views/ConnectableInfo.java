@@ -28,7 +28,7 @@ public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
 		String state = "My state is " + ((ISuspendable)model).isOn();
 		text.setText(state + "\n I am " + model.toString());
 		btn.setText("turn " + ((ISuspendable)model).isOn());
-		log(state + "\n I am " + model.toString());
+		//log(state + "\n I am " + model.toString());
 	}
 	
 	public void disable() {

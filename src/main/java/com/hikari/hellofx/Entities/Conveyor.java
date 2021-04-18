@@ -3,17 +3,21 @@ package com.hikari.hellofx.Entities;
 import com.hikari.hellofx.Base.BaseModel;
 
 public class Conveyor extends BaseModel implements IConnection, ISuspendable{
-	private ConnectionInPoint destination;
+	private ConnectionInPoint dst;
+	private ConnectionOutPoint src;
 	private boolean isTurnedOn = false;
 	private long travelTime = 1000;
-	private Object transiting;
+	private ConnectionEvent lastEvent = null;
 	
 	public Conveyor() {
 		
 	}
 	
-	public Conveyor(ConnectionInPoint destination_) {
-		connectDestination(destination_);
+	public Conveyor(ConnectionOutPoint source, ConnectionInPoint destination) {
+		connectDestination(destination);
+		destination.connect(this);
+		connectSource(source);
+		source.connect(this);
 	}
 	
 	@Override
@@ -32,18 +36,12 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	}
 
 	@Override
-	public void recieve(Object o) {
-		transiting = o;
-	}
-
-	@Override
-	public Object send() {
-		return transiting;
-	}
-
-	@Override
 	public void connectDestination(ConnectionInPoint o) {
-		destination = o;
+		dst = o;
+	}
+	
+	public void connectSource(ConnectionOutPoint o) {
+		src = o;
 	}
 	
 	public long getTravelTime() {
@@ -52,17 +50,24 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	
 	public void run() {
 		while(true) {
-				try {
-					wait();
-					synchronized (this) {
-						//TODO draw plan of entity/conveyor lifetime with waits
-						notifySubs();
-						sleep(travelTime);
-					}
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				Object o = src.get();
+				lastEvent = ConnectionEvent.DEPARTED;
+				notifySubs();
+				sleep(travelTime);
+				dst.put(o);
+				lastEvent = ConnectionEvent.ARRIVED;
+				notifySubs();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
+	}
+
+	@Override
+	public ConnectionEvent getLastConnectionEvent() {
+		return lastEvent ;
 	}
 }

@@ -1,6 +1,5 @@
 package com.hikari.hellofx;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayDeque;
 
 import com.hikari.hellofx.Base.BaseModel;
@@ -168,18 +167,15 @@ public class GameController implements ILoggable{
 		//TODO some exceptions if not instanceof
 		ConnectionOutPoint out = (ConnectionOutPoint)noticed.remove();
 		ConnectionInPoint in = (ConnectionInPoint)noticed.remove();
-		Conveyor conveyor = new Conveyor(in);
+		Conveyor conveyor = new Conveyor(out, in);
 		ConveyorView spawned = new ConveyorView(out,in);
-		
-		out.connect(conveyor);
-		in.connect(conveyor);
 		
 		conveyor.subscribe(spawned);
 		
 		game.addConnection(conveyor);
 		view.showSpawned(spawned);
+		conveyor.start();
 		log("connected");
-		conveyor.notifySubs();
 	}
 
 	private void despawnEntity(MouseEvent event) {
@@ -208,6 +204,7 @@ public class GameController implements ILoggable{
 		model.subscribe(spawned);
 		view.showSpawned(spawned);
 		game.addEntity((IConnectable)model); 
+		model.start();
 	}
 	
 	private void disableShadow() {

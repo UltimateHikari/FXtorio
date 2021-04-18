@@ -2,13 +2,13 @@ package com.hikari.hellofx.Entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 import com.hikari.hellofx.Base.BaseModel;
 
 public class MinerModel extends BaseModel implements IConnectable, IPowerConnectable, ISuspendable{
 	private boolean isTurnedOn = false;
+	private int productionTime = 1000;
 	private ConnectableState state = ConnectableState.NO_POINTS;
 	private final ConnectionOutPoint out = new ConnectionOutPoint(this, 0.5, 0.0);
 	@Override
@@ -49,8 +49,8 @@ public class MinerModel extends BaseModel implements IConnectable, IPowerConnect
 
 	@Override
 	public ArrayList<ConnectionInPoint> getInPoints() {
-		//casting immutable because other side is consumer
-		return (ArrayList<ConnectionInPoint>) Collections.<ConnectionInPoint>emptyList();
+		//TODO think about sending immutable list
+		return new ArrayList<ConnectionInPoint>();
 	}
 
 	@Override
@@ -66,6 +66,15 @@ public class MinerModel extends BaseModel implements IConnectable, IPowerConnect
 	
 	@Override 
 	public void run() {
-		
+		while(true) {
+			Object object = new Object();
+			try {
+				sleep(productionTime);
+				out.put(object);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

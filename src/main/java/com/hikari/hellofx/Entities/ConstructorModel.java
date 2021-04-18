@@ -8,9 +8,11 @@ import com.hikari.hellofx.Base.BaseModel;
 
 public class ConstructorModel extends BaseModel implements IConnectable, IPowerConnectable, ISuspendable{
 	private boolean isTurnedOn = false;
+	private int productionTime = 1000;
 	private ConnectableState state = ConnectableState.NO_POINTS;
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	private final ConnectionOutPoint out = new ConnectionOutPoint(this, 0.5, 0.0);
+	private final Object monitor = new Object();
 	@Override
 	public void turnOff() {
 		isTurnedOn = false;
@@ -20,6 +22,9 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 	@Override
 	public void turnOn() {
 		isTurnedOn = true;
+		synchronized(monitor) {
+			monitor.notify();
+		}
 		super.notifySubs();
 	}
 
@@ -61,5 +66,25 @@ public class ConstructorModel extends BaseModel implements IConnectable, IPowerC
 	private <T> ArrayList<T> packPoints(T ... args) {
 		return new ArrayList<T>(Arrays.asList(args).stream()
 				.filter(w -> (((ConnectionPoint) w).isFree() == true)).collect(Collectors.toList()));
+	}
+	
+	@Override
+	public void run() {
+		while (true) {
+			System.out.println("started");
+			try {
+				if(isTurnedOn == false) {
+					synchronized(monitor) {
+						monitor.wait();
+					}
+				}
+				Object o = in.get();
+				sleep(productionTime);
+				out.put(o);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

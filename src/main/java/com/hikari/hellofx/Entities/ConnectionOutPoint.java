@@ -5,7 +5,4 @@ public class ConnectionOutPoint extends ConnectionPoint{
 		super(entity, offsetX, offsetY);
 		// TODO Auto-generated constructor stub
 	}
-	public void send(Object o) {
-		super.connection.recieve(o);
-	}
 }
