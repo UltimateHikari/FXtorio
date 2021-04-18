@@ -40,15 +40,18 @@ public class ConveyorView extends Pane implements IModelSubscriber{
 				cart.setVisible(true);
 				tr.setDuration(duration);
 				showTransition();
+				break;
 			case ARRIVED:
 				cart.setVisible(false);
 				cart.setCenterX(start.getX());
 				cart.setCenterY(start.getY());
+				break;
 		}
 		
 	}
 	
 	private void initTransition() {
+		cart.setVisible(false);
 		cart.setFill(Color.VIOLET);
 		tr = new TranslateTransition(duration, cart);
 		tr.setByX(end.getX() - start.getX());
