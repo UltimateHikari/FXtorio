@@ -5,10 +5,10 @@ import java.util.ArrayDeque;
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelInfo;
+import com.hikari.hellofx.Entities.BasicEntityModel;
 import com.hikari.hellofx.Entities.ConnectableState;
 import com.hikari.hellofx.Entities.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionOutPoint;
-import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.Conveyor;
 import com.hikari.hellofx.Entities.EntityShadow;
 import com.hikari.hellofx.Entities.IConnectable;
@@ -180,7 +180,7 @@ public class GameController implements ILoggable{
 
 	private void despawnEntity(MouseEvent event) {
 		BaseModel model = noticed.remove();
-		((ConstructorModel)model).despawn(); //??? mb interface && handler?
+		((BasicEntityModel)model).despawn(); //??? mb interface && handler?
 	}
 	
 	private void spawnEntity(MouseEvent event){
@@ -215,10 +215,10 @@ public class GameController implements ILoggable{
 
 	private void suspendEntity() {
 		BaseModel model = noticed.remove();
-		if(((ConstructorModel)model).isOn() == false){
-			((ConstructorModel)model).turnOn();
+		if(((BasicEntityModel)model).isOn() == false){
+			((BasicEntityModel)model).turnOn();
 		}else {
-			((ConstructorModel)model).turnOff();
+			((BasicEntityModel)model).turnOff();
 		}
 	}
 	
