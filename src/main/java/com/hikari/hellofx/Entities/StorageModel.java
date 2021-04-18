@@ -21,5 +21,11 @@ public class StorageModel extends BasicEntityModel{
 	protected void performCycle() throws InterruptedException {
 		Object o = in.get();
 		storage.add(o);
+		notifySubs();
+	}
+
+	@Override
+	public Integer getFillCount() {
+		return storage.size();
 	}
 }
