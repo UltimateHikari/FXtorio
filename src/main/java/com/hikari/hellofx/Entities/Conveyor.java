@@ -1,16 +1,19 @@
 package com.hikari.hellofx.Entities;
 
+import java.util.concurrent.ArrayBlockingQueue;
+
 import com.hikari.hellofx.Base.BaseModel;
 
 public class Conveyor extends BaseModel implements IConnection, ISuspendable{
+	private static final int EVENTS_SIZE = 10;
 	private ConnectionInPoint dst;
 	private ConnectionOutPoint src;
 	private boolean isTurnedOn = false;
 	private long travelTime = 1000;
-	private ConnectionEvent lastEvent = null;
+	private ArrayBlockingQueue<ConnectionEvent> events = new ArrayBlockingQueue<ConnectionEvent>(EVENTS_SIZE);
 	
 	public Conveyor() {
-		
+		//lolwhat
 	}
 	
 	public Conveyor(ConnectionOutPoint source, ConnectionInPoint destination) {
@@ -52,11 +55,11 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 		while(true) {
 			try {
 				Object o = src.get();
-				lastEvent = ConnectionEvent.DEPARTED;
+				events.add(ConnectionEvent.DEPARTED);
 				notifySubs();
 				sleep(travelTime);
 				dst.put(o);
-				lastEvent = ConnectionEvent.ARRIVED;
+				events.add(ConnectionEvent.ARRIVED);
 				notifySubs();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -68,6 +71,6 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 
 	@Override
 	public ConnectionEvent getLastConnectionEvent() {
-		return lastEvent ;
+		return events.remove();
 	}
 }
