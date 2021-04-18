@@ -9,7 +9,7 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 	private ConnectionInPoint dst;
 	private ConnectionOutPoint src;
 	private boolean isTurnedOn = false;
-	private long travelTime = 1000;
+	private long travelTime = 5000;
 	private ArrayBlockingQueue<ConnectionEvent> events = new ArrayBlockingQueue<ConnectionEvent>(EVENTS_SIZE);
 	
 	public Conveyor() {

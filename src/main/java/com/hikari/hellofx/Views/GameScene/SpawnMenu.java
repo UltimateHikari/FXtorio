@@ -6,8 +6,10 @@ import com.hikari.hellofx.MenuView;
 import com.hikari.hellofx.SceneController;
 import com.hikari.hellofx.Entities.ConstructorModel;
 import com.hikari.hellofx.Entities.MinerModel;
+import com.hikari.hellofx.Entities.StorageModel;
 import com.hikari.hellofx.Views.ConstructorView;
 import com.hikari.hellofx.Views.MinerView;
+import com.hikari.hellofx.Views.StorageView;
 
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
@@ -20,8 +22,11 @@ public class SpawnMenu extends HBox {
 		add(new Text("and here"));
 		EntityClassPair constructorPair = new EntityClassPair(ConstructorModel.class, ConstructorView.class);
 		EntityClassPair minerPair = new EntityClassPair(MinerModel.class, MinerView.class);
+		EntityClassPair storagePair = new EntityClassPair(StorageModel.class, StorageView.class);
+		
 		add(new SpawnButton(gcontroller, "Constructor", constructorPair));
 		add(new SpawnButton(gcontroller, "Miner", minerPair));
+		add(new SpawnButton(gcontroller, "Storage", storagePair));
 		add(new ConnectionButton(gcontroller, "Connect"));
 		add(new NavButton(controller, "Main menu", MenuView.class.getName()));
 		add(new CancelButton(gcontroller, "LazyCancel"));
