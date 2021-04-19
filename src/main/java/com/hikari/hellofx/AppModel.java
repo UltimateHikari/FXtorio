@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Game.View.GameView;
 
 public class AppModel extends BaseModel {
 	private final ArrayList<String> sceneClasses;

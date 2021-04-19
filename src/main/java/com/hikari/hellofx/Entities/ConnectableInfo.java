@@ -1,0 +1,46 @@
+package com.hikari.hellofx.Entities;
+
+import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.ILoggable;
+import com.hikari.hellofx.Base.IModelInfo;
+import com.hikari.hellofx.Entities.Connectable.ISuspendable;
+import com.hikari.hellofx.Game.View.DespawnButton;
+import com.hikari.hellofx.Game.View.SuspendButton;
+
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.Node;
+
+public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
+	private Text text = new Text("");
+	private SuspendButton btn;
+	BindingController controller;
+	public ConnectableInfo(BindingController bController) {
+		controller = bController;
+		add(text);
+		btn = new SuspendButton(bController, "");
+		add(btn);
+		add(new DespawnButton(bController, "deconstruct"));
+	}
+	@Override
+	public void ModelChanged(BaseModel model) {
+		String state = "My state is " + ((ISuspendable)model).isOn();
+		text.setText(state + "\n I am " + model.toString());
+		btn.setText("turn " + stringifyReversePowerState((ISuspendable)model));
+		//log(state + "\n I am " + model.toString());
+	}
+	
+	private String stringifyReversePowerState(ISuspendable model) {
+		if(model.isOn()) {
+			return "off";
+		}
+		return "on";
+	}
+	
+	public void disable() {
+		controller.breakBond(this);
+	}
+	private void add(Node node) {
+		getChildren().add(node);
+	}
+}
