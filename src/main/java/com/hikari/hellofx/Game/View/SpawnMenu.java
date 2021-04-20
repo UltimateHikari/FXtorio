@@ -24,9 +24,9 @@ public class SpawnMenu extends HBox {
 		EntityClassPair minerPair = new EntityClassPair(MinerModel.class, MinerView.class);
 		EntityClassPair storagePair = new EntityClassPair(StorageModel.class, StorageView.class);
 		
-		add(new SpawnButton(gcontroller, "Constructor", constructorPair));
-		add(new SpawnButton(gcontroller, "Miner", minerPair));
-		add(new SpawnButton(gcontroller, "Storage", storagePair));
+		add(new SpawnButton(gcontroller, "Constructor", constructorPair, ConstructorView.getColor()));
+		add(new SpawnButton(gcontroller, "Miner", minerPair, MinerView.getColor()));
+		add(new SpawnButton(gcontroller, "Storage", storagePair, StorageView.getColor()));
 		add(new ConnectionButton(gcontroller, "Connect"));
 		add(new NavButton(controller, "Main menu", MenuView.class.getName()));
 		add(new CancelButton(gcontroller, "LazyCancel"));
