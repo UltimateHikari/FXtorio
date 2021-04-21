@@ -1,7 +1,7 @@
 package com.hikari.hellofx;
 
 public class SceneController {
-	private AppModel model;
+	private final AppModel model;
 	
 	public SceneController(AppModel model_) {
 		model = model_;

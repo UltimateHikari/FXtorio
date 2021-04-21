@@ -7,7 +7,7 @@ import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
 public class ConstructorModel extends BasicEntityModel{
-	private int productionTime = 1000;
+	private final int productionTime = 1000;
 	private Object o = null;
 	
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);

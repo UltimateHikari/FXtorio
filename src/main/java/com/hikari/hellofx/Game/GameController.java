@@ -75,7 +75,7 @@ public class GameController implements ILoggable {
 	}
 
 	private void assignHandler(MouseEvent event) {
-		log("Doing " + action + " because of " + event.getButton() + "; have " + noticed.toString() + " noticed");
+		log("Doing " + action + " because of " + event.getButton() + "; have " + noticed + " noticed");
 		switch (state) {
 		case Idle:
 			assignIfIdle(event);
@@ -169,7 +169,7 @@ public class GameController implements ILoggable {
 		if (lastAction == Action.Notice) {
 			noticed.removeLast();
 		}
-		log("ignoring " + noticed.toString());
+		log("ignoring " + noticed);
 	}
 
 	private void spawnConnection() {

@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class BaseModel extends Thread{
 	private static Integer lastId = 0;
 	private final Integer id;
-	private Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<IModelSubscriber>();
+	private final Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<IModelSubscriber>();
 
 	public BaseModel() {
 		id = lastId;

@@ -12,8 +12,8 @@ import javafx.scene.text.Text;
 import javafx.scene.Node;
 
 public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
-	private Text text = new Text("");
-	private SuspendButton btn;
+	private final Text text = new Text("");
+	private final SuspendButton btn;
 	BindingController controller;
 	public ConnectableInfo(BindingController bController) {
 		controller = bController;
@@ -25,9 +25,8 @@ public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
 	@Override
 	public void ModelChanged(BaseModel model) {
 		String state = "My state is " + ((ISuspendable)model).isOn();
-		text.setText(state + "\n I am " + model.toString());
+		text.setText(state + "\n I am " + model);
 		btn.setText("turn " + stringifyReversePowerState((ISuspendable)model));
-		//log(state + "\n I am " + model.toString());
 	}
 	
 	private String stringifyReversePowerState(ISuspendable model) {

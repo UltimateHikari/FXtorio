@@ -20,8 +20,8 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 	protected IConnection connection = null;
 
 	private static final int inThreadsCount = 1;
-	private Semaphore isEmpty = new Semaphore(inThreadsCount);
-	private Semaphore isFull = new Semaphore(0);
+	private final Semaphore isEmpty = new Semaphore(inThreadsCount);
+	private final Semaphore isFull = new Semaphore(0);
 	private Object heldObject = null;
 
 	public ConnectionPoint(IConnectable entity, Double offsetX_, Double offsetY_) {

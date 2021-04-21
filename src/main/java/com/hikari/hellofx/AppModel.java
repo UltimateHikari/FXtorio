@@ -26,7 +26,7 @@ public class AppModel extends BaseModel {
 	}
 
 	public void setCurrentScene(String nextSceneName) throws Exception {
-		if (sceneClasses.indexOf(nextSceneName) == -1) {
+		if (!sceneClasses.contains(nextSceneName)) {
 			throw new Exception("badNextSceneName: " + nextSceneName);
 		}
 		currentSceneName = nextSceneName;

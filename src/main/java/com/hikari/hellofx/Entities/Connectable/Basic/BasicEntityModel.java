@@ -57,7 +57,7 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	}
 	@SafeVarargs
 	protected final <T> ArrayList<T> packPoints(T... args) {
-		return new ArrayList<T>(Arrays.asList(args).stream().filter(w -> (((ConnectionPoint) w).isFree() == true))
+		return new ArrayList<T>(Arrays.asList(args).stream().filter(w -> (((ConnectionPoint) w).isFree()))
 				.collect(Collectors.toList()));
 	}
 	

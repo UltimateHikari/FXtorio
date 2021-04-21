@@ -25,8 +25,6 @@ public class EntityShadowView extends Circle implements IModelSubscriber{
 		tt.setToX(((EntityShadow)model).getX());
 		tt.setToY(((EntityShadow)model).getY());
 		tt.play();
-//		setCenterX(point.getX());
-//		setCenterY(point.getY());
 	}
 
 }

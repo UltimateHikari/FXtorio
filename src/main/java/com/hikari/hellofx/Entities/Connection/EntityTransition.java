@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class EntityTransition {
-	private Cart cart;
+	private final Cart cart;
 
 	public EntityTransition(Duration duration, Point2D start, Point2D end, Pane parent) {
 		cart = new Cart(start, parent);

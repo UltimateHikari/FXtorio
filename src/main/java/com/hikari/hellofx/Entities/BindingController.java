@@ -15,8 +15,8 @@ import javafx.scene.input.MouseEvent;
  */
 
 public class BindingController implements ILoggable{
-	private GameController gController;
-	private BaseModel model;
+	private final GameController gController;
+	private final BaseModel model;
 	public BindingController(GameController gController_, BaseModel model_) {
 		gController = gController_;
 		model = model_;

@@ -19,7 +19,7 @@ import javafx.scene.paint.Color;
 public class BasicEntityView extends Pane implements IModelSubscriber {
 	private final ShapePane shapePane;
 	private final static int SIZE = 40;
-	private final int defaultChildrenSize = 1;
+	private final int DEFAULT_CHILDREN_SIZE = 1;
 	private final BindingController bController;
 
 	public BasicEntityView(double x, double y, BindingController controller, Color color) {
@@ -65,7 +65,7 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 	}
 
 	private void clearChildren() {
-		if (getChildren().size() == defaultChildrenSize) {
+		if (getChildren().size() == DEFAULT_CHILDREN_SIZE) {
 			return;
 		}
 		getChildren().stream().filter(w -> w instanceof ConnectionPointView)

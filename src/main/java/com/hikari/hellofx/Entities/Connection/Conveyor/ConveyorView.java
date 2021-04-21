@@ -15,7 +15,7 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class ConveyorView extends Pane implements IModelSubscriber{
-	private ArrayDeque<EntityTransition> transitions = new ArrayDeque<EntityTransition>(10);
+	private final ArrayDeque<EntityTransition> transitions = new ArrayDeque<EntityTransition>(10);
 	Line road;
 	Duration duration = Duration.millis(1000); //default
 	private final Point2D start;

@@ -14,9 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GameField extends Pane implements IModelSubscriber{
-	private Rectangle field;
-	private GameController gcontroller = null;
-	private EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>(){
+	private final Rectangle field;
+	private final GameController gcontroller;
+	private final EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>(){
 		@Override
 		public void handle(MouseEvent event) {
 			gcontroller.moveShadow(event);
@@ -27,7 +27,6 @@ public class GameField extends Pane implements IModelSubscriber{
 		setPrefSize(640,480);
 		field = new Rectangle(0,0, 640,480);
 		field.setFill(Color.GAINSBORO);
-//		field.setOnMouseClicked((event) -> gcontroller.handleFieldClick(event));
 		add(field);
 	}
 	public void add(Node child) {
@@ -39,8 +38,7 @@ public class GameField extends Pane implements IModelSubscriber{
 	}
 	@Override
 	public void ModelChanged(BaseModel model) {
-		if(((GameFieldModel)model).isOn() == true) {
-			//field.setOnMouseMoved((event) -> gcontroller.moveShadow(event));
+		if(((GameFieldModel) model).isOn()) {
 			field.setOnMouseMoved(handler);
 		}else {
 			field.removeEventHandler(MouseEvent.MOUSE_MOVED, handler);

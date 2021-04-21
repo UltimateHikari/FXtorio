@@ -16,9 +16,9 @@ import javafx.stage.Stage;
 public class App extends Application implements IModelSubscriber{
 	
 	private Stage stage;
-	private AppModel appModel = new AppModel();
-	private SceneController sceneController = new SceneController(appModel);
-	private HashMap<String, Scene> scenes = new HashMap<String, Scene>();
+	private final AppModel appModel = new AppModel();
+	private final SceneController sceneController = new SceneController(appModel);
+	private final HashMap<String, Scene> scenes = new HashMap<String, Scene>();
 	private final Integer width = 1280;
 	private final Integer height = 720;
 	
