@@ -55,8 +55,8 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 		state = state_;
 		notifySubs();
 	}
-
-	protected <T> ArrayList<T> packPoints(T... args) {
+	@SafeVarargs
+	protected final <T> ArrayList<T> packPoints(T... args) {
 		return new ArrayList<T>(Arrays.asList(args).stream().filter(w -> (((ConnectionPoint) w).isFree() == true))
 				.collect(Collectors.toList()));
 	}
@@ -77,6 +77,5 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 			}
 		}
 	}
-	
 	protected abstract void performCycle() throws InterruptedException;
 }
