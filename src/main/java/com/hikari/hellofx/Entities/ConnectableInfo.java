@@ -9,6 +9,7 @@ import com.hikari.hellofx.Game.View.SuspendButton;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.application.Platform;
 import javafx.scene.Node;
 
 public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
@@ -25,8 +26,11 @@ public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
 	@Override
 	public void ModelChanged(BaseModel model) {
 		String state = "My state is " + ((ISuspendable)model).isOn();
-		text.setText(state + "\n I am " + model);
-		btn.setText("turn " + stringifyReversePowerState((ISuspendable)model));
+		Platform.runLater(() -> { 
+			text.setText(state + "\n I am " + model);
+			btn.setText("turn " + stringifyReversePowerState((ISuspendable)model));
+			} 
+		);
 	}
 	
 	private String stringifyReversePowerState(ISuspendable model) {

@@ -3,6 +3,8 @@ package com.hikari.hellofx.Game.View;
 import com.hikari.hellofx.MenuView;
 import com.hikari.hellofx.SceneController;
 import com.hikari.hellofx.Entities.EntityClassPair;
+import com.hikari.hellofx.Entities.Connectable.Assembler.AssemblerModel;
+import com.hikari.hellofx.Entities.Connectable.Assembler.AssemblerView;
 import com.hikari.hellofx.Entities.Connectable.Constructor.ConstructorModel;
 import com.hikari.hellofx.Entities.Connectable.Constructor.ConstructorView;
 import com.hikari.hellofx.Entities.Connectable.Miner.MinerModel;
@@ -23,10 +25,13 @@ public class SpawnMenu extends HBox {
 		EntityClassPair constructorPair = new EntityClassPair(ConstructorModel.class, ConstructorView.class);
 		EntityClassPair minerPair = new EntityClassPair(MinerModel.class, MinerView.class);
 		EntityClassPair storagePair = new EntityClassPair(StorageModel.class, StorageView.class);
+		EntityClassPair assemblerPair = new EntityClassPair(AssemblerModel.class, AssemblerView.class);
+
 		
 		add(new SpawnButton(gcontroller, "Constructor", constructorPair, ConstructorView.getColor()));
 		add(new SpawnButton(gcontroller, "Miner", minerPair, MinerView.getColor()));
 		add(new SpawnButton(gcontroller, "Storage", storagePair, StorageView.getColor()));
+		add(new SpawnButton(gcontroller, "Assembler", assemblerPair, AssemblerView.getColor()));
 		add(new ConnectionButton(gcontroller, "Connect"));
 		add(new NavButton(controller, "Main menu", MenuView.class.getName()));
 		add(new CancelButton(gcontroller, "LazyCancel"));
