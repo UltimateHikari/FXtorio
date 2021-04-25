@@ -50,13 +50,21 @@ public class GameView extends GridPane{
 	}
 
 	public void showShadow(EntityShadow shadow) {
-		shadowView = new EntityShadowView(gController);
+		tryInitShadow();
 		shadow.subscribe(shadowView);
 		gameField.add(shadowView/*, shadow.getPosition().getX(), shadow.getPosition().getY()*/);
+		shadowView.enable();
 	}
 
+	public void tryInitShadow() {
+		if(shadowView == null) {
+			shadowView = new EntityShadowView(gController);
+		}
+	}
+	
 	public void hideShadow(EntityShadow shadow) {
 		shadow.unsubscribe(shadowView);
 		gameField.remove(shadowView);
+		shadowView.disable();
 	}
 }

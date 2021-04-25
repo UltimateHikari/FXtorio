@@ -149,6 +149,7 @@ public class GameController implements ILoggable {
 		if (state == State.Spawning) {
 			disableShadow();
 		}
+		//TODO hide points of already checked
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
 		state = State.Idle;
 		noticed.clear();

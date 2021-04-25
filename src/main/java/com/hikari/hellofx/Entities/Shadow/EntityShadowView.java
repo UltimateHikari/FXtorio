@@ -5,6 +5,7 @@ import com.hikari.hellofx.Base.IModelSubscriber;
 import com.hikari.hellofx.Game.GameAction;
 import com.hikari.hellofx.Game.GameController;
 
+import javafx.scene.CacheHint;
 import javafx.scene.paint.Color;
 import javafx.animation.TranslateTransition;
 import javafx.scene.shape.Circle;
@@ -18,13 +19,27 @@ public class EntityShadowView extends Circle implements IModelSubscriber{
 		setOnMouseClicked((event) -> gController.act(event, GameAction.SPAWN));
 	}
 	
+	public void enable() {
+		setVisible(true);
+		setCache(true);
+		setCacheHint(CacheHint.SPEED);
+	}
+	
+	public void disable() {
+		setVisible(false);
+		setCache(false);
+	}
+	
 	@Override
 	public void ModelChanged(BaseModel model) {
-		setVisible(true);		
-		TranslateTransition tt = new TranslateTransition(Duration.millis(10), this);
-		tt.setToX(((EntityShadow)model).getX());
-		tt.setToY(((EntityShadow)model).getY());
-		tt.play();
+		if(model instanceof EntityShadow shadow) {
+			TranslateTransition tt = new TranslateTransition(Duration.millis(10), this);
+			tt.setToX(shadow.getX());
+			tt.setToY(shadow.getY());
+			tt.play();
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
-
+	
 }
