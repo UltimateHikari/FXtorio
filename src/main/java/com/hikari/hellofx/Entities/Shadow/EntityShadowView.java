@@ -20,7 +20,6 @@ public class EntityShadowView extends Circle implements IModelSubscriber{
 	}
 	
 	public void enable() {
-		setVisible(true);
 		setCache(true);
 		setCacheHint(CacheHint.SPEED);
 	}
@@ -33,6 +32,7 @@ public class EntityShadowView extends Circle implements IModelSubscriber{
 	@Override
 	public void ModelChanged(BaseModel model) {
 		if(model instanceof EntityShadow shadow) {
+			setVisible(true);
 			TranslateTransition tt = new TranslateTransition(Duration.millis(10), this);
 			tt.setToX(shadow.getX());
 			tt.setToY(shadow.getY());
