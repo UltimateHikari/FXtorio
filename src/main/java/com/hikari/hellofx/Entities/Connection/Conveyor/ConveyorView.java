@@ -15,6 +15,7 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class ConveyorView extends Pane implements IModelSubscriber{
+	//todo rework to single pool of refire-able transitions for caching
 	private final ArrayDeque<EntityTransition> transitions = new ArrayDeque<EntityTransition>(10);
 	Line road;
 	Duration duration = Duration.millis(1000); //default
