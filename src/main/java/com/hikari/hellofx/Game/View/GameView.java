@@ -31,7 +31,7 @@ public class GameView extends GridPane{
 		gController.subscribeGameField(gameField);
 
 		add(gameField, 0, 0);		
-		add(new SpawnMenu(controller, gController), 0, 1, 2, 1);
+		add(new BottomMenu(controller, gController), 0, 1, 2, 1);
 		add(infoMenu,1,0);
 	}
 	

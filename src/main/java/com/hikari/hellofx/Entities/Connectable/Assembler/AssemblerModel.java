@@ -13,8 +13,8 @@ public class AssemblerModel extends BasicEntityModel {
 	private Object o = null;
 
 	
-	private final ConnectionInPoint inLeft = new ConnectionInPoint(this, -0.5, 0.2);
-	private final ConnectionInPoint inRight = new ConnectionInPoint(this, -0.5, -0.2);
+	private final ConnectionInPoint inLeft = new ConnectionInPoint(this, -0.5, 0.3);
+	private final ConnectionInPoint inRight = new ConnectionInPoint(this, -0.5, -0.3);
 	private final ConnectionOutPoint out = new ConnectionOutPoint(this, 0.5, 0.0);
 	
 	@Override

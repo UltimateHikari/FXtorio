@@ -11,27 +11,27 @@ import com.hikari.hellofx.Entities.Connectable.Miner.MinerModel;
 import com.hikari.hellofx.Entities.Connectable.Miner.MinerView;
 import com.hikari.hellofx.Entities.Connectable.Storage.StorageModel;
 import com.hikari.hellofx.Entities.Connectable.Storage.StorageView;
+import com.hikari.hellofx.Entities.Connectable.Utility.Splitter.SplitterModel;
+import com.hikari.hellofx.Entities.Connectable.Utility.Splitter.SplitterView;
 import com.hikari.hellofx.Game.GameController;
 
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
-public class SpawnMenu extends HBox {
-	public SpawnMenu(SceneController controller, GameController gcontroller) {
-		add(new Text("spawn menu here"));
+public class BottomMenu extends HBox {
+	public BottomMenu(SceneController controller, GameController gcontroller) {
 		setSpacing(10);
-		add(new Text("and here"));
 		EntityClassPair constructorPair = new EntityClassPair(ConstructorModel.class, ConstructorView.class);
 		EntityClassPair minerPair = new EntityClassPair(MinerModel.class, MinerView.class);
 		EntityClassPair storagePair = new EntityClassPair(StorageModel.class, StorageView.class);
 		EntityClassPair assemblerPair = new EntityClassPair(AssemblerModel.class, AssemblerView.class);
+		EntityClassPair splitterPair = new EntityClassPair(SplitterModel.class, SplitterView.class);
 
-		
-		add(new SpawnButton(gcontroller, "Constructor", constructorPair, ConstructorView.getColor()));
 		add(new SpawnButton(gcontroller, "Miner", minerPair, MinerView.getColor()));
-		add(new SpawnButton(gcontroller, "Storage", storagePair, StorageView.getColor()));
+		add(new SpawnButton(gcontroller, "Constructor", constructorPair, ConstructorView.getColor()));
 		add(new SpawnButton(gcontroller, "Assembler", assemblerPair, AssemblerView.getColor()));
+		add(new SpawnButton(gcontroller, "Storage", storagePair, StorageView.getColor()));
+		add(new SpawnButton(gcontroller, "Splitter", splitterPair, SplitterView.getColor()));
 		add(new ConnectionButton(gcontroller, "Connect"));
 		add(new NavButton(controller, "Main menu", MenuView.class.getName()));
 		add(new CancelButton(gcontroller, "LazyCancel"));

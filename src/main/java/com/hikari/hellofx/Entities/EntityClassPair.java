@@ -25,6 +25,10 @@ public class EntityClassPair {
 	public BaseModel getModelInstance() throws Exception {
 		return model.getDeclaredConstructor().newInstance();
 	}
+	
+	public Class<? extends BasicEntityView> getViewClass(){
+		return view;
+	}
 
 	@Override
 	public String toString() {
