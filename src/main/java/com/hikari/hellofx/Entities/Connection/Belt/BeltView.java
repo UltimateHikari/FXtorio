@@ -37,7 +37,7 @@ public class BeltView extends Pane implements IModelSubscriber{
 				Point2D translation = new Point2D((end.getX() - start.getX())/n, (end.getY() - start.getY())/n);
 				List<ModelItem> items = belt.getItemModels();
 				for(ModelItem m : items) {
-					BeltCart cart = new BeltCart(start, translation, Duration.millis((double)belt.getCellTravelTime()));
+					BeltCart cart = new BeltCart(start, translation, Duration.millis((double)belt.getCellTravelTime() - 100));
 					m.subscribe(cart);
 					carts.add(cart);
 					getChildren().add(cart);
