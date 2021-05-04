@@ -2,6 +2,7 @@ package com.hikari.hellofx.Entities.Connection.Belt;
 
 
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelSubscriber;
 
 import javafx.animation.TranslateTransition;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-public class BeltCart extends Circle implements IModelSubscriber{
+public class BeltCart extends Circle implements IModelSubscriber, ILoggable{
 	private static final int CART_RADIUS = 10;
 	private final TranslateTransition tr = new TranslateTransition();
 	
@@ -27,6 +28,7 @@ public class BeltCart extends Circle implements IModelSubscriber{
 	private void initTranslation(Point2D translation, Duration travelTime) {
 		tr.setByX(translation.getX());
 		tr.setByY(translation.getY());
+		tr.setNode(this);
 		tr.setDuration(travelTime);
 	}
 

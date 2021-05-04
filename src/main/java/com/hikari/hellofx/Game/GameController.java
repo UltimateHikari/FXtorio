@@ -12,6 +12,8 @@ import com.hikari.hellofx.Entities.Connectable.ConnectableState;
 import com.hikari.hellofx.Entities.Connectable.IConnectable;
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityModel;
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityView;
+import com.hikari.hellofx.Entities.Connection.Belt.Belt;
+import com.hikari.hellofx.Entities.Connection.Belt.BeltView;
 import com.hikari.hellofx.Entities.Connection.Conveyor.Conveyor;
 import com.hikari.hellofx.Entities.Connection.Conveyor.ConveyorView;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
@@ -174,19 +176,33 @@ public class GameController implements ILoggable {
 	}
 
 	private void spawnConnection() {
-		// TODO some exceptions if not instanceof
 		ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
 		ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
-		Conveyor conveyor = new Conveyor(out, in);
-		ConveyorView spawned = new ConveyorView(out, in);
-
-		conveyor.subscribe(spawned);
-
-		game.addConnection(conveyor);
+		Belt belt = new Belt(out, in);
+		BeltView spawned = new BeltView(out, in);
+		
+		belt.subscribe(spawned);
+		belt.notifySubs();
+		
+		game.addConnection(belt);
 		view.showSpawned(spawned);
-		conveyor.start();
+		belt.start();
 		log("connected");
 	}
+//	private void spawnConnection() {
+//		// TODO some exceptions if not instanceof
+//		ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
+//		ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
+//		Conveyor conveyor = new Conveyor(out, in);
+//		ConveyorView spawned = new ConveyorView(out, in);
+//
+//		conveyor.subscribe(spawned);
+//
+//		game.addConnection(conveyor);
+//		view.showSpawned(spawned);
+//		conveyor.start();
+//		log("connected");
+//	}
 
 	private void despawnEntity(MouseEvent event) {
 		BaseModel model = noticed.remove();

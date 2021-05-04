@@ -15,11 +15,10 @@ import javafx.geometry.Point2D;
 
 public class Belt extends BaseModel implements IConnection, ISuspendable, ILoggable{
 	private static final double CELL_SIZE = 20;
-	private static final int CELL_TRAVEL_TIME = 50;
+	private static final int CELL_TRAVEL_TIME = 500;
 	
 	private double distance;
 	private int slotsCount;
-	private int travelTime;
 	
 	//0 .. slotsCount - 1
 	private List<ModelItem> items;
@@ -47,17 +46,17 @@ public class Belt extends BaseModel implements IConnection, ISuspendable, ILogga
 						dst.getLastViewY()
 						));
 		slotsCount = (int) Math.ceil(distance/CELL_SIZE);
-		travelTime = CELL_TRAVEL_TIME*slotsCount;
 		log("Creating belt of " + slotsCount + " size;");
 	}
 	
 	private void initItems() {
 		items = Stream
-				.generate(() -> new ModelItem(null, slotsCount - 1))
+				.generate(() -> new ModelItem(null, slotsCount - 1)).limit(slotsCount)
 				.collect(Collectors.toList());
 	}
 	
 	private void moveCells() {
+		log("base/end: " + base + "/" + end);
 		for(int i = base; i < end; i++) {
 			ModelItem current = items.get(i);
 			if(i == base && current.notEndReached()) {
@@ -69,7 +68,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable, ILogga
 	}
 	
 	private int cycleIncrement(int a) {
-		return a + 1 % slotsCount;
+		return (a + 1) % slotsCount;
 	}
 	
 	@Override
@@ -116,7 +115,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable, ILogga
 			try {
 				offerItem();
 				moveCells();
-				sleep(travelTime);
+				sleep(CELL_TRAVEL_TIME);
 				pollItem();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

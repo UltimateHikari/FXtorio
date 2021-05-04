@@ -69,7 +69,7 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 
 	public Object get() throws InterruptedException {
 		isFull.acquire();
-		//log(this.getName() + " giving " + heldObject.toString());
+		log(this.getName() + " giving " + heldObject.toString());
 		Object res = heldObject;
 		heldObject = null;
 		isEmpty.release();
@@ -79,24 +79,28 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 	public void put(Object o) throws InterruptedException {
 		isEmpty.acquire();
 		heldObject = o;
-		//log(this.getName() + " taking " + heldObject.toString());
+		log(this.getName() + " taking " + heldObject.toString());
 		isFull.release();
 	}
 	
 	public boolean offer(Object o) {
 		if(!isEmpty.tryAcquire()) {
+			log(this.getName() + " -offered ");
 			return false;
 		} else {
 			heldObject = o;
 			isFull.release();
+			log(this.getName() + " +offered " + heldObject.toString());
 			return true;
 		}
 	}
 	
 	public Object poll() {
 		if(!isFull.tryAcquire()) {
+			log(this.getName() + " -polled ");
 			return null;
 		} else {
+			log(this.getName() + " +polled " + heldObject.toString());
 			Object res = heldObject;
 			heldObject = null;
 			isEmpty.release();
