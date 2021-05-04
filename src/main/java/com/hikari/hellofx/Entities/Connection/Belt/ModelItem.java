@@ -16,7 +16,7 @@ public class ModelItem extends BaseModel{
 	
 	public void move() {
 		position++;
-		System.out.println("moved cell with " + payload + " to " + position);
+		//System.out.println("moved cell with " + payload + " to " + position);
 		status = ModelItemStatus.MOVED;
 		notifySubs();
 	}

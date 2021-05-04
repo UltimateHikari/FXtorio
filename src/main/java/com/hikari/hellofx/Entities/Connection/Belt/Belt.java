@@ -57,14 +57,19 @@ public class Belt extends BaseModel implements IConnection, ISuspendable, ILogga
 	
 	private void moveCells() {
 		log("base/end: " + base + "/" + end);
-		for(int i = base; i < end; i++) {
+		for(int i = base; i != end; i = cycleIncrement(i)) {
 			ModelItem current = items.get(i);
 			if(i == base && current.notEndReached()) {
 				current.move();
-			} else if(current.notEndReached() && current.notClosePredecessorTo(items.get(i - 1))){
+			} else if(current.notEndReached() && current.notClosePredecessorTo(items.get(cycleDecrement(i)))){
 				current.move();
 			}
 		}
+		log(items.stream().map((i) -> ((Integer)i.getPosition()).toString()).collect(Collectors.joining(",")));
+	}
+	
+	private int cycleDecrement(int a) {
+		return Math.floorMod(a - 1, slotsCount);
 	}
 	
 	private int cycleIncrement(int a) {

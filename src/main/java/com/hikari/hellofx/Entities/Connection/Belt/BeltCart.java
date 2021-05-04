@@ -6,6 +6,7 @@ import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelSubscriber;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
 import javafx.scene.paint.Color;
@@ -15,6 +16,7 @@ import javafx.util.Duration;
 public class BeltCart extends Circle implements IModelSubscriber, ILoggable{
 	private static final int CART_RADIUS = 10;
 	private final TranslateTransition tr = new TranslateTransition();
+	private String payloadName;
 	
 	public BeltCart(Point2D position, Point2D translation, Duration travelTime) {
 		super(position.getX(), position.getY(), CART_RADIUS);
@@ -35,22 +37,25 @@ public class BeltCart extends Circle implements IModelSubscriber, ILoggable{
 	private void move() {
 		this.setVisible(true);
 		tr.play();
+		//log("moved " + payloadName);
 	}
 	
 	private void rewind() {
 		this.setVisible(false);
 		this.setTranslateX(0);
 		this.setTranslateY(0);
+		//log("rewinded " + payloadName);
 	}
 
 	@Override
 	public void ModelChanged(BaseModel model) {
 		if(model instanceof ModelItem m) {
 			ModelItemStatus status = m.getStatus();
+			payloadName = m.getPayloadName();
 			if(status == ModelItemStatus.MOVED) {
-				move();
+				Platform.runLater(() -> move());
 			}else if(status == ModelItemStatus.DISPATCHED) {
-				rewind();
+				Platform.runLater(() -> rewind());
 			}
 		}else {
 			throw new IllegalArgumentException("not a modelitem");
