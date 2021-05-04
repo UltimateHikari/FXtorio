@@ -23,14 +23,18 @@ public class SplitterModel extends BasicUtilityEntityModel{
 	
 	protected void performCycle() throws InterruptedException {
 		Object o;
-		o = in.get();
-		notifySubs();
-		outFirst.put(o);
-		notifySubs();
-		o = in.get();
-		notifySubs();
-		outSecond.put(o);
-		notifySubs();
+		if(!outFirst.isFree()) {
+			o = in.get();
+			notifySubs();
+			outFirst.put(o);
+			notifySubs();
+		}
+		if(!outSecond.isFree()) {
+			o = in.get();
+			notifySubs();
+			outSecond.put(o);
+			notifySubs();
+		}
 	}
 
 	@Override
