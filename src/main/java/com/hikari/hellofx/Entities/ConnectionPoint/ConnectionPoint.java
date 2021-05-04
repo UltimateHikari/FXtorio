@@ -82,4 +82,25 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 		//log(this.getName() + " taking " + heldObject.toString());
 		isFull.release();
 	}
+	
+	public boolean offer(Object o) {
+		if(!isEmpty.tryAcquire()) {
+			return false;
+		} else {
+			heldObject = o;
+			isFull.release();
+			return true;
+		}
+	}
+	
+	public Object poll() {
+		if(!isFull.tryAcquire()) {
+			return null;
+		} else {
+			Object res = heldObject;
+			heldObject = null;
+			isEmpty.release();
+			return res;
+		}
+	}
 }
