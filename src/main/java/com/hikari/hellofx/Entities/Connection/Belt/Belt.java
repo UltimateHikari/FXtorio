@@ -56,7 +56,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable, ILogga
 	}
 	
 	private void moveCells() {
-		log("base/end: " + base + "/" + end);
+		//log("base/end: " + base + "/" + end);
 		for(int i = base; i != end; i = cycleIncrement(i)) {
 			ModelItem current = items.get(i);
 			if(i == base && current.notEndReached()) {
@@ -65,7 +65,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable, ILogga
 				current.move();
 			}
 		}
-		log(items.stream().map((i) -> ((Integer)i.getPosition()).toString()).collect(Collectors.joining(",")));
+		//log(items.stream().map((i) -> ((Integer)i.getPosition()).toString()).collect(Collectors.joining(",")));
 	}
 	
 	private int cycleDecrement(int a) {
@@ -103,6 +103,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable, ILogga
 	
 	public void connectSource(ConnectionOutPoint o) {
 		src = o;
+		o.connect(this);
 	}
 	
 	private boolean haveReadyItems() {

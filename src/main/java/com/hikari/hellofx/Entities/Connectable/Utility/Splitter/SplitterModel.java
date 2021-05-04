@@ -23,6 +23,12 @@ public class SplitterModel extends BasicUtilityEntityModel{
 	
 	protected void performCycle() throws InterruptedException {
 		Object o;
+		if(outFirst.isFree() && outSecond.isFree()) {
+			System.out.println("zzz");
+			synchronized (this) {
+				wait();
+			}
+		}
 		if(!outFirst.isFree()) {
 			o = in.get();
 			notifySubs();

@@ -18,6 +18,7 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 	private double lastViewX; // TODO may be mvc leak??
 	private double lastViewY; //
 	protected IConnection connection = null;
+	private IConnectable parentEntity;
 
 	private static final int inThreadsCount = 1;
 	private final Semaphore isEmpty = new Semaphore(inThreadsCount);
@@ -25,7 +26,7 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 	private Object heldObject = null;
 
 	public ConnectionPoint(IConnectable entity, Double offsetX_, Double offsetY_) {
-		//parentEntity = entity;
+		parentEntity = entity;
 		offsetX = offsetX_;
 		offsetY = offsetY_;
 	}
@@ -36,6 +37,9 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 
 	public void connect(IConnection connection_) {
 		connection = connection_;
+		synchronized(parentEntity) {
+			parentEntity.notify();
+		}
 	}
 
 	public void disconnect() {
@@ -68,8 +72,9 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 	}
 
 	public Object get() throws InterruptedException {
+		//TODO add checking for exact connected connection/connectable?
 		isFull.acquire();
-		log(this.getName() + " giving " + heldObject.toString());
+		//log(this.getName() + " giving " + heldObject.toString());
 		Object res = heldObject;
 		heldObject = null;
 		isEmpty.release();
@@ -79,28 +84,28 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 	public void put(Object o) throws InterruptedException {
 		isEmpty.acquire();
 		heldObject = o;
-		log(this.getName() + " taking " + heldObject.toString());
+		//log(this.getName() + " taking " + heldObject.toString());
 		isFull.release();
 	}
 	
 	public boolean offer(Object o) {
 		if(!isEmpty.tryAcquire()) {
-			log(this.getName() + " -offered ");
+			//log(this.getName() + " -offered ");
 			return false;
 		} else {
 			heldObject = o;
 			isFull.release();
-			log(this.getName() + " +offered " + heldObject.toString());
+			//log(this.getName() + " +offered " + heldObject.toString());
 			return true;
 		}
 	}
 	
 	public Object poll() {
 		if(!isFull.tryAcquire()) {
-			log(this.getName() + " -polled ");
+			//log(this.getName() + " -polled ");
 			return null;
 		} else {
-			log(this.getName() + " +polled " + heldObject.toString());
+			//log(this.getName() + " +polled " + heldObject.toString());
 			Object res = heldObject;
 			heldObject = null;
 			isEmpty.release();
