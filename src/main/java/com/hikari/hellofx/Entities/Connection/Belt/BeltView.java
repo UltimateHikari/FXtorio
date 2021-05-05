@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hikari.hellofx.Base.BaseModel;
-import com.hikari.hellofx.Base.IModelSubscriber;
+import com.hikari.hellofx.Entities.Connection.BasicConnectionView;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
 import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
-public class BeltView extends Pane implements IModelSubscriber{
+public class BeltView extends BasicConnectionView{
 	//todo rework to single pool of refire-able transitions for caching
 		Line road;
 		Duration duration = Duration.millis(1000); //default

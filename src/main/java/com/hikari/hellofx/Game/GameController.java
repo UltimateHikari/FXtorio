@@ -7,15 +7,15 @@ import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.BindingController;
 import com.hikari.hellofx.Entities.ConnectableInfo;
-import com.hikari.hellofx.Entities.EntityClassPair;
+import com.hikari.hellofx.Entities.ClassPairs.ConnectionClassPair;
+import com.hikari.hellofx.Entities.ClassPairs.EntityClassPair;
+import com.hikari.hellofx.Entities.ClassPairs.IClassPair;
 import com.hikari.hellofx.Entities.Connectable.ConnectableState;
 import com.hikari.hellofx.Entities.Connectable.IConnectable;
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityModel;
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityView;
-import com.hikari.hellofx.Entities.Connection.Belt.Belt;
-import com.hikari.hellofx.Entities.Connection.Belt.BeltView;
-import com.hikari.hellofx.Entities.Connection.Conveyor.Conveyor;
-import com.hikari.hellofx.Entities.Connection.Conveyor.ConveyorView;
+import com.hikari.hellofx.Entities.Connection.BasicConnectionView;
+import com.hikari.hellofx.Entities.Connection.IConnection;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 import com.hikari.hellofx.Entities.Shadow.EntityShadow;
@@ -41,7 +41,7 @@ public class GameController implements ILoggable {
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
 	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<BaseModel>();
-	private EntityClassPair entityClassPair = null;
+	private IClassPair<?> classPair = null; //TODO careful
 
 	public GameController(GameView view_) {
 		view = view_;
@@ -58,15 +58,15 @@ public class GameController implements ILoggable {
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
 
-	public void act(MouseEvent event, GameAction action_, EntityClassPair entityClassPair_) {
+	public void act(MouseEvent event, GameAction action_, IClassPair<?> classPair_) {
 		lastAction = Action.Act;
 		action = action_;
-		entityClassPair = entityClassPair_;
+		classPair = classPair_;
 		assignHandler(event);
 	}
 
 	public void act(MouseEvent event, GameAction action_) {
-		act(event, action_, entityClassPair);
+		act(event, action_, classPair);
 	}
 
 	public void notice(BaseModel model, MouseEvent event, GameAction action_) {
@@ -160,7 +160,12 @@ public class GameController implements ILoggable {
 	private void connectIn(MouseEvent event) {
 		state = State.Idle;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
-		spawnConnection();
+		try {
+			spawnConnection();
+		} catch(Exception e) {
+			log("Spawn of [ " + classPair.toString() + " ] failed. " + "Already in normal state.");
+			e.printStackTrace();
+		}
 	}
 
 	private void connectOut(MouseEvent event) {
@@ -175,38 +180,29 @@ public class GameController implements ILoggable {
 		log("ignoring " + noticed);
 	}
 
-	private void spawnConnection() {
-		ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
-		ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
-		Belt belt = new Belt(out, in);
-		BeltView spawned = new BeltView(out, in);
-		
-		belt.subscribe(spawned);
-		belt.notifySubs();
-		
-		game.addConnection(belt);
-		view.showSpawned(spawned);
-		belt.start();
-		log("connected");
+	private void spawnConnection() throws Exception{
+		if(classPair instanceof ConnectionClassPair connectionClassPair) {
+			log("spwn "  + connectionClassPair.toString());
+			ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
+			ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
+			BaseModel belt = connectionClassPair.getModelInstance(out, in);
+			BasicConnectionView spawned = connectionClassPair.getViewInstance(out, in);
+			
+			belt.subscribe(spawned);
+			belt.notifySubs();
+			
+			game.addConnection((IConnection)belt);
+			view.showSpawned(spawned);
+			belt.start();
+			log("connected");
+		} else {
+			throw new IllegalArgumentException("wrong classpair");
+		}
 	}
-//	private void spawnConnection() {
-//		// TODO some exceptions if not instanceof
-//		ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
-//		ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
-//		Conveyor conveyor = new Conveyor(out, in);
-//		ConveyorView spawned = new ConveyorView(out, in);
-//
-//		conveyor.subscribe(spawned);
-//
-//		game.addConnection(conveyor);
-//		view.showSpawned(spawned);
-//		conveyor.start();
-//		log("connected");
-//	}
 
 	private void despawnEntity(MouseEvent event) {
 		BaseModel model = noticed.remove();
-		((BasicEntityModel) model).despawn(); // ??? mb interface && handler?
+		((BasicEntityModel) model).despawn(); // TODO??? mb interface && handler?
 	}
 
 	private void spawnEntity(MouseEvent event) {
@@ -214,7 +210,7 @@ public class GameController implements ILoggable {
 			try {
 				spawn(shadow.getX(), shadow.getY()/* ), entityName */);
 			} catch (Exception e) {
-				log("Spawn of [ " + entityClassPair.toString() + " ] failed. " + "Returning to normal state.");
+				log("Spawn of [ " + classPair.toString() + " ] failed. " + "Returning to normal state.");
 			} finally {
 				state = State.Idle;
 				disableShadow();
@@ -223,13 +219,17 @@ public class GameController implements ILoggable {
 	}
 
 	private void spawn(Double x, Double y) throws Exception {
-		BaseModel model = entityClassPair.getModelInstance();
-		BindingController bController = new BindingController(this, model);
-		BasicEntityView spawned = entityClassPair.getViewInstance(x, y, bController);
-		model.subscribe(spawned);
-		view.showSpawned(spawned);
-		game.addEntity((IConnectable) model);
-		model.start();
+		if(classPair instanceof EntityClassPair entityClassPair) {
+			BaseModel model = entityClassPair.getModelInstance();
+			BindingController bController = new BindingController(this, model);
+			BasicEntityView spawned = entityClassPair.getViewInstance(x, y, bController);
+			model.subscribe(spawned);
+			view.showSpawned(spawned);
+			game.addEntity((IConnectable) model);
+			model.start();
+		} else {
+			throw new IllegalArgumentException("wrong classpair");
+		}
 	}
 
 	private void disableShadow() {

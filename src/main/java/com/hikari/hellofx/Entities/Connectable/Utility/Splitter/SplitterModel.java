@@ -10,7 +10,6 @@ import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
 public class SplitterModel extends BasicUtilityEntityModel{	
-	private static final int OFFERING_INTERVAL_MS = 100;
 	private static final int BLOCKED_POINTS_TRUST_AMOUNT = 4;
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	private final ConnectionOutPoint outFirst;
@@ -77,21 +76,6 @@ public class SplitterModel extends BasicUtilityEntityModel{
 				commutateOneObject();
 			}
 		}
-//		if(outFirst.isFree() && outSecond.isFree()) {
-//			
-//		}
-//		if(!outFirst.isFree()) {
-//			o = in.get();
-//			notifySubs();
-//			outFirst.put(o);
-//			notifySubs();
-//		}
-//		if(!outSecond.isFree()) {
-//			o = in.get();
-//			notifySubs();
-//			outSecond.put(o);
-//			notifySubs();
-//		}
 	}
 
 	@Override

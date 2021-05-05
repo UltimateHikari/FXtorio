@@ -1,6 +1,6 @@
 package com.hikari.hellofx.Game.View;
 
-import com.hikari.hellofx.Entities.EntityClassPair;
+import com.hikari.hellofx.Entities.ClassPairs.EntityClassPair;
 import com.hikari.hellofx.Game.GameAction;
 import com.hikari.hellofx.Game.GameController;
 
