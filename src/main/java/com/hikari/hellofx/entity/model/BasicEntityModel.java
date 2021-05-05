@@ -5,13 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.hikari.hellofx.base.BaseModel;
+import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IPowerConnectable;
 
-public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable{
+public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable {
+	private Object payload = null;
 	private boolean isTurnedOn = false;
+	private BaseService basicService = null;
 	private ConnectableState state = ConnectableState.NO_POINTS;
-	private final Object monitor = new Object();
 
 	@Override
 	public void turnOff() {
@@ -19,23 +21,21 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 		super.notifySubs();
 	}
 
+	public void notifyService() {
+		synchronized (basicService) {
+			basicService.notify();
+		}
+	}
+
 	@Override
 	public void turnOn() {
 		isTurnedOn = true;
-		synchronized (monitor) {
-			monitor.notify();
-		}
+		notifyService();
 		super.notifySubs();
 	}
 
 	public boolean isOn() {
 		return isTurnedOn;
-	}
-
-	@Override
-	public boolean hasFreePoints() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public void despawn() {
@@ -52,27 +52,27 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 		state = state_;
 		notifySubs();
 	}
+	
+	public synchronized void setPayload(Object o) {
+		payload = o; 
+	}
+	
+	@Override
+	public synchronized Integer getFillCount() {
+		return payload == null ? 0 : 1;
+	}
+
 	@SafeVarargs
 	protected final <T> List<T> packPoints(T... args) {
 		return Arrays.asList(args).stream().filter(w -> (((ConnectionPoint) w).isFree()))
 				.collect(Collectors.toUnmodifiableList());
 	}
-	
-	@Override
-	public void run() {
-		while (true) {
-			try {
-				if(!isOn()) {
-					synchronized(monitor) {
-						monitor.wait();
-					}
-				}
-				performCycle();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+
+	public void connectService(BaseService service) {
+		basicService = service;
 	}
-	protected abstract void performCycle() throws InterruptedException;
+
+	public void disconnectService() {
+		basicService = null;
+	}
 }

@@ -67,7 +67,7 @@ public class ConnectionPoint extends BaseModel {
 	public Object get() throws InterruptedException {
 		// TODO add checking for exact connected connection/connectable?
 		isFull.acquire();
-		log.debug(this.getName() + " giving " + heldObject.toString());
+		log.debug(" giving " + heldObject.toString());
 		var res = heldObject;
 		heldObject = null;
 		isEmpty.release();
@@ -77,28 +77,28 @@ public class ConnectionPoint extends BaseModel {
 	public void put(Object o) throws InterruptedException {
 		isEmpty.acquire();
 		heldObject = o;
-		log.debug(this.getName() + " taking " + heldObject.toString());
+		log.debug(" taking " + heldObject.toString());
 		isFull.release();
 	}
 
 	public boolean offer(Object o) {
 		if (!isEmpty.tryAcquire()) {
-			log.debug(this.getName() + " -offered ");
+			log.debug(" -offered ");
 			return false;
 		} else {
 			heldObject = o;
 			isFull.release();
-			log.debug(this.getName() + " +offered " + heldObject.toString());
+			log.debug(" +offered " + heldObject.toString());
 			return true;
 		}
 	}
 
 	public Object poll() {
 		if (!isFull.tryAcquire()) {
-			log.debug(this.getName() + " -polled ");
+			log.debug(" -polled ");
 			return null;
 		} else {
-			log.debug(this.getName() + " +polled " + heldObject.toString());
+			log.debug(" +polled " + heldObject.toString());
 			var res = heldObject;
 			heldObject = null;
 			notifyParent();

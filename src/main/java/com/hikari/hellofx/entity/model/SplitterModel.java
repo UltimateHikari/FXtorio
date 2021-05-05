@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import lombok.Getter;
+
 public class SplitterModel extends BasicUtilityEntityModel {
-	private static final int BLOCKED_POINTS_TRUST_AMOUNT = 4;
+	@Getter
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	private final ConnectionOutPoint outFirst;
 	private final ConnectionOutPoint outSecond;
 	private final ConnectionOutPoint outThird;
+	@Getter
 	private final List<ConnectionOutPoint> outs;
 
 	public SplitterModel() {
@@ -29,51 +32,13 @@ public class SplitterModel extends BasicUtilityEntityModel {
 		return packPoints(outFirst, outSecond, outThird);
 	}
 
-	private int amountOfConnectedPoints() {
+	public int amountOfConnectedPoints() {
 		return outs.stream().map((o) -> (o.isFree() ? 0 : 1)).reduce(0, (a, b) -> a + b);
 
 	}
 
-	private void waitForAvailablePoint() throws InterruptedException {
-		synchronized (this) {
-			wait();
-		}
-	}
-
-	private void commutateOneObject() throws InterruptedException {
-		Object o;
-		var trust = BLOCKED_POINTS_TRUST_AMOUNT;
-		o = in.get();
-		notifySubs();
-		for (;;) {
-			for (ConnectionOutPoint p : outs) {
-				if (!p.isFree() && p.offer(o)) {
-					return;
-				}
-			}
-			trust--;
-			if (trust == 0) {
-				trust = BLOCKED_POINTS_TRUST_AMOUNT;
-				// go wait for someone to connect/ become free
-				waitForAvailablePoint();
-			}
-		}
-	}
-
-	protected void performCycle() throws InterruptedException {
-		var amount = amountOfConnectedPoints();
-		if (amount == 0) {
-			waitForAvailablePoint();
-		} else {
-			// TODO what about disconnects?
-			for (var i = 0; i < amount; i++) {
-				commutateOneObject();
-			}
-		}
-	}
-
 	@Override
-	public Integer getFillCount() {
+	public synchronized Integer getFillCount() {
 		// nothing stays inside
 		return 0;
 	}

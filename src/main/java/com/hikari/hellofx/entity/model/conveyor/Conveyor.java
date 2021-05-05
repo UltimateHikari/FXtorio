@@ -3,82 +3,81 @@ package com.hikari.hellofx.entity.model.conveyor;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import com.hikari.hellofx.base.BaseModel;
+import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnection;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 
-public class Conveyor extends BaseModel implements IConnection, ISuspendable{
+import lombok.Getter;
+
+public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 	private static final int EVENTS_SIZE = 10;
+	@Getter
 	private ConnectionInPoint dst;
+	@Getter
 	private ConnectionOutPoint src;
-	private boolean isTurnedOn = false;
-	private final int travelTime = 1000;
+	private static final int TRAVEL_TIME = 1000;
 	private ArrayBlockingQueue<ConnectionEvent> events = new ArrayBlockingQueue<ConnectionEvent>(EVENTS_SIZE);
-	
+
 	public Conveyor() {
-		//lolwhat
+		// lolwhat
 	}
-	
+
 	public Conveyor(ConnectionOutPoint source, ConnectionInPoint destination) {
 		connectDestination(destination);
 		destination.connect(this);
 		connectSource(source);
 		source.connect(this);
 	}
-	
+
 	@Override
 	public void turnOff() {
-		isTurnedOn = false;
+		// always on
 	}
 
 	@Override
 	public void turnOn() {
-		isTurnedOn = true;
+		// always on
 	}
 
 	@Override
 	public boolean isOn() {
-		return isTurnedOn;
+		return true;
 	}
 
 	@Override
 	public void connectDestination(ConnectionInPoint o) {
 		dst = o;
 	}
-	
+
 	public void connectSource(ConnectionOutPoint o) {
 		src = o;
 	}
-	
+
 	public long getTravelTime() {
-		return travelTime;
-	}
-	
-	public void run() {
-		while(true) {
-			try {
-				Object o = src.get();
-				events.add(ConnectionEvent.DEPARTED);
-				notifySubs();
-				sleep(travelTime);
-				dst.put(o);
-				events.add(ConnectionEvent.ARRIVED);
-				notifySubs();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
+		return TRAVEL_TIME;
 	}
 
-	@Override
 	public ConnectionEvent getLastConnectionEvent() {
-		if(!events.isEmpty()) {
+		if (!events.isEmpty()) {
 			return events.remove();
 		} else {
 			return ConnectionEvent.NOTHING;
 		}
+	}
+
+	public void addEvent(ConnectionEvent event) {
+		events.add(event);
+	}
+
+	@Override
+	public void connectService(BaseService service) {
+		// always on
+	}
+
+	@Override
+	public void disconnectService() {
+		// always on
 	}
 }

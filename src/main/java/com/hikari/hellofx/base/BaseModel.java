@@ -3,7 +3,7 @@ package com.hikari.hellofx.base;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class BaseModel extends Thread{
+public abstract class BaseModel {
 	private static Integer lastId = 0;
 	private final Integer id;
 	private final Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<>();

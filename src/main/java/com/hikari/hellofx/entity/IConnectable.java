@@ -7,7 +7,6 @@ import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 
 public interface IConnectable extends ISuspendable{
-	public boolean hasFreePoints();
 	public ConnectableState getConnectableState();
 	public void setConnectableState(ConnectableState state_);
 	public List<ConnectionInPoint> getInPoints();

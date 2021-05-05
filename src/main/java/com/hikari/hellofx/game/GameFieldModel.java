@@ -1,6 +1,7 @@
 package com.hikari.hellofx.game;
 
 import com.hikari.hellofx.base.BaseModel;
+import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
 
 /*
@@ -24,4 +25,15 @@ public class GameFieldModel extends BaseModel implements ISuspendable{
 	public boolean isOn() {
 		return isSpawning;
 	}
+	@Override
+	public void connectService(BaseService service) {
+		// no service
+		
+	}
+	@Override
+	public void disconnectService() {
+		// no service
+		
+	}
+	
 }

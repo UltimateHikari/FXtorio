@@ -37,7 +37,7 @@ public class ModelItem extends BaseModel{
 	}
 
 	
-	public int getPosition() {
+	private Integer getPosition() {
 		return position;
 	}
 
@@ -57,5 +57,10 @@ public class ModelItem extends BaseModel{
 		
 	public String getPayloadName() {
 		return payload != null ? payload.toString() : "ERR";
+	}
+	
+	@Override
+	public String toString() {
+		return getPosition().toString();
 	}
 }
