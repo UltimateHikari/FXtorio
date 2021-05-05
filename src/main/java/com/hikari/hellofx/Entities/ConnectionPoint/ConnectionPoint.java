@@ -12,13 +12,12 @@ import com.hikari.hellofx.Entities.Connection.IConnection;
  */
 
 public class ConnectionPoint extends BaseModel implements ILoggable{
-	//private final IConnectable parentEntity;
 	private final Double offsetX;
 	private final Double offsetY;
 	private double lastViewX; // TODO may be mvc leak??
 	private double lastViewY; //
 	protected IConnection connection = null;
-	private IConnectable parentEntity;
+	private final IConnectable parentEntity;
 
 	private static final int inThreadsCount = 1;
 	private final Semaphore isEmpty = new Semaphore(inThreadsCount);
@@ -34,12 +33,16 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 	public boolean isFree() {
 		return (connection == null);
 	}
-
-	public void connect(IConnection connection_) {
-		connection = connection_;
+	
+	private void notifyParent() {
 		synchronized(parentEntity) {
 			parentEntity.notify();
 		}
+	}
+
+	public void connect(IConnection connection_) {
+		connection = connection_;
+		notifyParent();
 	}
 
 	public void disconnect() {
@@ -108,6 +111,7 @@ public class ConnectionPoint extends BaseModel implements ILoggable{
 			//log(this.getName() + " +polled " + heldObject.toString());
 			Object res = heldObject;
 			heldObject = null;
+			notifyParent();
 			isEmpty.release();
 			return res;
 		}
