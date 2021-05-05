@@ -3,8 +3,8 @@ package com.hikari.hellofx;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.hikari.hellofx.Base.BaseModel;
-import com.hikari.hellofx.Game.View.GameView;
+import com.hikari.hellofx.base.BaseModel;
+import com.hikari.hellofx.game.view.GameView;
 
 public class AppModel extends BaseModel {
 	private final ArrayList<String> sceneClasses;

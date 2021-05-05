@@ -6,5 +6,5 @@ module com.hikari.hellofx {
 	requires lombok;
 	requires org.apache.logging.log4j;
 	exports com.hikari.hellofx;
-	exports com.hikari.hellofx.Base;
+	exports com.hikari.hellofx.base;
 }

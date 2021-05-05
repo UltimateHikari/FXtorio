@@ -1,7 +1,7 @@
 package com.hikari.hellofx;
 
-import com.hikari.hellofx.Game.View.GameView;
-import com.hikari.hellofx.Game.View.NavButton;
+import com.hikari.hellofx.game.view.GameView;
+import com.hikari.hellofx.game.view.NavButton;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

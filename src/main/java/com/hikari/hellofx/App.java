@@ -3,8 +3,8 @@ package com.hikari.hellofx;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import com.hikari.hellofx.Base.BaseModel;
-import com.hikari.hellofx.Base.IModelSubscriber;
+import com.hikari.hellofx.base.BaseModel;
+import com.hikari.hellofx.base.IModelSubscriber;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
