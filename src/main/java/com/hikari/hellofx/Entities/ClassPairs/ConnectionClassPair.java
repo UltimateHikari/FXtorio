@@ -10,7 +10,7 @@ import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class ConnectionClassPair implements IClassPair<BasicConnectionView>{
+public class ConnectionClassPair implements IClassPair {
 	private final Class<? extends BaseModel> model;
 	private final Class<? extends BasicConnectionView> view;
 
@@ -23,18 +23,16 @@ public class ConnectionClassPair implements IClassPair<BasicConnectionView>{
 	public BasicConnectionView getViewInstance(ConnectionOutPoint out, ConnectionInPoint in)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		return view.getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class)
-				.newInstance(out, in);
+		return view.getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class).newInstance(out, in);
 	}
-	
+
 	public BaseModel getModelInstance(ConnectionOutPoint out, ConnectionInPoint in)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		return model.getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class)
-				.newInstance(out, in);
+		return model.getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class).newInstance(out, in);
 	}
-	
-	public Class<? extends BasicConnectionView> getViewClass(){
+
+	public Class<? extends BasicConnectionView> getViewClass() {
 		return view;
 	}
 

@@ -1,7 +1,6 @@
 package com.hikari.hellofx.Entities;
 
 import com.hikari.hellofx.Base.BaseModel;
-import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.Connectable.ISuspendable;
 import com.hikari.hellofx.Game.View.DespawnButton;
@@ -9,10 +8,12 @@ import com.hikari.hellofx.Game.View.SuspendButton;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import lombok.extern.log4j.Log4j2;
 import javafx.application.Platform;
 import javafx.scene.Node;
 
-public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
+@Log4j2
+public class ConnectableInfo extends VBox implements IModelInfo{
 	private final Text text = new Text("");
 	private final SuspendButton btn;
 	BindingController controller;
@@ -29,6 +30,7 @@ public class ConnectableInfo extends VBox implements IModelInfo, ILoggable{
 		Platform.runLater(() -> { 
 			text.setText(state + "\n I am " + model);
 			btn.setText("turn " + stringifyReversePowerState((ISuspendable)model));
+			log.debug(state);
 			} 
 		);
 	}

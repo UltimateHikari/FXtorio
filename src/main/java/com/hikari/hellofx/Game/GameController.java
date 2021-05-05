@@ -3,7 +3,6 @@ package com.hikari.hellofx.Game;
 import java.util.ArrayDeque;
 
 import com.hikari.hellofx.Base.BaseModel;
-import com.hikari.hellofx.Base.ILoggable;
 import com.hikari.hellofx.Base.IModelInfo;
 import com.hikari.hellofx.Entities.BindingController;
 import com.hikari.hellofx.Entities.ConnectableInfo;
@@ -24,8 +23,10 @@ import com.hikari.hellofx.Game.View.GameView;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import lombok.extern.log4j.Log4j2;
 
-public class GameController implements ILoggable {
+@Log4j2
+public class GameController{
 	enum State {
 		Idle, Spawning, ConnectingFirst, ConnectingSecond
 	}
@@ -41,7 +42,7 @@ public class GameController implements ILoggable {
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
 	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<BaseModel>();
-	private IClassPair<?> classPair = null; //TODO careful
+	private IClassPair classPair = null; //TODO careful
 
 	public GameController(GameView view_) {
 		view = view_;
@@ -58,7 +59,7 @@ public class GameController implements ILoggable {
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
 
-	public void act(MouseEvent event, GameAction action_, IClassPair<?> classPair_) {
+	public void act(MouseEvent event, GameAction action_, IClassPair classPair_) {
 		lastAction = Action.Act;
 		action = action_;
 		classPair = classPair_;
@@ -77,7 +78,7 @@ public class GameController implements ILoggable {
 	}
 
 	private void assignHandler(MouseEvent event) {
-		log("Doing " + action + " because of " + event.getButton() + "; have " + noticed + " noticed");
+		log.info("Doing " + action + " because of " + event.getButton() + "; have " + noticed + " noticed");
 		switch (state) {
 		case Idle:
 			assignIfIdle(event);
@@ -85,8 +86,7 @@ public class GameController implements ILoggable {
 		case Spawning:
 			assignIfSpawning(event);
 			break;
-		case ConnectingFirst:
-		case ConnectingSecond:
+		case ConnectingFirst, ConnectingSecond:
 			assignIfConnecting(event);
 			break;
 		default:
@@ -163,7 +163,7 @@ public class GameController implements ILoggable {
 		try {
 			spawnConnection();
 		} catch(Exception e) {
-			log("Spawn of [ " + classPair.toString() + " ] failed. " + "Already in normal state.");
+			log.error("Spawn of [ " + classPair.toString() + " ] failed. " + "Already in normal state.");
 			e.printStackTrace();
 		}
 	}
@@ -177,12 +177,12 @@ public class GameController implements ILoggable {
 		if (lastAction == Action.Notice) {
 			noticed.removeLast();
 		}
-		log("ignoring " + noticed);
+		log.info("ignoring " + noticed);
 	}
 
 	private void spawnConnection() throws Exception{
 		if(classPair instanceof ConnectionClassPair connectionClassPair) {
-			log("spwn "  + connectionClassPair.toString());
+			log.info("spwn "  + connectionClassPair.toString());
 			ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
 			ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
 			BaseModel belt = connectionClassPair.getModelInstance(out, in);
@@ -194,7 +194,7 @@ public class GameController implements ILoggable {
 			game.addConnection((IConnection)belt);
 			view.showSpawned(spawned);
 			belt.start();
-			log("connected");
+			log.info("connected");
 		} else {
 			throw new IllegalArgumentException("wrong classpair");
 		}
@@ -210,7 +210,7 @@ public class GameController implements ILoggable {
 			try {
 				spawn(shadow.getX(), shadow.getY()/* ), entityName */);
 			} catch (Exception e) {
-				log("Spawn of [ " + classPair.toString() + " ] failed. " + "Returning to normal state.");
+				log.error("Spawn of [ " + classPair.toString() + " ] failed. " + "Returning to normal state.");
 			} finally {
 				state = State.Idle;
 				disableShadow();
@@ -264,7 +264,7 @@ public class GameController implements ILoggable {
 	}
 
 	public Object moveShadow(MouseEvent event) {
-		// log("movement on " + event.getX() + event.getY());
+		log.trace("movement on " + event.getX() + event.getY());
 		shadow.move(event.getX(), event.getY());
 		return null;
 	}
