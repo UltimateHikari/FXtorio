@@ -12,8 +12,4 @@ public interface IConnectable extends ISuspendable{
 	public List<ConnectionInPoint> getInPoints();
 	public List<ConnectionOutPoint> getOutPoints();
 	public Integer getFillCount();
-	
-	public void turnOff();
-	public void turnOn();
-	public boolean isOn();
 }

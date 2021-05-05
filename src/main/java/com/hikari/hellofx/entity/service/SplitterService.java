@@ -5,6 +5,9 @@ import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.SplitterModel;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class SplitterService extends BaseService{
 	private static final int BLOCKED_POINTS_TRUST_AMOUNT = 4;
 	public SplitterService(ISuspendable model) {
@@ -26,7 +29,9 @@ public class SplitterService extends BaseService{
 			if (trust == 0) {
 				trust = BLOCKED_POINTS_TRUST_AMOUNT;
 				// go wait for someone to connect/ become free
+				log.info("zzz");
 				selfWait();
+				log.info("awaken2");
 			}
 		}
 	}
@@ -35,7 +40,9 @@ public class SplitterService extends BaseService{
 		var model = (SplitterModel)getModel();
 		var amount = model.amountOfConnectedPoints();
 		if (amount == 0) {
+			log.info("zzz");
 			selfWait();
+			log.info("awaken1");
 		} else {
 			// TODO what about disconnects?
 			for (var i = 0; i < amount; i++) {

@@ -35,5 +35,10 @@ public class GameFieldModel extends BaseModel implements ISuspendable{
 		// no service
 		
 	}
+	@Override
+	public void notifyService() {
+		// no service
+		
+	}
 	
 }

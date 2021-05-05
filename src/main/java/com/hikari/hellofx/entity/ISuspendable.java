@@ -8,4 +8,5 @@ public interface ISuspendable {
 	public boolean isOn();
 	public void connectService(BaseService service);
 	public void disconnectService();
+	public void notifyService();
 }

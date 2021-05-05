@@ -98,4 +98,9 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 		//always on
 	}
 
+	@Override
+	public void notifyService() {
+		// alwaysOn
+	}
+
 }

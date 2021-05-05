@@ -80,4 +80,10 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 	public void disconnectService() {
 		// always on
 	}
+
+	@Override
+	public void notifyService() {
+		// always on
+		
+	}
 }

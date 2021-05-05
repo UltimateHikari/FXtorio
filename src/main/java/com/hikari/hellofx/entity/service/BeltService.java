@@ -11,8 +11,8 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class BeltService extends BaseService {
-	private int base;
-	private int end;
+	private int base = 0;
+	private int end = 0;
 	private Belt bModel;
 
 	public BeltService(ISuspendable model) {
