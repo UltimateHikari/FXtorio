@@ -7,7 +7,9 @@ import com.hikari.hellofx.Entities.Connection.BasicConnectionView;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class ConnectionClassPair implements IClassPair<BasicConnectionView>{
 	private final Class<? extends BaseModel> model;
 	private final Class<? extends BasicConnectionView> view;
@@ -15,7 +17,7 @@ public class ConnectionClassPair implements IClassPair<BasicConnectionView>{
 	public ConnectionClassPair(Class<? extends BaseModel> model_, Class<? extends BasicConnectionView> view_) {
 		model = model_;
 		view = view_;
-		System.out.println("created " + this);
+		log.info("created " + this);
 	}
 
 	public BasicConnectionView getViewInstance(ConnectionOutPoint out, ConnectionInPoint in)

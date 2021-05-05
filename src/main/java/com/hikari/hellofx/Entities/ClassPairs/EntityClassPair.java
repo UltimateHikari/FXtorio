@@ -6,6 +6,9 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.BindingController;
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityView;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class EntityClassPair implements IClassPair<BasicEntityView>{
 	private final Class<? extends BaseModel> model;
 	private final Class<? extends BasicEntityView> view;
@@ -13,7 +16,7 @@ public class EntityClassPair implements IClassPair<BasicEntityView>{
 	public EntityClassPair(Class<? extends BaseModel> model_, Class<? extends BasicEntityView> view_) {
 		model = model_;
 		view = view_;
-		System.out.println("created " + this);
+		log.info("created " + this);
 	}
 
 	public BasicEntityView getViewInstance(double x, double y, BindingController controller)
