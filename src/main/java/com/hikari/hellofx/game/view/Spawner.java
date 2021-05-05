@@ -1,10 +1,13 @@
 package com.hikari.hellofx.game.view;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IConnection;
+import com.hikari.hellofx.entity.IServiceable;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
@@ -25,8 +28,11 @@ public class Spawner {
 	private static Game game;
 	@Setter
 	private static GameView view;
-	//TODO register threads somehow
-	public static void spawnConnection(ConnectionOutPoint out, ConnectionInPoint in, ClassPack pack) throws Exception {
+
+	// TODO register threads somehow
+	public static void spawnConnection(ConnectionOutPoint out, ConnectionInPoint in, ClassPack pack)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
 		if (pack instanceof ConnectionClassPack cpack) {
 			log.info("spwn " + cpack.toString());
 
@@ -38,7 +44,6 @@ public class Spawner {
 					.newInstance((ISuspendable) model);
 
 			model.subscribe(spawned);
-			((ISuspendable)model).connectService(service);
 			model.notifySubs();
 
 			game.addConnection((IConnection) model);
@@ -50,7 +55,9 @@ public class Spawner {
 		}
 	}
 
-	public static void spawnEntity(Double x, Double y, ClassPack pack, GameController gcontroller) throws Exception {
+	public static void spawnEntity(Double x, Double y, ClassPack pack, GameController gcontroller)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
 		if (pack instanceof EntityClassPack epack) {
 			BaseModel model = epack.getModel().getDeclaredConstructor().newInstance();
 			var bController = new BindingController(gcontroller, model);
@@ -61,7 +68,7 @@ public class Spawner {
 					.newInstance((ISuspendable) model);
 
 			model.subscribe(spawned);
-			((ISuspendable) model).connectService(service);
+			((IServiceable) model).connectService(service);
 			view.showSpawned(spawned);
 			game.addEntity((IConnectable) model);
 			service.start();

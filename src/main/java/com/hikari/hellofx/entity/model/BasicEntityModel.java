@@ -8,8 +8,9 @@ import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IPowerConnectable;
+import com.hikari.hellofx.entity.IServiceable;
 
-public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable {
+public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable, IServiceable{
 	private Object payload = null;
 	private boolean isTurnedOn = false;
 	private BaseService basicService = null;

@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.hikari.hellofx.base.BaseModel;
-import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnection;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
@@ -86,21 +85,6 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 
 	public List<ModelItem> getItemModels() {
 		return items;
-	}
-
-	@Override
-	public void connectService(BaseService service) {
-		//always on
-	}
-
-	@Override
-	public void disconnectService() {
-		//always on
-	}
-
-	@Override
-	public void notifyService() {
-		// alwaysOn
 	}
 
 }

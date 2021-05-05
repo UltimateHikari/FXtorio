@@ -3,7 +3,6 @@ package com.hikari.hellofx.entity.model.conveyor;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import com.hikari.hellofx.base.BaseModel;
-import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnection;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
@@ -71,19 +70,4 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 		events.add(event);
 	}
 
-	@Override
-	public void connectService(BaseService service) {
-		// always on
-	}
-
-	@Override
-	public void disconnectService() {
-		// always on
-	}
-
-	@Override
-	public void notifyService() {
-		// always on
-		
-	}
 }
