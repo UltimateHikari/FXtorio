@@ -1,7 +1,8 @@
-package com.hikari.hellofx.entity.model;
+package com.hikari.hellofx.entity.service;
 
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.model.ConstructorModel;
 
 public class ConstructorService extends BaseService{
 	private final int PRODUCTION_TIME = 1000;

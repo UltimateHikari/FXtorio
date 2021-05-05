@@ -1,8 +1,8 @@
 package com.hikari.hellofx.game.view;
 
-import com.hikari.hellofx.entity.classpair.EntityClassPair;
 import com.hikari.hellofx.game.GameAction;
 import com.hikari.hellofx.game.GameController;
+import com.hikari.hellofx.game.classpack.EntityClassPack;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -16,12 +16,11 @@ import javafx.scene.paint.Color;
 
 public class SpawnButton extends Button {
 	public SpawnButton(GameController gcontroller, String label,
-			EntityClassPair entityClassPair, Color color) {
+			EntityClassPack entityClassPack, Color color) {
 		super(label);
 		setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-		//TODO pass this nightmare to css..?
 		setBorder(new Border(new BorderStroke(color.darker(), BorderStrokeStyle.SOLID, null, null)));
-		setOnMouseClicked((event) -> gcontroller.act(event, GameAction.ENTER_SPAWN, entityClassPair));
+		setOnMouseClicked((event) -> gcontroller.act(event, GameAction.ENTER_SPAWN, entityClassPack));
 		
 	}
 }

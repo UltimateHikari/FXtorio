@@ -4,22 +4,18 @@ import java.util.ArrayDeque;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
-import com.hikari.hellofx.entity.view.BasicConnectionView;
-import com.hikari.hellofx.entity.view.BasicEntityView;
 import com.hikari.hellofx.entity.view.ConnectableInfo;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
-import com.hikari.hellofx.entity.IConnection;
-import com.hikari.hellofx.entity.classpair.ConnectionClassPair;
-import com.hikari.hellofx.entity.classpair.EntityClassPair;
-import com.hikari.hellofx.entity.classpair.IClassPair;
 import com.hikari.hellofx.entity.model.BasicEntityModel;
 import com.hikari.hellofx.entity.model.ConnectableState;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.EntityShadow;
+import com.hikari.hellofx.game.classpack.ClassPack;
 import com.hikari.hellofx.game.view.GameField;
 import com.hikari.hellofx.game.view.GameView;
+import com.hikari.hellofx.game.view.Spawner;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -28,46 +24,48 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class GameController{
 	enum State {
-		Idle, Spawning, ConnectingFirst, ConnectingSecond
+		IDLE, SPAWNING, CONNECTING_FIRST, CONNECTING_SECOND
 	}
 
 	enum Action {
 		Notice, Act, Nop
 	}
 
-	private State state = State.Idle;
+	private State state = State.IDLE;
 	private Action lastAction = Action.Nop;
 	private GameAction action = GameAction.NOP;
 	private final Game game = new Game();
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
-	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<BaseModel>();
-	private IClassPair classPair = null; //TODO careful
+	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<>();
+	private ClassPack classPack = null;
 
 	public GameController(GameView view_) {
 		view = view_;
+		Spawner.setGame(game);
+		Spawner.setView(view_);
 	}
 
-	private void enableSpawningState() {
-		state = State.Spawning;
+	private void enableSPAWNINGState() {
+		state = State.SPAWNING;
 		game.getField().turnOn();
 		view.showShadow(shadow);
 	}
 
 	private void enableConnectingState() {
-		state = State.ConnectingFirst;
+		state = State.CONNECTING_FIRST;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
 
-	public void act(MouseEvent event, GameAction action_, IClassPair classPair_) {
+	public void act(MouseEvent event, GameAction action_, ClassPack pack) {
 		lastAction = Action.Act;
 		action = action_;
-		classPair = classPair_;
+		classPack = pack;
 		assignHandler(event);
 	}
 
 	public void act(MouseEvent event, GameAction action_) {
-		act(event, action_, classPair);
+		act(event, action_, classPack);
 	}
 
 	public void notice(BaseModel model, MouseEvent event, GameAction action_) {
@@ -80,20 +78,20 @@ public class GameController{
 	private void assignHandler(MouseEvent event) {
 		log.info("Doing " + action + " because of " + event.getButton() + "; have " + noticed + " noticed");
 		switch (state) {
-		case Idle:
-			assignIfIdle(event);
+		case IDLE:
+			assignIfIDLE(event);
 			break;
-		case Spawning:
-			assignIfSpawning(event);
+		case SPAWNING:
+			assignIfSPAWNING(event);
 			break;
-		case ConnectingFirst, ConnectingSecond:
+		case CONNECTING_FIRST, CONNECTING_SECOND:
 			assignIfConnecting(event);
 			break;
 		default:
 		}
 	}
 
-	private void assignIfIdle(MouseEvent event) {
+	private void assignIfIDLE(MouseEvent event) {
 		switch (action) {
 		case SUSPEND:
 			suspendEntity();
@@ -102,7 +100,7 @@ public class GameController{
 			showInfo();
 			break;
 		case ENTER_SPAWN:
-			enableSpawningState();
+			enableSPAWNINGState();
 			break;
 		case ENTER_CONNECT:
 			enableConnectingState();
@@ -111,20 +109,20 @@ public class GameController{
 			despawnEntity(event);
 			break;
 		case CANCEL:
-			returnToIdle();
+			returnToIDLE();
 			break;
 		default:
 			cancelOperation();
 		}
 	}
 
-	private void assignIfSpawning(MouseEvent event) {
+	private void assignIfSPAWNING(MouseEvent event) {
 		switch (action) {
 		case SPAWN:
 			spawnEntity(event);
 			break;
 		case CANCEL:
-			returnToIdle();
+			returnToIDLE();
 			break;
 		default:
 			cancelOperation();
@@ -140,36 +138,38 @@ public class GameController{
 			connectOut(event);
 			break;
 		case CANCEL:
-			returnToIdle();
+			returnToIDLE();
 			break;
 		default:
 			cancelOperation();
 		}
 	}
 
-	private void returnToIdle() {
-		if (state == State.Spawning) {
+	private void returnToIDLE() {
+		if (state == State.SPAWNING) {
 			disableShadow();
 		}
 		//TODO hide points of already checked
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
-		state = State.Idle;
+		state = State.IDLE;
 		noticed.clear();
 	}
 
 	private void connectIn(MouseEvent event) {
-		state = State.Idle;
+		state = State.IDLE;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
 		try {
-			spawnConnection();
+			ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
+			ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
+			Spawner.spawnConnection(out, in, classPack);
 		} catch(Exception e) {
-			log.error("Spawn of [ " + classPair.toString() + " ] failed. " + "Already in normal state.");
+			log.error("Spawn of [ " + classPack.toString() + " ] failed. " + "Already in normal state.");
 			e.printStackTrace();
 		}
 	}
 
 	private void connectOut(MouseEvent event) {
-		state = State.ConnectingSecond;
+		state = State.CONNECTING_SECOND;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.IN_POINTS));
 	}
 
@@ -179,56 +179,23 @@ public class GameController{
 		}
 		log.info("ignoring " + noticed);
 	}
-
-	private void spawnConnection() throws Exception{
-		if(classPair instanceof ConnectionClassPair connectionClassPair) {
-			log.info("spwn "  + connectionClassPair.toString());
-			ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
-			ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
-			BaseModel belt = connectionClassPair.getModelInstance(out, in);
-			BasicConnectionView spawned = connectionClassPair.getViewInstance(out, in);
-			
-			belt.subscribe(spawned);
-			belt.notifySubs();
-			
-			game.addConnection((IConnection)belt);
-			view.showSpawned(spawned);
-			belt.start();
-			log.info("connected");
-		} else {
-			throw new IllegalArgumentException("wrong classpair");
-		}
-	}
-
+	
 	private void despawnEntity(MouseEvent event) {
 		BaseModel model = noticed.remove();
 		((BasicEntityModel) model).despawn(); // TODO??? mb interface && handler?
 	}
 
 	private void spawnEntity(MouseEvent event) {
-		if (state == State.Spawning) {
+		if (state == State.SPAWNING) {
 			try {
-				spawn(shadow.getX(), shadow.getY()/* ), entityName */);
+				Spawner.spawnEntity(shadow.getX(), shadow.getY(), classPack, this);
 			} catch (Exception e) {
-				log.error("Spawn of [ " + classPair.toString() + " ] failed. " + "Returning to normal state.");
+				log.error("Spawn of [ "  + classPack.toString() + " ] failed. " + "Returning to normal state.");
+				e.printStackTrace();
 			} finally {
-				state = State.Idle;
+				state = State.IDLE;
 				disableShadow();
 			}
-		}
-	}
-
-	private void spawn(Double x, Double y) throws Exception {
-		if(classPair instanceof EntityClassPair entityClassPair) {
-			BaseModel model = entityClassPair.getModelInstance();
-			BindingController bController = new BindingController(this, model);
-			BasicEntityView spawned = entityClassPair.getViewInstance(x, y, bController);
-			model.subscribe(spawned);
-			view.showSpawned(spawned);
-			game.addEntity((IConnectable) model);
-			model.start();
-		} else {
-			throw new IllegalArgumentException("wrong classpair");
 		}
 	}
 

@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.hikari.hellofx.base.BaseService;
+
 import lombok.Getter;
 
-public class SplitterModel extends BasicUtilityEntityModel {
+public class SplitterModel extends BasicEntityModel {
 	@Getter
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	private final ConnectionOutPoint outFirst;
@@ -30,6 +32,12 @@ public class SplitterModel extends BasicUtilityEntityModel {
 	@Override
 	public List<ConnectionOutPoint> getOutPoints() {
 		return packPoints(outFirst, outSecond, outThird);
+	}
+	
+	@Override
+	public void connectService(BaseService service) {
+		super.connectService(service);
+		turnOn();
 	}
 
 	public int amountOfConnectedPoints() {

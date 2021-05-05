@@ -42,6 +42,7 @@ public class ConnectionPoint extends BaseModel {
 
 	private void notifyParent() {
 		synchronized (parentEntity) {
+			log.info("notifying " + parentEntity.toString());
 			parentEntity.notify();
 		}
 	}
