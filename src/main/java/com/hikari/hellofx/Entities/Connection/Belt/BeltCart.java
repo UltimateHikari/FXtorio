@@ -48,7 +48,7 @@ public class BeltCart extends Circle implements IModelSubscriber {
 	}
 
 	@Override
-	public void ModelChanged(BaseModel model) {
+	public void modelChanged(BaseModel model) {
 		if (model instanceof ModelItem m) {
 			ModelItemStatus status = m.getStatus();
 			payloadName = m.getPayloadName();

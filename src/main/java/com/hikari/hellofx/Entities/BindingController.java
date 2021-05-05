@@ -7,6 +7,7 @@ import com.hikari.hellofx.Game.GameAction;
 import com.hikari.hellofx.Game.GameController;
 
 import javafx.scene.input.MouseEvent;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /*
@@ -14,13 +15,10 @@ import lombok.extern.log4j.Log4j2;
  * so view can poke him, and he will poke gCon
  */
 @Log4j2
+@AllArgsConstructor
 public class BindingController{
 	private final GameController gController;
 	private final BaseModel model;
-	public BindingController(GameController gController_, BaseModel model_) {
-		gController = gController_;
-		model = model_;
-	}
 	
 	public void handleClick(MouseEvent event, GameAction action) {
 		log.debug("noticing " + model.toString());

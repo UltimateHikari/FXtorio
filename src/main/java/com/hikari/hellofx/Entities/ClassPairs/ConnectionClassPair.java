@@ -7,18 +7,12 @@ import com.hikari.hellofx.Entities.Connection.BasicConnectionView;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.AllArgsConstructor;
 
-@Log4j2
+@AllArgsConstructor
 public class ConnectionClassPair implements IClassPair {
 	private final Class<? extends BaseModel> model;
 	private final Class<? extends BasicConnectionView> view;
-
-	public ConnectionClassPair(Class<? extends BaseModel> model_, Class<? extends BasicConnectionView> view_) {
-		model = model_;
-		view = view_;
-		log.info("created " + this);
-	}
 
 	public BasicConnectionView getViewInstance(ConnectionOutPoint out, ConnectionInPoint in)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,

@@ -4,7 +4,7 @@ import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityModel;
 
 public abstract class BasicUtilityEntityModel extends BasicEntityModel {
 	
-	public BasicUtilityEntityModel() {
+	protected BasicUtilityEntityModel() {
 		turnOn();
 	}
 	

@@ -6,6 +6,7 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.Connectable.IConnectable;
 import com.hikari.hellofx.Entities.Connection.IConnection;
 
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 /*
@@ -13,9 +14,13 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 public class ConnectionPoint extends BaseModel {
+	@Getter
 	private final Double offsetX;
+	@Getter
 	private final Double offsetY;
+	@Getter
 	private double lastViewX; // TODO may be mvc leak??
+	@Getter
 	private double lastViewY; //
 	protected IConnection connection = null;
 	private final IConnectable parentEntity;
@@ -51,22 +56,6 @@ public class ConnectionPoint extends BaseModel {
 		connection = null;
 	}
 
-	public Double getOffsetX() {
-		return offsetX;
-	}
-
-	public Double getOffsetY() {
-		return offsetY;
-	}
-
-	public Double getLastViewX() {
-		return lastViewX;
-	}
-
-	public Double getLastViewY() {
-		return lastViewY;
-	}
-
 	public void setLastViewX(Double lastViewX_) {
 		lastViewX = lastViewX_;
 	}
@@ -79,7 +68,7 @@ public class ConnectionPoint extends BaseModel {
 		// TODO add checking for exact connected connection/connectable?
 		isFull.acquire();
 		log.debug(this.getName() + " giving " + heldObject.toString());
-		Object res = heldObject;
+		var res = heldObject;
 		heldObject = null;
 		isEmpty.release();
 		return res;

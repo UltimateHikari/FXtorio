@@ -1,6 +1,6 @@
 .classpath
 ./settings
-.settings/org.eclipse.core.resources.prefs
+.settings/*
 target/*
 .idea/
 hellofx.iml

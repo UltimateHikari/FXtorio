@@ -46,7 +46,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 	}
 
 	private void initItems() {
-		items = Stream.generate(() -> new ModelItem(null, slotsCount - 1)).limit(slotsCount)
+		items = Stream.generate(() -> new ModelItem(slotsCount - 1)).limit(slotsCount)
 				.collect(Collectors.toList());
 	}
 

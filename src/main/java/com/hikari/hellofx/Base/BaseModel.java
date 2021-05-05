@@ -3,12 +3,12 @@ package com.hikari.hellofx.Base;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class BaseModel extends Thread{
+public abstract class BaseModel extends Thread{
 	private static Integer lastId = 0;
 	private final Integer id;
-	private final Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<IModelSubscriber>();
+	private final Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<>();
 
-	public BaseModel() {
+	protected BaseModel() {
 		id = lastId;
 		lastId++;
 	}
@@ -36,6 +36,6 @@ public class BaseModel extends Thread{
 		}
 	}
 	private void notify(IModelSubscriber subscriber) {
-		subscriber.ModelChanged(this);
+		subscriber.modelChanged(this);
 	}
 }

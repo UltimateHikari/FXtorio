@@ -14,14 +14,14 @@ public class ConnectionPointView extends Circle implements IModelSubscriber {
 	
 	public ConnectionPointView(
 			ConnectionPoint model_, 
-			int PARENT_SIZE, 
+			double parentSize, 
 			BindingController controller,
 			Double parentX,
 			Double parentY
 			) {
 		super(
-				PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetX(), 
-				PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetY(),
+				parentSize/2 + parentSize*model_.getOffsetX(), 
+				parentSize/2 + parentSize*model_.getOffsetY(),
 				SIZE
 				);
 		setFill(Color.AQUA);
@@ -29,17 +29,17 @@ public class ConnectionPointView extends Circle implements IModelSubscriber {
 		
 		model.subscribe(this);
 		model.setLastViewX(
-				parentX + PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetX()
+				parentX + parentSize/2 + parentSize*model_.getOffsetX()
 				); // acturally its controller work
 		model.setLastViewY(
-				parentY + PARENT_SIZE/2 + PARENT_SIZE*model_.getOffsetY()
+				parentY + parentSize/2 + parentSize*model_.getOffsetY()
 				); // anyway
 		//arr super constructor forces copypaste
 		GameAction action = (model_ instanceof ConnectionInPoint ? GameAction.CONNECT_IN : GameAction.CONNECT_OUT);
-		setOnMouseClicked((event) -> controller.handleConnection(event, action, model));
+		setOnMouseClicked(event -> controller.handleConnection(event, action, model));
 	}
 	@Override
-	public void ModelChanged(BaseModel model_) {
+	public void modelChanged(BaseModel model_) {
 		// chill for now
 	}
 	public void unsubscribe() {

@@ -6,18 +6,12 @@ import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.BindingController;
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityView;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.AllArgsConstructor;
 
-@Log4j2
+@AllArgsConstructor
 public class EntityClassPair implements IClassPair {
 	private final Class<? extends BaseModel> model;
 	private final Class<? extends BasicEntityView> view;
-
-	public EntityClassPair(Class<? extends BaseModel> model_, Class<? extends BasicEntityView> view_) {
-		model = model_;
-		view = view_;
-		log.info("created " + this);
-	}
 
 	public BasicEntityView getViewInstance(double x, double y, BindingController controller)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,

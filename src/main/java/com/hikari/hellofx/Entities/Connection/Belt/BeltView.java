@@ -30,13 +30,13 @@ public class BeltView extends BasicConnectionView{
 		}
 		
 		@Override
-		public void ModelChanged(BaseModel model) {
+		public void modelChanged(BaseModel model) {
 			if(model instanceof Belt belt) {
 				double n = belt.getSlotsCount();
-				Point2D translation = new Point2D((end.getX() - start.getX())/n, (end.getY() - start.getY())/n);
+				var translation = new Point2D((end.getX() - start.getX())/n, (end.getY() - start.getY())/n);
 				List<ModelItem> items = belt.getItemModels();
 				for(ModelItem m : items) {
-					BeltCart cart = new BeltCart(start, translation, Duration.millis((double)belt.getCellTravelTime() - 10.0));
+					var cart = new BeltCart(start, translation, Duration.millis((double)belt.getCellTravelTime() - 10.0));
 					m.subscribe(cart);
 					carts.add(cart);
 					getChildren().add(cart);

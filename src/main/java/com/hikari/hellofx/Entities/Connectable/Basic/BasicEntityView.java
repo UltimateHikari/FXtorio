@@ -1,11 +1,10 @@
 package com.hikari.hellofx.Entities.Connectable.Basic;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Base.IModelSubscriber;
 import com.hikari.hellofx.Entities.BindingController;
-import com.hikari.hellofx.Entities.Connectable.ConnectableState;
 import com.hikari.hellofx.Entities.Connectable.IConnectable;
 import com.hikari.hellofx.Entities.Connectable.ISuspendable;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionPoint;
@@ -18,8 +17,8 @@ import javafx.scene.paint.Color;
 
 public class BasicEntityView extends Pane implements IModelSubscriber {
 	private final ShapePane shapePane;
-	private final static int SIZE = 40;
-	private final int DEFAULT_CHILDREN_SIZE = 1;
+	private static final double SIZE = 40;
+	private static final int DEFAULT_CHILDREN_SIZE = 1;
 	private final BindingController bController;
 
 	public BasicEntityView(double x, double y, BindingController controller, Color color) {
@@ -29,37 +28,32 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		setPrefSize(SIZE, SIZE);
 
 		shapePane = new ShapePane(SIZE, color);
-		shapePane.setOnMouseClicked((event) -> bController.handleClick(event, GameAction.INFO));
+		shapePane.setOnMouseClicked(event -> bController.handleClick(event, GameAction.INFO));
 		placeDefaultChildren();
 	}
 
 	@Override
-	public void ModelChanged(BaseModel model) {
-//		TODO if(!(model instanceof ConstructorModel)) {
-		String labelText = checkPower((ISuspendable) model) + 
-				" " + 
-				checkFill((IConnectable) model);
-		Platform.runLater(
-			() -> { 
-			shapePane.getLabel().setText(labelText);
-			showPoints((IConnectable) model);
-			}
-		);
+	public void modelChanged(BaseModel model) {
+		if (model instanceof IConnectable cModel) {
+			String labelText = checkPower(cModel) + " " + checkFill(cModel);
+			Platform.runLater(() -> {
+				shapePane.getLabel().setText(labelText);
+				showPoints(cModel);
+			});
+		}
 	}
 
 	private void showPoints(IConnectable cModel) {
-		ConnectableState state = cModel.getConnectableState();
+		var state = cModel.getConnectableState();
+		clearChildren();
 		switch (state) {
-		case NO_POINTS:
-			clearChildren();
-			break;
 		case IN_POINTS:
-			clearChildren();
 			showPoints(cModel.getInPoints());
 			break;
 		case OUT_POINTS:
-			clearChildren();
 			showPoints(cModel.getOutPoints());
+			break;
+		case NO_POINTS:
 			break;
 		}
 	}
@@ -68,13 +62,13 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		if (getChildren().size() == DEFAULT_CHILDREN_SIZE) {
 			return;
 		}
-		getChildren().stream().filter(w -> w instanceof ConnectionPointView)
+		getChildren().stream().filter(ConnectionPointView.class::isInstance)
 				.forEach(w -> ((ConnectionPointView) w).unsubscribe());
 		getChildren().clear();
 		placeDefaultChildren();
 	}
 
-	private void showPoints(ArrayList<? extends ConnectionPoint> points) {
+	private void showPoints(List<? extends ConnectionPoint> points) {
 		for (ConnectionPoint p : points) {
 			getChildren().add(new ConnectionPointView(p, SIZE, bController, getLayoutX(), getLayoutY()));
 		}

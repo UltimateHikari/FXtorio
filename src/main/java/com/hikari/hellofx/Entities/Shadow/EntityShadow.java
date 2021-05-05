@@ -2,6 +2,9 @@ package com.hikari.hellofx.Entities.Shadow;
 
 import com.hikari.hellofx.Base.BaseModel;
 
+import lombok.Getter;
+
+@Getter
 public class EntityShadow extends BaseModel {
 	private double x = 0.0;
 	private double y = 0.0;
@@ -10,13 +13,5 @@ public class EntityShadow extends BaseModel {
 		x = x_;
 		y = y_;
 		notifySubs();
-	}
-
-	public double getX() {
-		return x;
-	}
-
-	public double getY() {
-		return y;
 	}
 }

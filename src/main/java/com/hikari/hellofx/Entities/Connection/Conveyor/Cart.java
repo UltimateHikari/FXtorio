@@ -13,8 +13,6 @@ public class Cart extends Circle {
 		super(p.getX(), p.getY(), 10);
 		view = view_;
 		setFill(Color.VIOLET);
-		//setCache(true);
-		//setCacheHint(CacheHint.SPEED);
 		Platform.runLater(() -> view.getChildren().add(this));
 	}
 

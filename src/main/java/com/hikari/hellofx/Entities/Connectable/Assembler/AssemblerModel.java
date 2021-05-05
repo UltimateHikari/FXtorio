@@ -1,13 +1,13 @@
 package com.hikari.hellofx.Entities.Connectable.Assembler;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityModel;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
 public class AssemblerModel extends BasicEntityModel {
-	private final int productionTime = 1000;
+	private static final int PRODUCTION_TIME = 1000;
 	private Object resourceLeft = null;
 	private Object resourceRight = null;
 	private Object o = null;
@@ -18,12 +18,12 @@ public class AssemblerModel extends BasicEntityModel {
 	private final ConnectionOutPoint out = new ConnectionOutPoint(this, 0.5, 0.0);
 	
 	@Override
-	public ArrayList<ConnectionInPoint> getInPoints() {
+	public List<ConnectionInPoint> getInPoints() {
 		return packPoints(inLeft, inRight);
 	}
 
 	@Override
-	public ArrayList<ConnectionOutPoint> getOutPoints() {
+	public List<ConnectionOutPoint> getOutPoints() {
 		return packPoints(out);
 	}
 	
@@ -32,7 +32,7 @@ public class AssemblerModel extends BasicEntityModel {
 		notifySubs();
 		resourceRight = inRight.get();
 		notifySubs();
-		sleep(productionTime);
+		sleep(PRODUCTION_TIME);
 		o = new Object();
 		out.put(o);
 		o = null;

@@ -1,7 +1,8 @@
 package com.hikari.hellofx.Entities.Connectable.Storage;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityModel;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
@@ -13,13 +14,13 @@ public class StorageModel extends BasicEntityModel{
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	
 	@Override
-	public ArrayList<ConnectionInPoint> getInPoints() {
+	public List<ConnectionInPoint> getInPoints() {
 		return packPoints(in);
 	}
 
 	@Override
-	public ArrayList<ConnectionOutPoint> getOutPoints() {
-		return new ArrayList<ConnectionOutPoint>();
+	public List<ConnectionOutPoint> getOutPoints() {
+		return Collections.emptyList();
 	}
 	
 	protected void performCycle() throws InterruptedException {
