@@ -1,5 +1,8 @@
 package com.hikari.hellofx;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class SceneController {
 	private final AppModel model;
 	
@@ -12,7 +15,7 @@ public class SceneController {
 			model.setCurrentScene(nextSceneName);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error changing scene: " + e.getMessage());
+			log.error("Error changing scene: " + e.getMessage());
 		}
 	}
 }
