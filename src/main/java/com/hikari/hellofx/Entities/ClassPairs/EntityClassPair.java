@@ -1,11 +1,12 @@
-package com.hikari.hellofx.Entities;
+package com.hikari.hellofx.Entities.ClassPairs;
 
 import java.lang.reflect.InvocationTargetException;
 
 import com.hikari.hellofx.Base.BaseModel;
+import com.hikari.hellofx.Entities.BindingController;
 import com.hikari.hellofx.Entities.Connectable.Basic.BasicEntityView;
 
-public class EntityClassPair {
+public class EntityClassPair implements IClassPair<BasicEntityView>{
 	private final Class<? extends BaseModel> model;
 	private final Class<? extends BasicEntityView> view;
 

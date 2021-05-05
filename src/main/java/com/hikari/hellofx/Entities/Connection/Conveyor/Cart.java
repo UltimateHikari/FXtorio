@@ -1,8 +1,7 @@
-package com.hikari.hellofx.Entities.Connection;
+package com.hikari.hellofx.Entities.Connection.Conveyor;
 
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
-import javafx.scene.CacheHint;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;

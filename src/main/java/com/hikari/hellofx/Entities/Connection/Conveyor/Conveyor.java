@@ -4,7 +4,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import com.hikari.hellofx.Base.BaseModel;
 import com.hikari.hellofx.Entities.Connectable.ISuspendable;
-import com.hikari.hellofx.Entities.Connection.ConnectionEvent;
 import com.hikari.hellofx.Entities.Connection.IConnection;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
@@ -76,6 +75,10 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable{
 
 	@Override
 	public ConnectionEvent getLastConnectionEvent() {
-		return events.remove();
+		if(!events.isEmpty()) {
+			return events.remove();
+		} else {
+			return ConnectionEvent.NOTHING;
+		}
 	}
 }

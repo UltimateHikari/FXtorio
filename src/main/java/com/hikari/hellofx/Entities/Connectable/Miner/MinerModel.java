@@ -7,7 +7,7 @@ import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
 public class MinerModel extends BasicEntityModel{
-	private final int productionTime = 1000;
+	private final int productionTime = 250;
 	Object o = null;
 	private final ConnectionOutPoint out = new ConnectionOutPoint(this, 0.5, 0.0);
 	

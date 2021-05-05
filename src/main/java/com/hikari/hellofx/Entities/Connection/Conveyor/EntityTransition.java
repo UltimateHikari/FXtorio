@@ -1,4 +1,4 @@
-package com.hikari.hellofx.Entities.Connection;
+package com.hikari.hellofx.Entities.Connection.Conveyor;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;

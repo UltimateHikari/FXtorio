@@ -1,5 +1,6 @@
 package com.hikari.hellofx.Entities.Connection;
 
+import com.hikari.hellofx.Entities.Connection.Conveyor.ConnectionEvent;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionInPoint;
 import com.hikari.hellofx.Entities.ConnectionPoint.ConnectionOutPoint;
 
