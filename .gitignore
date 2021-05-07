@@ -1,0 +1,6 @@
+.classpath
+./settings
+.settings/*
+target/*
+.idea/
+hellofx.iml
