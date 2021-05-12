@@ -34,6 +34,9 @@ public class Spawner {
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 		if (pack instanceof ConnectionClassPack cpack) {
+			if(out.parentEquals(in)) {
+				throw new IllegalArgumentException("points have same parent");
+			}
 			log.info("spwn " + cpack.toString());
 
 			BaseModel model = cpack.getModel().getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class)

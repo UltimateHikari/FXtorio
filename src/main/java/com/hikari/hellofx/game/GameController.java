@@ -162,8 +162,8 @@ public class GameController{
 			ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
 			Spawner.spawnConnection(out, in, classPack);
 		} catch(Exception e) {
-			log.error("Spawn of [ " + classPack.toString() + " ] failed. " + "Already in normal state.");
-			e.printStackTrace();
+			log.error("Spawn of [ " + classPack.toString() + " ] failed. " + "Already in normal state.", e);
+			//e.printStackTrace();
 		}
 	}
 

@@ -110,4 +110,13 @@ public class ConnectionPoint extends BaseModel {
 			return res;
 		}
 	}
+	
+	//this two for preventing self-connecting with spawner
+	IServiceable getParentEntity() {
+		return parentEntity;
+	}
+	
+	public boolean parentEquals(ConnectionPoint other) {
+		return parentEntity.equals(parentEntity);
+	}
 }
