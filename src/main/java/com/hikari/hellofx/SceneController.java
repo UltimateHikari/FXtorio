@@ -10,12 +10,11 @@ public class SceneController {
 		model = model_;
 	}
 	
-	public void changeCurrentScene(String nextSceneName){
+	public void changeCurrentScene(SceneClass nextSceneName){
 		try {
 			model.setCurrentScene(nextSceneName);
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("Error changing scene: " + e.getMessage());
+			log.error("Error changing scene: ", e);
 		}
 	}
 }

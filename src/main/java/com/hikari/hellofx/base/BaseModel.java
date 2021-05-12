@@ -1,12 +1,12 @@
 package com.hikari.hellofx.base;
 
-import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public abstract class BaseModel {
 	private static Integer lastId = 0;
 	private final Integer id;
-	private final Collection<IModelSubscriber> subscribers = new CopyOnWriteArrayList<>();
+	private final Set<IModelSubscriber> subscribers = new CopyOnWriteArraySet<>();
 
 	protected BaseModel() {
 		id = lastId;
@@ -22,9 +22,6 @@ public abstract class BaseModel {
 	}
 	
 	public void subscribe(IModelSubscriber subscriber) {
-		if(subscribers.contains(subscriber)) {
-			throw new IllegalArgumentException("already subscribed");
-		}
 		subscribers.add(subscriber);
 	}
 	public void unsubscribe(IModelSubscriber subscriber) {

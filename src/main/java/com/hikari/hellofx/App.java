@@ -21,7 +21,7 @@ public class App extends Application implements IModelSubscriber {
 	private Stage stage;
 	private final AppModel appModel = new AppModel();
 	private final SceneController sceneController = new SceneController(appModel);
-	private final HashMap<String, Scene> scenes = new HashMap<>();
+	private final HashMap<SceneClass, Scene> scenes = new HashMap<>();
 	private static final Integer WIDTH = 1280;
 	private static final Integer HEIGHT = 720;
 
@@ -48,11 +48,10 @@ public class App extends Application implements IModelSubscriber {
 
 	private void prepareScenes() throws ClassNotFoundException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		for (String sceneClassName : appModel.getSceneClasses()) {
-			Class<?> clazz = Class.forName(sceneClassName);
-			GridPane newPane = (GridPane) clazz.getDeclaredConstructor(sceneController.getClass())
+		for (SceneClass s : SceneClass.values()) {
+			GridPane newPane = s.getSceneClass().getDeclaredConstructor(SceneController.class)
 					.newInstance(sceneController);
-			scenes.put(sceneClassName, new Scene(newPane, WIDTH, HEIGHT));
+			scenes.put(s, new Scene(newPane, WIDTH, HEIGHT));
 		}
 	}
 

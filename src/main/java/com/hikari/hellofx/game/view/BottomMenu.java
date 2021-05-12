@@ -1,6 +1,6 @@
 package com.hikari.hellofx.game.view;
 
-import com.hikari.hellofx.MenuView;
+import com.hikari.hellofx.SceneClass;
 import com.hikari.hellofx.SceneController;
 import com.hikari.hellofx.entity.view.AssemblerView;
 import com.hikari.hellofx.entity.view.ConstructorView;
@@ -26,7 +26,7 @@ public class BottomMenu extends HBox {
 		add(new SpawnButton(gcontroller, "Splitter", EntityClassPack.SPLITTER, SplitterView.getColor()));
 		add(new ConnectionButton(gcontroller, "Conveyor", ConnectionClassPack.CONVEYOR));
 		add(new ConnectionButton(gcontroller, "Belt", ConnectionClassPack.BELT));
-		add(new NavButton(controller, "Main menu", MenuView.class.getName()));
+		add(new NavButton(controller, "Main menu", SceneClass.MENU));
 		add(new CancelButton(gcontroller, "LazyCancel"));
 	}
 

@@ -1,4 +1,4 @@
-package com.hikari.hellofx.game.view;
+package com.hikari.hellofx.game;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -13,11 +13,10 @@ import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.BasicEntityView;
-import com.hikari.hellofx.game.Game;
-import com.hikari.hellofx.game.GameController;
 import com.hikari.hellofx.game.classpack.ClassPack;
 import com.hikari.hellofx.game.classpack.ConnectionClassPack;
 import com.hikari.hellofx.game.classpack.EntityClassPack;
+import com.hikari.hellofx.game.view.GameView;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -30,6 +29,7 @@ public class Spawner {
 	private static GameView view;
 
 	// TODO register threads somehow
+	// TODO ban self-connection
 	public static void spawnConnection(ConnectionOutPoint out, ConnectionInPoint in, ClassPack pack)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {

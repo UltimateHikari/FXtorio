@@ -15,7 +15,6 @@ import com.hikari.hellofx.entity.model.EntityShadow;
 import com.hikari.hellofx.game.classpack.ClassPack;
 import com.hikari.hellofx.game.view.GameField;
 import com.hikari.hellofx.game.view.GameView;
-import com.hikari.hellofx.game.view.Spawner;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;

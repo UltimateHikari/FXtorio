@@ -1,6 +1,5 @@
 package com.hikari.hellofx;
 
-import com.hikari.hellofx.game.view.GameView;
 import com.hikari.hellofx.game.view.NavButton;
 
 import javafx.geometry.Insets;
@@ -17,7 +16,7 @@ public class MenuView extends GridPane{
 		setPadding(new Insets(25,25,25,25));
 
 		
-		add(new NavButton(controller, "Continue", GameView.class.getName()), 0, 0);
+		add(new NavButton(controller, "Continue", SceneClass.GAME), 0, 0);
 		add(new Button("New game"), 0, 1);
 		add(new Button("Load game"), 0, 2);
 		add(new Button("Credits"), 0, 3);
