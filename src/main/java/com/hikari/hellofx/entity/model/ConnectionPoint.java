@@ -117,6 +117,6 @@ public class ConnectionPoint extends BaseModel {
 	}
 	
 	public boolean parentEquals(ConnectionPoint other) {
-		return parentEntity.equals(parentEntity);
+		return parentEntity.equals(other);
 	}
 }
