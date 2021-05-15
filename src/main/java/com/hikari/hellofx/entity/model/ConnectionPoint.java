@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.entity.IConnection;
-import com.hikari.hellofx.entity.IServiceable;
+import com.hikari.hellofx.entity.IServiceNotifier;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -23,14 +23,14 @@ public class ConnectionPoint extends BaseModel {
 	@Getter
 	private double lastViewY; //
 	protected IConnection connection = null;
-	private final IServiceable parentEntity;
+	private final IServiceNotifier parentEntity;
 
 	private static final int INTHREADSCOUNT = 1;
 	private final Semaphore isEmpty = new Semaphore(INTHREADSCOUNT);
 	private final Semaphore isFull = new Semaphore(0);
 	private Object heldObject = null;
 
-	public ConnectionPoint(IServiceable entity, Double offsetX_, Double offsetY_) {
+	public ConnectionPoint(IServiceNotifier entity, Double offsetX_, Double offsetY_) {
 		parentEntity = entity;
 		offsetX = offsetX_;
 		offsetY = offsetY_;
@@ -112,7 +112,7 @@ public class ConnectionPoint extends BaseModel {
 	}
 	
 	//this two for preventing self-connecting with spawner
-	IServiceable getParentEntity() {
+	IServiceNotifier getParentEntity() {
 		return parentEntity;
 	}
 	

@@ -17,6 +17,7 @@ public class MergerService extends BaseService{
 	}
 	
 	private Object pollOneObject(List<ConnectionInPoint> ins) throws InterruptedException {
+		//TODO actually works wrong, prefers first point istead of full loop. rework.
 		Object o;
 		var trust = BLOCKED_POINTS_TRUST_AMOUNT;
 		for (;;) {

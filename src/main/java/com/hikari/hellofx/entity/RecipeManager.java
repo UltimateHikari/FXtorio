@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.game.classpack.EntityClassPack;
@@ -33,7 +34,11 @@ public class RecipeManager {
 		}
 		return instance;
 	}
-	public List<Recipe> getRecipeList(Class<? extends IConnectable> producer) {
-		return null;
+	public List<Recipe> getRecipeList(Class<? extends IProducer> producer) {
+		return recipes.get(producer);
+	}
+	
+	public List<Items> getAllPossibleProducables(Class<? extends IProducer> producer){
+		return getRecipeList(producer).stream().map(Recipe::produce).collect(Collectors.toList());
 	}
 }

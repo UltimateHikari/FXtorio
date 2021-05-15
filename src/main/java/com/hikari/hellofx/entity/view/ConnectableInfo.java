@@ -1,9 +1,14 @@
 package com.hikari.hellofx.entity.view;
 
+import java.util.List;
+
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
 import com.hikari.hellofx.entity.BindingController;
+import com.hikari.hellofx.entity.IProducer;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.Items;
+import com.hikari.hellofx.entity.RecipeManager;
 import com.hikari.hellofx.game.view.DespawnButton;
 import com.hikari.hellofx.game.view.SuspendButton;
 
@@ -29,12 +34,24 @@ public class ConnectableInfo extends VBox implements IModelInfo {
 
 	@Override
 	public void modelChanged(BaseModel model) {
+		//controller notifies before actually showing
+		if(text.getText().equals("")) {
+			initRecipeButtons((IProducer)model);
+		}
+		
 		String state = "My state is " + ((ISuspendable) model).isOn();
 		Platform.runLater(() -> {
 			text.setText(state + "\n I am " + model);
 			btn.setText("turn " + stringifyReversePowerState((ISuspendable) model));
 			log.debug(state);
 		});
+	}
+
+	private void initRecipeButtons(IProducer model) {
+		log.info(model.getClass().getName(), model);
+		for(Items i : RecipeManager.instance().getAllPossibleProducables(model.getClass())) {
+			//make a button
+		}
 	}
 
 	private String stringifyReversePowerState(ISuspendable model) {

@@ -7,7 +7,7 @@ import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IConnection;
-import com.hikari.hellofx.entity.IServiceable;
+import com.hikari.hellofx.entity.IServiceNotifier;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
@@ -71,7 +71,7 @@ public class Spawner {
 					.newInstance((ISuspendable) model);
 
 			model.subscribe(spawned);
-			((IServiceable) model).connectService(service);
+			((IServiceNotifier) model).connectService(service);
 			view.showSpawned(spawned);
 			game.addEntity((IConnectable) model);
 			service.start();
