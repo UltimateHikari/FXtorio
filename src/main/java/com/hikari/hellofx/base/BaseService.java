@@ -22,6 +22,10 @@ public abstract class BaseService extends Thread{
 		return model;
 	}
 	
+	public void safeStop() {
+		this.interrupt();
+	}
+	
 	@Override
 	public void run() {
 		while (true) {
@@ -32,7 +36,8 @@ public abstract class BaseService extends Thread{
 				performCycle();
 			} catch (InterruptedException e) {
 				log.error("Interrupted");
-				//TODO interrupt mb?
+				return;
+				//TODO conditional variable? methods for safer stop/start/kill
 			}
 		}
 	}

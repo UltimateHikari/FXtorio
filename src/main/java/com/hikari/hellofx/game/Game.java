@@ -32,7 +32,7 @@ public class Game extends BaseModel{
 	
 	public BasicEntityView removeEntity(IConnectable model) {
 		//TODO rework to proper interrupt and stop-the-world
-		entityServices.get(model).interrupt();
+		entityServices.get(model).safeStop();
 		entityServices.remove(model);
 		var view = entityViews.get(model);
 		entityViews.remove(model);
