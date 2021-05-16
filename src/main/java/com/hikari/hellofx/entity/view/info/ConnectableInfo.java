@@ -5,7 +5,7 @@ import com.hikari.hellofx.base.IModelInfo;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IProducer;
 import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.entity.Items;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.RecipeManager;
 
 import javafx.scene.layout.VBox;
@@ -45,7 +45,7 @@ public class ConnectableInfo extends VBox implements IModelInfo {
 
 	private void initRecipeButtons(IProducer model) {
 		log.info(model.getClass().getName(), model);
-		for(Items i : RecipeManager.instance().getAllPossibleProducables(model.getClass())) {
+		for(Item i : RecipeManager.instance().getAllPossibleProducables(model.getClass())) {
 			add(new RecipeButton(controller, i.toString(), i));
 		}
 	}

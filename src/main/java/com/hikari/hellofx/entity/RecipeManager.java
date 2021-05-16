@@ -16,16 +16,16 @@ public class RecipeManager {
 		recipes.put(
 				EntityClassPack.MINER.getModel(), 
 				Arrays.asList(
-						new Recipe(Items.IRON),
-						new Recipe(Items.COPPER)
+						new Recipe(Item.IRON),
+						new Recipe(Item.COPPER)
 						));
 		recipes.put(
 				EntityClassPack.CONSTRUCTOR.getModel(), 
 				Arrays.asList(
-						new Recipe(Set.of(Items.IRON), Items.IRON_PLATE),
-						new Recipe(Set.of(Items.IRON), Items.IRON_ROD),
-						new Recipe(Set.of(Items.IRON_ROD), Items.SCREW),
-						new Recipe(Set.of(Items.COPPER), Items.WIRE)	
+						new Recipe(Set.of(Item.IRON), Item.IRON_PLATE),
+						new Recipe(Set.of(Item.IRON), Item.IRON_ROD),
+						new Recipe(Set.of(Item.IRON_ROD), Item.SCREW),
+						new Recipe(Set.of(Item.COPPER), Item.WIRE)	
 						));
 	}
 	public static RecipeManager instance() {
@@ -38,7 +38,7 @@ public class RecipeManager {
 		return recipes.get(producer);
 	}
 	
-	public List<Items> getAllPossibleProducables(Class<? extends IProducer> producer){
+	public List<Item> getAllPossibleProducables(Class<? extends IProducer> producer){
 		return getRecipeList(producer).stream().map(Recipe::produce).collect(Collectors.toList());
 	}
 }

@@ -2,6 +2,7 @@ package com.hikari.hellofx.entity.service;
 
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.SplitterModel;
 
@@ -15,7 +16,7 @@ public class SplitterService extends BaseService{
 	}
 	
 	private void commutateOneObject(SplitterModel model) throws InterruptedException {
-		Object o;
+		Item o;
 		var trust = BLOCKED_POINTS_TRUST_AMOUNT;
 		o = model.getIn().get();
 		model.notifySubs();

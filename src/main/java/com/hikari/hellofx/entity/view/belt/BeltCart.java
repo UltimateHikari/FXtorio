@@ -2,7 +2,7 @@ package com.hikari.hellofx.entity.view.belt;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelSubscriber;
-import com.hikari.hellofx.entity.model.belt.ModelItem;
+import com.hikari.hellofx.entity.model.belt.ItemCarriage;
 import com.hikari.hellofx.entity.model.belt.ModelItemStatus;
 
 import javafx.animation.TranslateTransition;
@@ -18,6 +18,7 @@ import lombok.extern.log4j.Log4j2;
 public class BeltCart extends Circle implements IModelSubscriber {
 	private static final int CART_RADIUS = 10;
 	private final TranslateTransition tr = new TranslateTransition();
+	private Color fill;
 	private String payloadName;
 
 	public BeltCart(Point2D position, Point2D translation, Duration travelTime) {
@@ -38,6 +39,7 @@ public class BeltCart extends Circle implements IModelSubscriber {
 
 	private void move() {
 		this.setVisible(true);
+		this.setFill(fill);
 		tr.play();
 		log.trace("moved " + payloadName);
 	}
@@ -51,10 +53,11 @@ public class BeltCart extends Circle implements IModelSubscriber {
 
 	@Override
 	public void modelChanged(BaseModel model) {
-		if (model instanceof ModelItem m) {
+		if (model instanceof ItemCarriage m) {
 			ModelItemStatus status = m.getStatus();
 			payloadName = m.getPayloadName();
 			if (status == ModelItemStatus.MOVED) {
+				fill = m.peekItem().getColor();
 				Platform.runLater(this::move);
 			} else if (status == ModelItemStatus.DISPATCHED) {
 				Platform.runLater(this::rewind);

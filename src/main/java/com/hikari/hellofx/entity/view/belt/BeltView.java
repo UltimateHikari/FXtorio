@@ -7,7 +7,7 @@ import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.belt.Belt;
-import com.hikari.hellofx.entity.model.belt.ModelItem;
+import com.hikari.hellofx.entity.model.belt.ItemCarriage;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 
 import javafx.geometry.Point2D;
@@ -33,11 +33,12 @@ public class BeltView extends BasicConnectionView{
 		
 		@Override
 		public void modelChanged(BaseModel model) {
+			//initial subscription
 			if(model instanceof Belt belt) {
 				double n = belt.getSlotsCount();
 				var translation = new Point2D((end.getX() - start.getX())/n, (end.getY() - start.getY())/n);
-				List<ModelItem> items = belt.getItemModels();
-				for(ModelItem m : items) {
+				List<ItemCarriage> items = belt.getItemModels();
+				for(ItemCarriage m : items) {
 					var cart = new BeltCart(start, translation, Duration.millis((double)belt.getCellTravelTime() - 10.0));
 					m.subscribe(cart);
 					carts.add(cart);

@@ -2,10 +2,10 @@ package com.hikari.hellofx.entity;
 
 import javafx.scene.paint.Color;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
+import lombok.Getter;
 
 @AllArgsConstructor
-public enum Items {
+public enum Item {
 	IRON(Color.SILVER, ""),
 	COPPER(Color.SANDYBROWN, ""),
 	IRON_PLATE(Color.SILVER, "P"),
@@ -15,8 +15,8 @@ public enum Items {
 	CABLE(Color.TURQUOISE, "C"),
 	FRAME(Color.DARKCYAN, "F");
 	
-	@Setter
+	@Getter
 	private Color color;
-	@Setter
+	@Getter
 	private String tag;
 }

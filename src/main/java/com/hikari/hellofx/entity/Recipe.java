@@ -6,18 +6,18 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class Recipe {
-	private Set<Items> ingredients = null;
-	private Items result;
+	private Set<Item> ingredients = null;
+	private Item result;
 	
-	public Recipe(Items result_) {
+	public Recipe(Item result_) {
 		result = result_;
 	}
 	
-	public boolean test(Set<Items> items) {
+	public boolean test(Set<Item> items) {
 		return items.equals(ingredients);
 	}
 	
-	public Items produce() {
+	public Item produce() {
 		return result;
 	}
 }

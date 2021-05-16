@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.MergerModel;
 
@@ -16,9 +17,9 @@ public class MergerService extends BaseService{
 		super(model);
 	}
 	
-	private Object pollOneObject(List<ConnectionInPoint> ins) throws InterruptedException {
+	private Item pollOneObject(List<ConnectionInPoint> ins) throws InterruptedException {
 		//TODO actually works wrong, prefers first point istead of full loop. rework.
-		Object o;
+		Item o;
 		var trust = BLOCKED_POINTS_TRUST_AMOUNT;
 		for (;;) {
 			for (ConnectionInPoint p : ins) {
@@ -38,7 +39,7 @@ public class MergerService extends BaseService{
 	}
 	
 	private void commutateOneObject(MergerModel model) throws InterruptedException {
-		Object o = pollOneObject(model.getIns());
+		Item o = pollOneObject(model.getIns());
 		model.getOut().put(o);
 		model.notifySubs();
 	}

@@ -2,6 +2,7 @@ package com.hikari.hellofx.entity.service;
 
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.conveyor.ConnectionEvent;
 import com.hikari.hellofx.entity.model.conveyor.Conveyor;
 
@@ -15,7 +16,7 @@ public class ConveyorService extends BaseService {
 	@Override
 	protected void performCycle() throws InterruptedException {
 		var model = (Conveyor) getModel();
-		Object o = model.getSrc().get();
+		Item o = model.getSrc().get();
 		model.addEvent(ConnectionEvent.DEPARTED);
 		model.notifySubs();
 		sleep(model.getTravelTime());

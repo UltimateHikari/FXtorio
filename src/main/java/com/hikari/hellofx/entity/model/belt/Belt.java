@@ -22,7 +22,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 	private int slotsCount;
 
 	// 0 .. slotsCount - 1
-	private List<ModelItem> items;
+	private List<ItemCarriage> items;
 	@Getter
 	private ConnectionInPoint dst;
 	@Getter
@@ -46,7 +46,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 	}
 
 	private void initItems() {
-		items = Stream.generate(() -> new ModelItem(slotsCount - 1)).limit(slotsCount)
+		items = Stream.generate(() -> new ItemCarriage(slotsCount - 1)).limit(slotsCount)
 				.collect(Collectors.toList());
 	}
 
@@ -83,7 +83,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 		return slotsCount;
 	}
 
-	public List<ModelItem> getItemModels() {
+	public List<ItemCarriage> getItemModels() {
 		return items;
 	}
 

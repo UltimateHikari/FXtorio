@@ -5,7 +5,7 @@ import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConstructorModel;
 
 public class ConstructorService extends BaseService{
-	private final int PRODUCTION_TIME = 1000;
+	private static final int PRODUCTION_TIME = 1000;
 	public ConstructorService(ISuspendable model) {
 		super(model);
 	}

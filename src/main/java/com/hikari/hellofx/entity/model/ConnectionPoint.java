@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.entity.IConnection;
 import com.hikari.hellofx.entity.IServiceNotifier;
+import com.hikari.hellofx.entity.Item;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +29,7 @@ public class ConnectionPoint extends BaseModel {
 	private static final int INTHREADSCOUNT = 1;
 	private final Semaphore isEmpty = new Semaphore(INTHREADSCOUNT);
 	private final Semaphore isFull = new Semaphore(0);
-	private Object heldObject = null;
+	private Item heldObject = null;
 
 	public ConnectionPoint(IServiceNotifier entity, Double offsetX_, Double offsetY_) {
 		parentEntity = entity;
@@ -65,7 +66,7 @@ public class ConnectionPoint extends BaseModel {
 		lastViewY = lastViewY_;
 	}
 
-	public Object get() throws InterruptedException {
+	public Item get() throws InterruptedException {
 		// TODO add checking for exact connected connection/connectable?
 		isFull.acquire();
 		log.debug(" giving " + heldObject.toString());
@@ -76,7 +77,7 @@ public class ConnectionPoint extends BaseModel {
 		return res;
 	}
 
-	public void put(Object o) throws InterruptedException {
+	public void put(Item o) throws InterruptedException {
 		isEmpty.acquire();
 		heldObject = o;
 		log.debug(" taking " + heldObject.toString());
@@ -84,7 +85,7 @@ public class ConnectionPoint extends BaseModel {
 		notifyParentService();
 	}
 
-	public boolean offer(Object o) {
+	public boolean offer(Item o) {
 		if (!isEmpty.tryAcquire()) {
 			log.debug(" -offered ");
 			return false;
@@ -97,7 +98,7 @@ public class ConnectionPoint extends BaseModel {
 		}
 	}
 
-	public Object poll() {
+	public Item poll() {
 		if (!isFull.tryAcquire()) {
 			log.debug(" -polled ");
 			return null;
@@ -117,6 +118,6 @@ public class ConnectionPoint extends BaseModel {
 	}
 	
 	public boolean parentEquals(ConnectionPoint other) {
-		return parentEntity.equals(other);
+		return parentEntity.equals(other.getParentEntity());
 	}
 }
