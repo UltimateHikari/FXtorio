@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
-import com.hikari.hellofx.entity.view.ConnectableInfo;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.model.BasicEntityModel;
@@ -12,6 +11,7 @@ import com.hikari.hellofx.entity.model.ConnectableState;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.EntityShadow;
+import com.hikari.hellofx.entity.view.info.ConnectableInfo;
 import com.hikari.hellofx.game.classpack.ClassPack;
 import com.hikari.hellofx.game.view.GameField;
 import com.hikari.hellofx.game.view.GameView;
@@ -107,6 +107,9 @@ public class GameController{
 		case DESPAWN:
 			despawnEntity(event);
 			break;
+		case RECIPE:
+			setRecipe();
+			break;
 		case CANCEL:
 			returnToIDLE();
 			break;
@@ -144,11 +147,16 @@ public class GameController{
 		}
 	}
 
+	private void setRecipe() {
+		BaseModel model = noticed.remove();
+		//TODO migrate to dto for controller
+		log.error("set recipe");
+	}
+	
 	private void returnToIDLE() {
 		if (state == State.SPAWNING) {
 			disableShadow();
 		}
-		//TODO hide points of already checked
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
 		state = State.IDLE;
 		noticed.clear();
@@ -180,8 +188,11 @@ public class GameController{
 	}
 	
 	private void despawnEntity(MouseEvent event) {
-		BaseModel model = noticed.remove();
-		((BasicEntityModel) model).despawn(); // TODO??? mb interface && handler?
+		if(noticed.remove() instanceof IConnectable model) {
+			view.removeOrphan(game.removeEntity(model));
+		} else { 
+			throw new IllegalArgumentException();
+		}
 	}
 
 	private void spawnEntity(MouseEvent event) {

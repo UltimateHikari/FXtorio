@@ -27,9 +27,11 @@ public class Spawner {
 	private static Game game;
 	@Setter
 	private static GameView view;
+	
+	private Spawner() {
+	}
 
 	// TODO register threads somehow
-	// TODO ban self-connection
 	public static void spawnConnection(ConnectionOutPoint out, ConnectionInPoint in, ClassPack pack)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
@@ -73,7 +75,7 @@ public class Spawner {
 			model.subscribe(spawned);
 			((IServiceNotifier) model).connectService(service);
 			view.showSpawned(spawned);
-			game.addEntity((IConnectable) model);
+			game.addEntity((IConnectable) model, spawned, service);
 			service.start();
 		} else {
 			throw new IllegalArgumentException("wrong classpack");

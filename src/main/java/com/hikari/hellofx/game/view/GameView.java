@@ -1,10 +1,10 @@
 package com.hikari.hellofx.game.view;
 
 import com.hikari.hellofx.SceneController;
-import com.hikari.hellofx.entity.view.ConnectableInfo;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.model.EntityShadow;
 import com.hikari.hellofx.entity.view.EntityShadowView;
+import com.hikari.hellofx.entity.view.info.ConnectableInfo;
 import com.hikari.hellofx.game.GameController;
 
 import javafx.scene.Node;
@@ -37,6 +37,10 @@ public class GameView extends GridPane{
 	
 	public void showSpawned(Node spawned) {
 		gameField.add(spawned);
+	}
+	
+	public void removeOrphan(Node orphanedNode) {
+		gameField.remove(orphanedNode);
 	}
 	
 	public VBox getInfo() {

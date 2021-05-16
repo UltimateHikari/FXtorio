@@ -54,10 +54,6 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 		return isTurnedOn;
 	}
 
-	public void despawn() {
-		// TODO
-	}
-
 	@Override
 	public ConnectableState getConnectableState() {
 		return state;

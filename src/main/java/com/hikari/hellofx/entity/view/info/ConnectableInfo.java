@@ -1,6 +1,4 @@
-package com.hikari.hellofx.entity.view;
-
-import java.util.List;
+package com.hikari.hellofx.entity.view.info;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
@@ -9,8 +7,6 @@ import com.hikari.hellofx.entity.IProducer;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.Items;
 import com.hikari.hellofx.entity.RecipeManager;
-import com.hikari.hellofx.game.view.DespawnButton;
-import com.hikari.hellofx.game.view.SuspendButton;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -50,7 +46,7 @@ public class ConnectableInfo extends VBox implements IModelInfo {
 	private void initRecipeButtons(IProducer model) {
 		log.info(model.getClass().getName(), model);
 		for(Items i : RecipeManager.instance().getAllPossibleProducables(model.getClass())) {
-			//make a button
+			add(new RecipeButton(controller, i.toString()));
 		}
 	}
 
