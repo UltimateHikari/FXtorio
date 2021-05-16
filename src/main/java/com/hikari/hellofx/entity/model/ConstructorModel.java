@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Getter;
 
-public class ConstructorModel extends BasicEntityModel {
+public class ConstructorModel extends BasicProducerModel {
 	@Getter
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	@Getter

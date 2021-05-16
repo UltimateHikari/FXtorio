@@ -5,6 +5,7 @@ import com.hikari.hellofx.base.IModelSubscriber;
 import com.hikari.hellofx.entity.model.EntityShadow;
 import com.hikari.hellofx.game.GameAction;
 import com.hikari.hellofx.game.GameController;
+import com.hikari.hellofx.game.control.FollowUpAction;
 
 import javafx.scene.CacheHint;
 import javafx.scene.paint.Color;
@@ -17,7 +18,7 @@ public class EntityShadowView extends Circle implements IModelSubscriber{
 		super(0,0,20);
 		setFill(Color.ALICEBLUE);
 		setVisible(false);
-		setOnMouseClicked((event) -> gController.act(event, GameAction.SPAWN));
+		setOnMouseClicked((event) -> gController.act(new FollowUpAction(GameAction.SPAWN, event)));
 	}
 	
 	public void enable() {

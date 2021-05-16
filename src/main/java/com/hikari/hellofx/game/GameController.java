@@ -6,13 +6,17 @@ import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
+import com.hikari.hellofx.entity.IProducer;
 import com.hikari.hellofx.entity.model.BasicEntityModel;
 import com.hikari.hellofx.entity.model.ConnectableState;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.EntityShadow;
 import com.hikari.hellofx.entity.view.info.ConnectableInfo;
-import com.hikari.hellofx.game.classpack.ClassPack;
+import com.hikari.hellofx.game.control.ControlTransferObject;
+import com.hikari.hellofx.game.control.FollowUpAction;
+import com.hikari.hellofx.game.control.PackAction;
+import com.hikari.hellofx.game.control.RecipeAction;
 import com.hikari.hellofx.game.view.GameField;
 import com.hikari.hellofx.game.view.GameView;
 
@@ -22,22 +26,23 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class GameController{
+	private static final String ILLEGAL_BUTTON_ARGUMENT = "button reported wrong args:";
+	
 	enum State {
 		IDLE, SPAWNING, CONNECTING_FIRST, CONNECTING_SECOND
 	}
 
 	enum Action {
-		Notice, Act, Nop
+		NOTICE, ACT, NOP
 	}
 
 	private State state = State.IDLE;
-	private Action lastAction = Action.Nop;
-	private GameAction action = GameAction.NOP;
+	private Action lastAction = Action.NOP;
 	private final Game game = new Game();
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
 	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<>();
-	private ClassPack classPack = null;
+	private ControlTransferObject cto = null;
 
 	public GameController(GameView view_) {
 		view = view_;
@@ -56,42 +61,45 @@ public class GameController{
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.OUT_POINTS));
 	}
 
-	public void act(MouseEvent event, GameAction action_, ClassPack pack) {
-		lastAction = Action.Act;
-		action = action_;
-		classPack = pack;
-		assignHandler(event);
+	public void act(ControlTransferObject cto) {
+		lastAction = Action.ACT;
+		updateCTO(cto);
+		assignHandler();
 	}
 
-	public void act(MouseEvent event, GameAction action_) {
-		act(event, action_, classPack);
-	}
-
-	public void notice(BaseModel model, MouseEvent event, GameAction action_) {
-		lastAction = Action.Notice;
+	public void notice(ControlTransferObject cto, BaseModel model) {
+		lastAction = Action.NOTICE;
 		noticed.add(model);
-		action = action_;
-		assignHandler(event);
+		updateCTO(cto);
+		assignHandler();
+	}
+	
+	private void updateCTO(ControlTransferObject cto) {
+		if(cto instanceof FollowUpAction) {
+			cto.appendTo(this.cto);
+		} else {
+			this.cto = cto;
+		}
 	}
 
-	private void assignHandler(MouseEvent event) {
-		log.info("Doing " + action + " because of " + event.getButton() + "; have " + noticed + " noticed");
+	private void assignHandler() {
+		log.info("Doing " + cto.getAction() + " because of " + cto.getEvent().getButton() + "; have " + noticed + " noticed");
 		switch (state) {
 		case IDLE:
-			assignIfIDLE(event);
+			assignIfIDLE();
 			break;
 		case SPAWNING:
-			assignIfSPAWNING(event);
+			assignIfSPAWNING();
 			break;
 		case CONNECTING_FIRST, CONNECTING_SECOND:
-			assignIfConnecting(event);
+			assignIfConnecting();
 			break;
 		default:
 		}
 	}
 
-	private void assignIfIDLE(MouseEvent event) {
-		switch (action) {
+	private void assignIfIDLE() {
+		switch (cto.getAction()) {
 		case SUSPEND:
 			suspendEntity();
 			break;
@@ -105,7 +113,7 @@ public class GameController{
 			enableConnectingState();
 			break;
 		case DESPAWN:
-			despawnEntity(event);
+			despawnEntity();
 			break;
 		case RECIPE:
 			setRecipe();
@@ -118,10 +126,10 @@ public class GameController{
 		}
 	}
 
-	private void assignIfSPAWNING(MouseEvent event) {
-		switch (action) {
+	private void assignIfSPAWNING() {
+		switch (cto.getAction()) {
 		case SPAWN:
-			spawnEntity(event);
+			spawnEntity();
 			break;
 		case CANCEL:
 			returnToIDLE();
@@ -131,13 +139,13 @@ public class GameController{
 		}
 	}
 
-	private void assignIfConnecting(MouseEvent event) {
-		switch (action) {
+	private void assignIfConnecting() {
+		switch (cto.getAction()) {
 		case CONNECT_IN:
-			connectIn(event);
+			connectIn();
 			break;
 		case CONNECT_OUT:
-			connectOut(event);
+			connectOut();
 			break;
 		case CANCEL:
 			returnToIDLE();
@@ -148,9 +156,13 @@ public class GameController{
 	}
 
 	private void setRecipe() {
-		BaseModel model = noticed.remove();
-		//TODO migrate to dto for controller
-		log.error("set recipe");
+		var model = noticed.remove();
+		if(cto instanceof RecipeAction rcto && model instanceof IProducer producer) {
+			producer.setCurrentRecipe(rcto.getItem());
+		} else {
+			log.error(ILLEGAL_BUTTON_ARGUMENT, cto, model);
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	private void returnToIDLE() {
@@ -162,32 +174,36 @@ public class GameController{
 		noticed.clear();
 	}
 
-	private void connectIn(MouseEvent event) {
+	private void connectIn() {
 		state = State.IDLE;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.NO_POINTS));
-		try {
-			ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
-			ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
-			Spawner.spawnConnection(out, in, classPack);
-		} catch(Exception e) {
-			log.error("Spawn of [ " + classPack.toString() + " ] failed. " + "Already in normal state.", e);
-			//e.printStackTrace();
+		if(cto instanceof PackAction pcto) {
+			try {
+				ConnectionOutPoint out = (ConnectionOutPoint) noticed.remove();
+				ConnectionInPoint in = (ConnectionInPoint) noticed.remove();
+				Spawner.spawnConnection(out, in, pcto.getPack());
+			} catch(Exception e) {
+				log.error("Spawn of [ " + pcto.getPack().toString() + " ] failed. " + "Already in normal state.", e);
+			}
+		}else {
+			log.error(ILLEGAL_BUTTON_ARGUMENT, cto);
+			throw new IllegalArgumentException();
 		}
 	}
 
-	private void connectOut(MouseEvent event) {
+	private void connectOut() {
 		state = State.CONNECTING_SECOND;
 		game.forEachEntity(w -> w.setConnectableState(ConnectableState.IN_POINTS));
 	}
 
 	private void cancelOperation() {
-		if (lastAction == Action.Notice) {
+		if (lastAction == Action.NOTICE) {
 			noticed.removeLast();
 		}
 		log.info("ignoring " + noticed);
 	}
 	
-	private void despawnEntity(MouseEvent event) {
+	private void despawnEntity() {
 		if(noticed.remove() instanceof IConnectable model) {
 			view.removeOrphan(game.removeEntity(model));
 		} else { 
@@ -195,16 +211,21 @@ public class GameController{
 		}
 	}
 
-	private void spawnEntity(MouseEvent event) {
+	private void spawnEntity() {
 		if (state == State.SPAWNING) {
-			try {
-				Spawner.spawnEntity(shadow.getX(), shadow.getY(), classPack, this);
-			} catch (Exception e) {
-				log.error("Spawn of [ "  + classPack.toString() + " ] failed. " + "Returning to normal state.");
-				e.printStackTrace();
-			} finally {
-				state = State.IDLE;
-				disableShadow();
+			if(cto instanceof PackAction pcto) {
+				try {
+					Spawner.spawnEntity(shadow.getX(), shadow.getY(), pcto.getPack(), this);
+				} catch (Exception e) {
+					log.error("Spawn of [ "  + pcto.getPack().toString() + " ] failed. " + "Returning to normal state.");
+					e.printStackTrace();
+				} finally {
+					state = State.IDLE;
+					disableShadow();
+				}
+			}else {
+				log.error(ILLEGAL_BUTTON_ARGUMENT, cto);
+				throw new IllegalArgumentException();
 			}
 		}
 	}
@@ -229,8 +250,8 @@ public class GameController{
 
 	private void showInfo() {
 		BaseModel model = noticed.remove();
-		BindingController bController = new BindingController(this, model);
-		ConnectableInfo info = new ConnectableInfo(bController);
+		var bController = new BindingController(this, model);
+		var info = new ConnectableInfo(bController);
 		VBox currentInfo = view.getInfo();
 		if (currentInfo instanceof IModelInfo) {
 			((IModelInfo) currentInfo).disable();

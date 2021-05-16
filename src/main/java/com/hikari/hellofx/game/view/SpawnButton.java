@@ -2,7 +2,8 @@ package com.hikari.hellofx.game.view;
 
 import com.hikari.hellofx.game.GameAction;
 import com.hikari.hellofx.game.GameController;
-import com.hikari.hellofx.game.classpack.EntityClassPack;
+import com.hikari.hellofx.game.control.EntityClassPack;
+import com.hikari.hellofx.game.control.PackAction;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -20,7 +21,7 @@ public class SpawnButton extends Button {
 		super(label);
 		setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
 		setBorder(new Border(new BorderStroke(color.darker(), BorderStrokeStyle.SOLID, null, null)));
-		setOnMouseClicked((event) -> gcontroller.act(event, GameAction.ENTER_SPAWN, entityClassPack));
+		setOnMouseClicked(event -> gcontroller.act(new PackAction(GameAction.ENTER_SPAWN, event, entityClassPack)));
 		
 	}
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.hikari.hellofx.base.BaseModel;
-import com.hikari.hellofx.game.classpack.EntityClassPack;
+import com.hikari.hellofx.game.control.EntityClassPack;
 
 public class RecipeManager {
 	private HashMap<Class<? extends BaseModel>, List<Recipe>> recipes = new HashMap<>();

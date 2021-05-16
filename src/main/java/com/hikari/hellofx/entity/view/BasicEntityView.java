@@ -9,6 +9,7 @@ import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.model.ConnectionPoint;
 import com.hikari.hellofx.game.GameAction;
+import com.hikari.hellofx.game.control.BareAction;
 
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
@@ -27,7 +28,7 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		setPrefSize(SIZE, SIZE);
 
 		shapePane = new ShapePane(SIZE, color);
-		shapePane.setOnMouseClicked(event -> bController.handleClick(event, GameAction.INFO));
+		shapePane.setOnMouseClicked(event -> bController.handleClick(new BareAction(GameAction.INFO, event)));
 		placeDefaultChildren();
 	}
 

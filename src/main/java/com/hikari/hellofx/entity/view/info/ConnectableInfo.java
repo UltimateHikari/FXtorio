@@ -31,8 +31,8 @@ public class ConnectableInfo extends VBox implements IModelInfo {
 	@Override
 	public void modelChanged(BaseModel model) {
 		//controller notifies before actually showing
-		if(text.getText().equals("")) {
-			initRecipeButtons((IProducer)model);
+		if(text.getText().equals("") && model instanceof IProducer producer) {
+			initRecipeButtons(producer);
 		}
 		
 		String state = "My state is " + ((ISuspendable) model).isOn();
@@ -46,7 +46,7 @@ public class ConnectableInfo extends VBox implements IModelInfo {
 	private void initRecipeButtons(IProducer model) {
 		log.info(model.getClass().getName(), model);
 		for(Items i : RecipeManager.instance().getAllPossibleProducables(model.getClass())) {
-			add(new RecipeButton(controller, i.toString()));
+			add(new RecipeButton(controller, i.toString(), i));
 		}
 	}
 

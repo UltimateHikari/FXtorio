@@ -2,35 +2,20 @@ package com.hikari.hellofx.entity.model;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IPowerConnectable;
-import com.hikari.hellofx.entity.IProducer;
 import com.hikari.hellofx.entity.IServiceNotifier;
-import com.hikari.hellofx.entity.Items;
-import com.hikari.hellofx.entity.Recipe;
-import com.hikari.hellofx.entity.RecipeManager;
 
-import lombok.Getter;
-
-public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable, IServiceNotifier, IProducer{
+public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable, IServiceNotifier {
 	private Object payload = null;
 	private boolean isTurnedOn = false;
 	private BaseService basicService = null;
-	@Getter
-	private Recipe currentRecipe;
 	private ConnectableState state = ConnectableState.NO_POINTS;
 	
-	@Override
-	public void setCurrentRecipe(Items item) throws NoSuchElementException{
-		List<Recipe> list =  RecipeManager.instance().getRecipeList(this.getClass());
-		currentRecipe = list.stream().filter(r -> r.produce() == item).findFirst().orElseThrow();
-	}
-
 	@Override
 	public void turnOff() {
 		isTurnedOn = false;

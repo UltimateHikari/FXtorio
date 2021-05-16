@@ -13,9 +13,9 @@ import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.BasicEntityView;
-import com.hikari.hellofx.game.classpack.ClassPack;
-import com.hikari.hellofx.game.classpack.ConnectionClassPack;
-import com.hikari.hellofx.game.classpack.EntityClassPack;
+import com.hikari.hellofx.game.control.ClassPack;
+import com.hikari.hellofx.game.control.ConnectionClassPack;
+import com.hikari.hellofx.game.control.EntityClassPack;
 import com.hikari.hellofx.game.view.GameView;
 
 import lombok.Setter;

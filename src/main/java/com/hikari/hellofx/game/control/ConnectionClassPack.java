@@ -1,4 +1,4 @@
-package com.hikari.hellofx.game.classpack;
+package com.hikari.hellofx.game.control;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;

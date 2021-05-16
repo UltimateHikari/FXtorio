@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Getter;
 
-public class AssemblerModel extends BasicEntityModel {
+public class AssemblerModel extends BasicProducerModel {
 	@Getter
 	private final ConnectionInPoint inLeft = new ConnectionInPoint(this, -0.5, 0.3);
 	@Getter

@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.Getter;
 
-public class MinerModel extends BasicEntityModel{
+public class MinerModel extends BasicProducerModel{
 	@Getter
 	private final ConnectionOutPoint out = new ConnectionOutPoint(this, 0.5, 0.0);
 	

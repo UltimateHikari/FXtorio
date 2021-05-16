@@ -9,8 +9,8 @@ import com.hikari.hellofx.entity.view.MinerView;
 import com.hikari.hellofx.entity.view.SplitterView;
 import com.hikari.hellofx.entity.view.StorageView;
 import com.hikari.hellofx.game.GameController;
-import com.hikari.hellofx.game.classpack.ConnectionClassPack;
-import com.hikari.hellofx.game.classpack.EntityClassPack;
+import com.hikari.hellofx.game.control.ConnectionClassPack;
+import com.hikari.hellofx.game.control.EntityClassPack;
 
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
