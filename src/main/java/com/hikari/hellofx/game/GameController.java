@@ -1,6 +1,7 @@
 package com.hikari.hellofx.game;
 
 import java.util.ArrayDeque;
+import java.util.List;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
@@ -12,6 +13,7 @@ import com.hikari.hellofx.entity.model.ConnectableState;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.EntityShadow;
+import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.info.ConnectableInfo;
 import com.hikari.hellofx.game.control.ControlTransferObject;
 import com.hikari.hellofx.game.control.FollowUpAction;
@@ -206,6 +208,10 @@ public class GameController{
 	private void despawnEntity() {
 		if(noticed.remove() instanceof IConnectable model) {
 			view.removeOrphan(game.removeEntity(model));
+			List<BasicConnectionView> views = game.removeConnectionViews(model);
+			for(BasicConnectionView i : views) {
+				view.removeOrphan(i);
+			}
 		} else { 
 			throw new IllegalArgumentException();
 		}

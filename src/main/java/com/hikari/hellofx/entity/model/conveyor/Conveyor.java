@@ -22,6 +22,7 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 	private Object payload = null;
 	private static final int TRAVEL_TIME = 1000;
 	private ArrayBlockingQueue<ConnectionEvent> events = new ArrayBlockingQueue<ConnectionEvent>(EVENTS_SIZE);
+	private boolean isDetached;
 
 	public Conveyor() {
 	}
@@ -71,6 +72,16 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 
 	public void addEvent(ConnectionEvent event) {
 		events.add(event);
+	}
+
+	@Override
+	public void markDetached() {
+		isDetached = true;
+	}
+
+	@Override
+	public boolean isDetached() {
+		return isDetached;
 	}
 
 }

@@ -22,7 +22,8 @@ public class ConnectionPoint extends BaseModel {
 	@Getter
 	private double lastViewX; // TODO may be mvc leak??
 	@Getter
-	private double lastViewY; //
+	private double lastViewY; 
+	@Getter
 	protected IConnection connection = null;
 	private final IServiceNotifier parentEntity;
 
@@ -54,7 +55,6 @@ public class ConnectionPoint extends BaseModel {
 	}
 
 	public void disconnect() {
-		// connection.disconnect()?
 		connection = null;
 	}
 

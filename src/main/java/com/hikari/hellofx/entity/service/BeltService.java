@@ -35,7 +35,19 @@ public class BeltService extends BaseService {
 		offerItem();
 		moveCells();
 		sleep(bModel.getCellTravelTime());
+		checkIfDetached();
 		pollItem();
+	}
+
+	private void checkIfDetached() throws InterruptedException {
+		if(bModel.isDetached()) {
+			log.info("detaching");
+			// TODO here can complete sending left items
+			// but for now just dropping all without excessive offers/polls
+			bModel.getDst().disconnect();
+			bModel.getSrc().disconnect();
+			throw new InterruptedException();
+		}
 	}
 
 	private void offerItem() {

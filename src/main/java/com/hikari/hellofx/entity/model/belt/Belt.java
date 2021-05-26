@@ -17,6 +17,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class Belt extends BaseModel implements IConnection, ISuspendable {
 	private static final double CELL_SIZE = 20;
+	private boolean isDetached = false;
 	private static final int CELL_TRAVEL_TIME = 500;
 
 	private int slotsCount;
@@ -85,6 +86,17 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 
 	public List<ItemCarriage> getItemModels() {
 		return items;
+	}
+
+	@Override
+	public void markDetached() {
+		log.info("got detached");
+		isDetached = true;
+	}
+
+	@Override
+	public boolean isDetached() {
+		return isDetached;
 	}
 
 }
