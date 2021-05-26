@@ -18,8 +18,10 @@ public class ConveyorService extends BaseService {
 		var model = (Conveyor) getModel();
 		Item o = model.getSrc().get();
 		model.addEvent(ConnectionEvent.DEPARTED);
+		model.setPayload(o);
 		model.notifySubs();
 		sleep(model.getTravelTime());
+		model.setPayload(null);
 		model.getDst().put(o);
 		model.addEvent(ConnectionEvent.ARRIVED);
 		model.notifySubs();

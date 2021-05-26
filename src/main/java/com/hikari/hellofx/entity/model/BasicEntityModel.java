@@ -10,7 +10,10 @@ import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IPowerConnectable;
 import com.hikari.hellofx.entity.IServiceNotifier;
 
+import lombok.Setter;
+
 public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable, IServiceNotifier {
+	@Setter
 	private Object payload = null;
 	private boolean isTurnedOn = false;
 	private BaseService basicService = null;
@@ -45,13 +48,9 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	}
 
 	@Override
-	public void setConnectableState(ConnectableState state_) {
-		state = state_;
+	public void setConnectableState(ConnectableState state) {
+		this.state = state;
 		notifySubs();
-	}
-	
-	public synchronized void setPayload(Object o) {
-		payload = o; 
 	}
 	
 	@Override

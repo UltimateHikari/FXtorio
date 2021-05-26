@@ -9,6 +9,7 @@ import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 	private static final int EVENTS_SIZE = 10;
@@ -16,11 +17,13 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 	private ConnectionInPoint dst;
 	@Getter
 	private ConnectionOutPoint src;
+	@Getter
+	@Setter
+	private Object payload = null;
 	private static final int TRAVEL_TIME = 1000;
 	private ArrayBlockingQueue<ConnectionEvent> events = new ArrayBlockingQueue<ConnectionEvent>(EVENTS_SIZE);
 
 	public Conveyor() {
-		// lolwhat
 	}
 
 	public Conveyor(ConnectionOutPoint source, ConnectionInPoint destination) {

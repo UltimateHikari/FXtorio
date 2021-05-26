@@ -3,6 +3,7 @@ package com.hikari.hellofx.entity.view.conveyor;
 import java.util.ArrayDeque;
 
 import com.hikari.hellofx.base.BaseModel;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.conveyor.Conveyor;
@@ -33,9 +34,10 @@ public class ConveyorView extends BasicConnectionView {
 	public void modelChanged(BaseModel model) {
 		duration = (Duration.millis(((Conveyor) model).getTravelTime()));
 		var e = ((Conveyor) model).getLastConnectionEvent();
+		Item item = (Item)((Conveyor) model).getPayload();
 		switch (e) {
 		case DEPARTED:
-			var entityTransition = new EntityTransition(duration, start, end, this);
+			var entityTransition = new EntityTransition(duration, start, end, this, item);
 			transitions.add(entityTransition);
 			break;
 		case ARRIVED:
