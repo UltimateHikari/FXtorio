@@ -13,17 +13,20 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class MergerService extends BaseService{
 	private static final int BLOCKED_POINTS_TRUST_AMOUNT = 4;
+	private int lastPolledIndex = 0;
 	public MergerService(ISuspendable model) {
 		super(model);
 	}
 	
-	private Item pollOneObject(List<ConnectionInPoint> ins) throws InterruptedException {
-		//TODO actually works wrong, prefers first point istead of full loop. rework.
+	private Item pollNewObject(List<ConnectionInPoint> ins) throws InterruptedException {
 		Item o;
 		var trust = BLOCKED_POINTS_TRUST_AMOUNT;
 		for (;;) {
-			for (ConnectionInPoint p : ins) {
-				if (!p.isFree() && (o = p.poll()) != null) {
+			for (int i = cycleIndex(lastPolledIndex, ins.size()), j = 0;
+					j < ins.size() ;
+					i = cycleIndex(i, ins.size()), j++) {
+				if (!ins.get(i).isFree() && (o = ins.get(i).poll()) != null) {
+					lastPolledIndex = (lastPolledIndex + i) % ins.size();
 					return o;
 				}
 			}
@@ -38,8 +41,12 @@ public class MergerService extends BaseService{
 		}
 	}
 	
+	private int cycleIndex(int i, int l) {
+		return (i + 1) % l;
+	}
+	
 	private void commutateOneObject(MergerModel model) throws InterruptedException {
-		Item o = pollOneObject(model.getIns());
+		Item o = pollNewObject(model.getIns());
 		model.getOut().put(o);
 		model.notifySubs();
 	}
