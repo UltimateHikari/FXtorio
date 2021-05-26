@@ -17,7 +17,8 @@ public class RecipeManager {
 				EntityClassPack.MINER.getModel(), 
 				Arrays.asList(
 						new Recipe(Item.IRON),
-						new Recipe(Item.COPPER)
+						new Recipe(Item.COPPER),
+						new Recipe(Item.POLYMER)
 						));
 		recipes.put(
 				EntityClassPack.CONSTRUCTOR.getModel(), 
@@ -26,6 +27,12 @@ public class RecipeManager {
 						new Recipe(Set.of(Item.IRON), Item.IRON_ROD),
 						new Recipe(Set.of(Item.IRON_ROD), Item.SCREW),
 						new Recipe(Set.of(Item.COPPER), Item.WIRE)	
+						));
+		recipes.put(EntityClassPack.ASSEMBLER.getModel(),
+				Arrays.asList(
+						new Recipe(Set.of(Item.IRON_ROD, Item.POLYMER), Item.SCREW),
+						new Recipe(Set.of(Item.WIRE, Item.POLYMER), Item.CABLE),
+						new Recipe(Set.of(Item.SCREW, Item.IRON_PLATE), Item.FRAME)
 						));
 	}
 	public static RecipeManager instance() {

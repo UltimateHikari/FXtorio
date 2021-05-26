@@ -44,6 +44,8 @@ public class ConnectableInfo extends VBox implements IModelInfo {
 	}
 
 	private void initRecipeButtons(IProducer model) {
+		//TODO: now it is like Minecraft recipes - you need to remember ingredients
+		//at least placement doesnt matter due to usage of Set
 		log.info(model.getClass().getName(), model);
 		for(Item i : RecipeManager.instance().getAllPossibleProducables(model.getClass())) {
 			add(new RecipeButton(controller, i.toString(), i));

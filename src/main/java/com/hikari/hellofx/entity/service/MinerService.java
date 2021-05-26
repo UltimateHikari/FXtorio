@@ -18,7 +18,7 @@ public class MinerService extends BaseService{
 		model.setPayload(o);
 		model.notifySubs();
 		model.getOut().put(o);
-		model.setPayload(o);
+		model.setPayload(null);
 		model.notifySubs();
 	}
 	

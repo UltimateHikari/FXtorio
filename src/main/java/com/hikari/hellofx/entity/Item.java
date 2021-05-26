@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum Item {
 	IRON(Color.SILVER, ""),
 	COPPER(Color.SANDYBROWN, ""),
+	POLYMER(Color.DARKBLUE, ""),
 	IRON_PLATE(Color.SILVER, "P"),
 	IRON_ROD(Color.SILVER, "R"),
 	SCREW(Color.SLATEBLUE, "S"),
