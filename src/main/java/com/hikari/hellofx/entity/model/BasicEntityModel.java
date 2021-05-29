@@ -18,7 +18,7 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	private boolean isTurnedOn = false;
 	private BaseService basicService = null;
 	private ConnectableState state = ConnectableState.NO_POINTS;
-	
+
 	@Override
 	public void turnOff() {
 		isTurnedOn = false;
@@ -52,7 +52,7 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 		this.state = state;
 		notifySubs();
 	}
-	
+
 	@Override
 	public synchronized Integer getFillCount() {
 		return payload == null ? 0 : 1;
@@ -60,8 +60,8 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 
 	@SafeVarargs
 	protected final <T extends ConnectionPoint> List<T> packPoints(T... args) {
-		return Arrays.asList(args).stream().filter(w -> (w.isFree()))
-				.collect(Collectors.toUnmodifiableList());
+		// ConnectionPoint::isFree logic was delegated to filterFreePoints
+		return Arrays.asList(args).stream().collect(Collectors.toUnmodifiableList());
 	}
 
 	@Override
@@ -73,5 +73,11 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	public void disconnectService() {
 		basicService = null;
 	}
-	
+
+	public List<ConnectionPoint> filterFreePoints(Class<? extends ConnectionPoint> point) {
+		List<? extends ConnectionPoint> list = 
+				(point.equals(ConnectionInPoint.class) ? getInPoints() : getOutPoints());
+		return list.stream().filter(ConnectionPoint::isFree).collect(Collectors.toUnmodifiableList());
+	}
+
 }

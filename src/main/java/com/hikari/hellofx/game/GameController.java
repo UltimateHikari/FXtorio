@@ -1,7 +1,6 @@
 package com.hikari.hellofx.game;
 
 import java.util.ArrayDeque;
-import java.util.List;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
@@ -208,8 +207,7 @@ public class GameController{
 	private void despawnEntity() {
 		if(noticed.remove() instanceof IConnectable model) {
 			view.removeOrphan(game.removeEntity(model));
-			List<BasicConnectionView> views = game.removeConnectionViews(model);
-			for(BasicConnectionView i : views) {
+			for(BasicConnectionView i : game.removeConnectionViews(model)) {
 				view.removeOrphan(i);
 			}
 		} else { 

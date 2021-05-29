@@ -7,6 +7,8 @@ import com.hikari.hellofx.base.IModelSubscriber;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.model.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.ConnectionPoint;
 import com.hikari.hellofx.game.GameAction;
 import com.hikari.hellofx.game.control.BareAction;
@@ -48,10 +50,10 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		clearChildren();
 		switch (state) {
 		case IN_POINTS:
-			showPoints(cModel.getInPoints());
+			showPoints(cModel.filterFreePoints(ConnectionInPoint.class));
 			break;
 		case OUT_POINTS:
-			showPoints(cModel.getOutPoints());
+			showPoints(cModel.filterFreePoints(ConnectionOutPoint.class));
 			break;
 		case NO_POINTS:
 			break;

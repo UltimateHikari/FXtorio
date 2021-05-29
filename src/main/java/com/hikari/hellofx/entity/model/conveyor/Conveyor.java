@@ -76,6 +76,7 @@ public class Conveyor extends BaseModel implements IConnection, ISuspendable {
 
 	@Override
 	public void markDetached() {
+		// TODO look in BeltService
 		isDetached = true;
 	}
 

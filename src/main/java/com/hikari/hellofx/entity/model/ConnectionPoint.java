@@ -20,7 +20,7 @@ public class ConnectionPoint extends BaseModel {
 	@Getter
 	private final Double offsetY;
 	@Getter
-	private double lastViewX; // TODO may be mvc leak??
+	private double lastViewX;
 	@Getter
 	private double lastViewY; 
 	@Getter
@@ -58,12 +58,12 @@ public class ConnectionPoint extends BaseModel {
 		connection = null;
 	}
 
-	public void setLastViewX(Double lastViewX_) {
-		lastViewX = lastViewX_;
+	public void setLastViewX(Double lastViewX) {
+		this.lastViewX = lastViewX;
 	}
 
-	public void setLastViewY(Double lastViewY_) {
-		lastViewY = lastViewY_;
+	public void setLastViewY(Double lastViewY) {
+		this.lastViewY = lastViewY;
 	}
 
 	public Item get() throws InterruptedException {

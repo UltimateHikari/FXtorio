@@ -90,7 +90,7 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 
 	@Override
 	public void markDetached() {
-		log.info("got detached");
+		//TODO disconnect from other end 
 		isDetached = true;
 	}
 

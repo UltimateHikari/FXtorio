@@ -38,8 +38,8 @@ public class Game extends BaseModel {
 		//look at this monstrocity x)
 		List<BasicConnectionView> res = new ArrayList<>();
 		List<IConnection> modelCollections = Stream.concat(
-				model.getInPoints().stream().filter(ConnectionPoint::isFree).map(ConnectionPoint::getConnection), 
-				model.getOutPoints().stream().filter(ConnectionPoint::isFree).map(ConnectionPoint::getConnection))
+				model.getInPoints().stream().filter(c -> !c.isFree()).map(ConnectionPoint::getConnection), 
+				model.getOutPoints().stream().filter(c -> !c.isFree()).map(ConnectionPoint::getConnection))
 				.collect(Collectors.toList());
 		for(IConnection i : modelCollections) {
 			i.markDetached();
@@ -52,8 +52,7 @@ public class Game extends BaseModel {
 		// TODO rework to proper interrupt and stop-the-world
 		entityServices.get(model).safeStop();
 		entityServices.remove(model);
-		var view = entityViews.get(model);
-		entityViews.remove(model);
+		var view = entityViews.remove(model);
 		entityModels.remove(model);
 		return view;
 	}

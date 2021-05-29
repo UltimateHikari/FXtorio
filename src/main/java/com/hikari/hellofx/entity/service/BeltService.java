@@ -41,7 +41,6 @@ public class BeltService extends BaseService {
 
 	private void checkIfDetached() throws InterruptedException {
 		if(bModel.isDetached()) {
-			log.info("detaching");
 			// TODO here can complete sending left items
 			// but for now just dropping all without excessive offers/polls
 			bModel.getDst().disconnect();
