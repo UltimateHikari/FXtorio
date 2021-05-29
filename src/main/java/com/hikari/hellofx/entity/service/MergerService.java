@@ -34,6 +34,7 @@ public class MergerService extends BaseService{
 			if (trust == 0) {
 				trust = BLOCKED_POINTS_TRUST_AMOUNT;
 				// go wait for someone to connect/ become free
+				//TODO DOESNT WORK ACTUALLY
 				log.info("zzz");
 				selfWait();
 				log.info("awaken2");

@@ -22,8 +22,9 @@ public class App extends Application implements IModelSubscriber {
 	private final AppModel appModel = new AppModel();
 	private final SceneController sceneController = new SceneController(appModel);
 	private final HashMap<SceneClass, Scene> scenes = new HashMap<>();
-	private static final Integer WIDTH = 1280;
-	private static final Integer HEIGHT = 720;
+	private static final Integer WIDTH = 1600;
+	private static final Integer HEIGHT = 900;
+	private static final int STOP_ERROR_CODE = -1;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -61,10 +62,21 @@ public class App extends Application implements IModelSubscriber {
 
 	@Override
 	public void modelChanged(BaseModel model) {
-		if (!(model instanceof AppModel)) {
+		if (model instanceof AppModel amodel) {
+			if(amodel.isStopped()) {
+				try {
+					stop();
+				} catch (Exception e) {
+					//dont want to propagate  non-informative "throws exception" everywhere
+					//just for exiting program in the end anyways
+					log.error("error while stopping", e);
+					System.exit(STOP_ERROR_CODE);
+				}
+			}
+			stage.setScene(scenes.get(appModel.getCurrentScene()));
+		} else {
 			throw new IllegalArgumentException("wrong appmodel");
 		}
-		stage.setScene(scenes.get(appModel.getCurrentScene()));
 	}
 
 }

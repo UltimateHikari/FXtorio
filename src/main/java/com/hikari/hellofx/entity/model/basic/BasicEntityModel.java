@@ -23,7 +23,7 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	private ConnectableState state = ConnectableState.NO_POINTS;
 
 	@Override
-	public void turnOff() {
+	public synchronized void turnOff() {
 		isTurnedOn = false;
 		super.notifySubs();
 	}
@@ -35,13 +35,13 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	}
 
 	@Override
-	public void turnOn() {
+	public synchronized void turnOn() {
 		isTurnedOn = true;
 		notifyService();
 		super.notifySubs();
 	}
 
-	public boolean isOn() {
+	public synchronized boolean isOn() {
 		return isTurnedOn;
 	}
 

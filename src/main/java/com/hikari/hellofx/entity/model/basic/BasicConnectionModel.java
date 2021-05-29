@@ -8,17 +8,17 @@ public abstract class BasicConnectionModel extends BaseModel implements IConnect
 	private boolean isDetached = false;
 	
 	@Override
-	public void turnOff() {
+	public synchronized void turnOff() {
 		//always on
 	}
 
 	@Override
-	public void turnOn() {
+	public synchronized void turnOn() {
 		//always on
 	}
 
 	@Override
-	public boolean isOn() {
+	public synchronized boolean isOn() {
 		return true;
 	}
 	

@@ -1,23 +1,28 @@
 package com.hikari.hellofx.entity.model;
 
-import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Map;
 
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.basic.BasicEntityModel;
 import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Collections;
+import java.util.HashMap;
 
-public class StorageModel extends BasicEntityModel{
-	private static final int STORAGE_SIZE = 100;
+@Log4j2
+public class StorageModel extends BasicEntityModel {
 	@Getter
-	private final ArrayDeque<Object> storage = new ArrayDeque<>(STORAGE_SIZE);
+	private final Map<String, Integer> storage = new HashMap<>();
 	@Getter
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
-	
+	@Getter
+	private Integer storageSize = 0;
+
 	@Override
 	public List<ConnectionInPoint> getInPoints() {
 		return packPoints(in);
@@ -30,6 +35,12 @@ public class StorageModel extends BasicEntityModel{
 
 	@Override
 	public synchronized Integer getFillCount() {
-		return storage.size();
+		return storageSize;
+	}
+
+	public void addItem(Item o) {
+		storage.merge(o.toString(), 1, ((a,b) -> a + b));
+		storageSize++;
+		log.info(storage);
 	}
 }

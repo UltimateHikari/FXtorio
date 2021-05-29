@@ -30,19 +30,18 @@ public abstract class BaseService extends Thread{
 	}
 	
 	public void safeStop() {
-		this.interrupt();
+		Thread.currentThread().interrupt();
 	}
 	
 	@Override
 	public void run() {
 		while (true) {
 			try {
-				while(!model.isOn()) {
-					selfWait();
-				}
+				selfWait();
 				performCycle();
 			} catch (InterruptedException e) {
 				log.error("Interrupted");
+				Thread.currentThread().interrupt();
 				return;
 				//TODO conditional variable? methods for safer stop/start/kill
 			}

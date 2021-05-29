@@ -1,5 +1,6 @@
 package com.hikari.hellofx.entity.view;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.hikari.hellofx.base.BaseModel;
@@ -39,6 +40,7 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		if (model instanceof IConnectable cModel) {
 			String labelText = checkPower(cModel) + " " + checkFill(cModel);
 			Platform.runLater(() -> {
+				shapePane.renderSlices(generateSlices(cModel));
 				shapePane.getLabel().setText(labelText);
 				showPoints(cModel);
 			});
@@ -89,5 +91,10 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 
 	private String checkFill(IConnectable model) {
 		return model.getFillCount().toString();
+	}
+	
+	protected List<Slice> generateSlices(IConnectable model) {
+		//for overriding in views working with shape
+		return Collections.emptyList();
 	}
 }
