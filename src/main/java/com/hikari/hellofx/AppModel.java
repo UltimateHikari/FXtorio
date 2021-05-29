@@ -6,9 +6,6 @@ import com.hikari.hellofx.base.BaseModel;
 public class AppModel extends BaseModel {
 	private SceneClass currentSceneName = SceneClass.MENU;
 
-	public AppModel() {
-	}
-
 	public SceneClass getCurrentScene() {
 		return currentSceneName;
 	}

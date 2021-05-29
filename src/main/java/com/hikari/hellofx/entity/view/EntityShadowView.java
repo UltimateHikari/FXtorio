@@ -18,7 +18,7 @@ public class EntityShadowView extends Circle implements IModelSubscriber{
 		super(0,0,20);
 		setFill(Color.ALICEBLUE);
 		setVisible(false);
-		setOnMouseClicked((event) -> gController.act(new FollowUpAction(GameAction.SPAWN, event)));
+		setOnMouseClicked(event -> gController.act(new FollowUpAction(GameAction.SPAWN, event)));
 	}
 	
 	public void enable() {

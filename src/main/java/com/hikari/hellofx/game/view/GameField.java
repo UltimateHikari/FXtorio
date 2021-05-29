@@ -22,8 +22,8 @@ public class GameField extends Pane implements IModelSubscriber {
 		}
 	};
 
-	public GameField(GameController gcontroller_) {
-		gcontroller = gcontroller_;
+	public GameField(GameController gcontroller) {
+		this.gcontroller = gcontroller;
 		setPrefSize(640, 480);
 		field = new Rectangle(0, 0, 640, 480);
 		field.setFill(Color.GAINSBORO);

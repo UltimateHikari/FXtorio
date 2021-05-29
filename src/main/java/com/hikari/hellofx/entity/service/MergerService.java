@@ -55,11 +55,8 @@ public class MergerService extends BaseService{
 		var model = (MergerModel)getModel();
 		var amount = model.amountOfConnectedPoints();
 		if (amount == 0) {
-			log.info("zzz");
 			selfWait();
-			log.info("awaken1");
 		} else {
-			// TODO what about disconnects?
 			for (var i = 0; i < amount; i++) {
 				commutateOneObject(model);
 			}

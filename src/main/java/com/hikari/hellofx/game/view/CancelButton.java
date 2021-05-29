@@ -9,6 +9,6 @@ import javafx.scene.control.Button;
 public class CancelButton extends Button {
 	public CancelButton(GameController gcontroller, String label) {
 		super(label);
-		setOnMouseClicked((event) -> gcontroller.act(new BareAction(GameAction.CANCEL, event)));
+		setOnMouseClicked(event -> gcontroller.act(new BareAction(GameAction.CANCEL, event)));
 	}
 }

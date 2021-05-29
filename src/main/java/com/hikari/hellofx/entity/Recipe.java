@@ -9,8 +9,8 @@ public class Recipe {
 	private Set<Item> ingredients = null;
 	private Item result;
 	
-	public Recipe(Item result_) {
-		result = result_;
+	public Recipe(Item result) {
+		this.result = result;
 	}
 	
 	public boolean test(Set<Item> items) {

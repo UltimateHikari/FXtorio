@@ -14,7 +14,7 @@ import java.util.Collections;
 public class StorageModel extends BasicEntityModel{
 	private static final int STORAGE_SIZE = 100;
 	@Getter
-	private final ArrayDeque<Object> storage = new ArrayDeque<Object>(STORAGE_SIZE);
+	private final ArrayDeque<Object> storage = new ArrayDeque<>(STORAGE_SIZE);
 	@Getter
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	
@@ -29,7 +29,7 @@ public class StorageModel extends BasicEntityModel{
 	}
 
 	@Override
-	public Integer getFillCount() {
+	public synchronized Integer getFillCount() {
 		return storage.size();
 	}
 }

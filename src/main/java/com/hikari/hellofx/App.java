@@ -26,8 +26,8 @@ public class App extends Application implements IModelSubscriber {
 	private static final Integer HEIGHT = 720;
 
 	@Override
-	public void start(Stage stage_) throws Exception {
-		stage = stage_;
+	public void start(Stage stage) throws Exception {
+		this.stage = stage;
 		stage.setTitle("fxtorio");
 		appModel.subscribe(this);
 
@@ -46,7 +46,7 @@ public class App extends Application implements IModelSubscriber {
 	 * Mandatory pairs Model + View Name + NameView
 	 */
 
-	private void prepareScenes() throws ClassNotFoundException, InstantiationException, IllegalAccessException,
+	private void prepareScenes() throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		for (SceneClass s : SceneClass.values()) {
 			GridPane newPane = s.getSceneClass().getDeclaredConstructor(SceneController.class)
