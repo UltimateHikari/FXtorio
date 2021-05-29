@@ -29,9 +29,7 @@ public class Belt extends BasicConnectionModel {
 
 	public Belt(ConnectionOutPoint source, ConnectionInPoint destination) {
 		connectDestination(destination);
-		destination.connect(this);
 		connectSource(source);
-		source.connect(this);
 		initDistance();
 		initItems();
 		notifySubs(); // for constructing & subbing carts
@@ -52,6 +50,7 @@ public class Belt extends BasicConnectionModel {
 	@Override
 	public void connectDestination(ConnectionInPoint o) {
 		dst = o;
+		o.connect(this);
 	}
 
 	public void connectSource(ConnectionOutPoint o) {

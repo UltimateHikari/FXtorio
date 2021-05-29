@@ -2,7 +2,6 @@ package com.hikari.hellofx.entity.service;
 
 import java.util.stream.Collectors;
 
-import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.belt.Belt;
@@ -11,7 +10,7 @@ import com.hikari.hellofx.entity.model.belt.ItemCarriage;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class BeltService extends BaseService {
+public class BeltService extends BasicConnectionService {
 	private int base = 0;
 	private int end = 0;
 	private Belt bModel;
@@ -35,18 +34,7 @@ public class BeltService extends BaseService {
 		offerItem();
 		moveCells();
 		sleep(bModel.getCellTravelTime());
-		checkIfDetached();
 		pollItem();
-	}
-
-	private void checkIfDetached() throws InterruptedException {
-		if(bModel.isDetached()) {
-			// TODO here can complete sending left items
-			// but for now just dropping all without excessive offers/polls
-			bModel.getDst().disconnect();
-			bModel.getSrc().disconnect();
-			throw new InterruptedException();
-		}
 	}
 
 	private void offerItem() {

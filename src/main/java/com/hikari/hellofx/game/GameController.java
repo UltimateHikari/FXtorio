@@ -43,6 +43,7 @@ public class GameController{
 	private final GameView view;
 	private final EntityShadow shadow = new EntityShadow();
 	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<>();
+	private ControlTransferObject previousCto = null;
 	private ControlTransferObject cto = null;
 
 	public GameController(GameView view) {
@@ -76,6 +77,7 @@ public class GameController{
 	}
 	
 	private void updateCTO(ControlTransferObject cto) {
+		previousCto = this.cto;
 		if(cto instanceof FollowUpAction) {
 			cto.appendTo(this.cto);
 		} else {
@@ -201,13 +203,14 @@ public class GameController{
 		if (lastAction == Action.NOTICE) {
 			noticed.removeLast();
 		}
+		cto = previousCto;
 		log.info("ignoring " + noticed);
 	}
 	
 	private void despawnEntity() {
 		if(noticed.remove() instanceof IConnectable model) {
 			view.removeOrphan(game.removeEntity(model));
-			for(BasicConnectionView i : game.removeConnectionViews(model)) {
+			for(BasicConnectionView i : game.removeConnections(model)) {
 				view.removeOrphan(i);
 			}
 		} else { 

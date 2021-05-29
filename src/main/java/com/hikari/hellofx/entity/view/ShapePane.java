@@ -47,6 +47,7 @@ class ShapePane extends StackPane {
 			getChildren().clear();
 			getChildren().add(field);
 			getChildren().add(pane);
+			pane.setMouseTransparent(true);
 			for (Slice i : slices) {
 				var y = size*(i.getHeight());
 				log.info(offset + y);

@@ -30,7 +30,7 @@ public abstract class BaseService extends Thread{
 	}
 	
 	public void safeStop() {
-		Thread.currentThread().interrupt();
+		this.interrupt();
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public abstract class BaseService extends Thread{
 				performCycle();
 			} catch (InterruptedException e) {
 				log.error("Interrupted");
-				Thread.currentThread().interrupt();
+				this.interrupt();
 				return;
 				//TODO conditional variable? methods for safer stop/start/kill
 			}

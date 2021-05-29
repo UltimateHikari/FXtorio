@@ -26,18 +26,19 @@ public class Conveyor extends BasicConnectionModel {
 
 	public Conveyor(ConnectionOutPoint source, ConnectionInPoint destination) {
 		connectDestination(destination);
-		destination.connect(this);
 		connectSource(source);
-		source.connect(this);
 	}
-	
+
 	@Override
 	public void connectDestination(ConnectionInPoint o) {
 		dst = o;
+		o.connect(this);
 	}
 
+	@Override
 	public void connectSource(ConnectionOutPoint o) {
 		src = o;
+		o.connect(this);
 	}
 
 	public long getTravelTime() {

@@ -53,7 +53,7 @@ public class Spawner {
 			log.info("subbed4");
 			model.notifySubs();
 			log.info("subbed");
-			game.addConnection((IConnection) model, spawned);
+			game.addConnection((IConnection) model, spawned, service);
 			log.info("added");
 			view.showSpawned(spawned);
 			service.start();

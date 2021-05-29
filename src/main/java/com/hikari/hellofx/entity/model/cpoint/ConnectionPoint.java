@@ -24,7 +24,7 @@ public class ConnectionPoint extends BaseModel {
 	@Getter
 	private double lastViewY; 
 	@Getter
-	protected IConnection connection = null;
+	private IConnection connection = null;
 	private final IServiceNotifier parentEntity;
 
 	private static final int INTHREADSCOUNT = 1;
@@ -55,6 +55,7 @@ public class ConnectionPoint extends BaseModel {
 	}
 
 	public void disconnect() {
+		log.info("disconnected");
 		connection = null;
 	}
 

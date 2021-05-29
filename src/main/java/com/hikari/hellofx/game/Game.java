@@ -22,6 +22,7 @@ public class Game extends BaseModel {
 	private final Map<IConnectable, BaseService> entityServices = new HashMap<>();
 	private final List<IConnection> connections = new ArrayList<>();
 	private final Map<IConnection, BasicConnectionView> connectionViews = new HashMap<>();
+	private final Map<IConnection, BaseService> connectionServices = new HashMap<>();
 	GameFieldModel gameFieldModel = new GameFieldModel();
 
 	public GameFieldModel getField() {
@@ -34,7 +35,7 @@ public class Game extends BaseModel {
 		entityServices.put(model, service);
 	}
 
-	public List<BasicConnectionView> removeConnectionViews(IConnectable model) {
+	public List<BasicConnectionView> removeConnections(IConnectable model) {
 		//look at this monstrocity x)
 		List<BasicConnectionView> res = new ArrayList<>();
 		List<IConnection> modelCollections = Stream.concat(
@@ -43,6 +44,8 @@ public class Game extends BaseModel {
 				.collect(Collectors.toList());
 		for(IConnection i : modelCollections) {
 			i.markDetached();
+			//TODO leaving trail of stopped connection refs
+			connectionServices.get(i).safeStop();
 			res.add(connectionViews.remove(i));
 		}
 		return res;
@@ -56,9 +59,10 @@ public class Game extends BaseModel {
 		return view;
 	}
 
-	public void addConnection(IConnection connection, BasicConnectionView view) {
+	public void addConnection(IConnection connection, BasicConnectionView view, BaseService service) {
 		connections.add(connection);
 		connectionViews.put(connection, view);
+		connectionServices.put(connection, service);
 	}
 
 	public void forEachEntity(Consumer<IConnectable> f) {
