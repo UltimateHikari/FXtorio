@@ -2,17 +2,24 @@ package com.hikari.hellofx.base;
 
 import com.hikari.hellofx.entity.ISuspendable;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@RequiredArgsConstructor
 public abstract class BaseService extends Thread{
 	private final ISuspendable model;
+	@Getter
+	private final Object monitor = new Object();
+	
+	protected BaseService(ISuspendable model) {
+		this.model = model;
+	}
 	
 	protected void selfWait() throws InterruptedException {
-		synchronized(this) {
-			wait();
+		synchronized(monitor) {
+			while(!model.isOn()) {
+				monitor.wait();
+			}
 		}
 	}
 	

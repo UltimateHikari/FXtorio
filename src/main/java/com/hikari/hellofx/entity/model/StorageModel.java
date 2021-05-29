@@ -3,6 +3,10 @@ package com.hikari.hellofx.entity.model;
 import java.util.ArrayDeque;
 import java.util.List;
 
+import com.hikari.hellofx.entity.model.basic.BasicEntityModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
+
 import lombok.Getter;
 
 import java.util.Collections;

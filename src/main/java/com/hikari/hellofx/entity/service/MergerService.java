@@ -5,8 +5,8 @@ import java.util.List;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.Item;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.MergerModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
 
 import lombok.extern.log4j.Log4j2;
 

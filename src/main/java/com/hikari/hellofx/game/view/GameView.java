@@ -1,7 +1,6 @@
 package com.hikari.hellofx.game.view;
 
 import com.hikari.hellofx.SceneController;
-import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.model.EntityShadow;
 import com.hikari.hellofx.entity.view.EntityShadowView;
 import com.hikari.hellofx.entity.view.info.ConnectableInfo;
@@ -47,7 +46,7 @@ public class GameView extends GridPane{
 		return infoMenu;
 	}
 	
-	public void showInfo(IConnectable model, ConnectableInfo info) {
+	public void showInfo(ConnectableInfo info) {
 		getChildren().remove(infoMenu);
 		infoMenu = info;
 		add(infoMenu, 1, 0);

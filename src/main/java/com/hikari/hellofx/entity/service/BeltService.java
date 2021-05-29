@@ -52,11 +52,10 @@ public class BeltService extends BaseService {
 	private void offerItem() {
 		if (haveReadyItems()) {
 			ItemCarriage current = bModel.getItemModels().get(base);
-			Item o = current.removeItem();
+			var o = current.removeItem();
 			if (bModel.getDst().offer(o)) {
 				base = cycleIncrement(base);
 				current.dispatch();
-				;
 			} else {
 				current.putItem(o);
 			}
@@ -86,11 +85,11 @@ public class BeltService extends BaseService {
 	}
 
 	private int cycleDecrement(int a) {
-		return Math.floorMod(a - 1, (int) bModel.getSlotsCount());
+		return Math.floorMod(a - 1, bModel.getSlotsCount());
 	}
 
 	private int cycleIncrement(int a) {
-		return (a + 1) % (int) bModel.getSlotsCount();
+		return (a + 1) % bModel.getSlotsCount();
 	}
 
 }

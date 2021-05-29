@@ -7,11 +7,11 @@ import com.hikari.hellofx.base.IModelInfo;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IProducer;
-import com.hikari.hellofx.entity.model.BasicEntityModel;
 import com.hikari.hellofx.entity.model.ConnectableState;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.EntityShadow;
+import com.hikari.hellofx.entity.model.basic.BasicEntityModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.info.ConnectableInfo;
 import com.hikari.hellofx.game.control.ControlTransferObject;
@@ -45,10 +45,10 @@ public class GameController{
 	private final ArrayDeque<BaseModel> noticed = new ArrayDeque<>();
 	private ControlTransferObject cto = null;
 
-	public GameController(GameView view_) {
-		view = view_;
+	public GameController(GameView view) {
+		this.view = view;
 		Spawner.setGame(game);
-		Spawner.setView(view_);
+		Spawner.setView(view);
 	}
 
 	private void enableSPAWNINGState() {
@@ -262,7 +262,7 @@ public class GameController{
 		}
 		model.subscribe(info);
 		model.notifySubs();
-		view.showInfo((IConnectable) model, info);
+		view.showInfo(info);
 	}
 
 	public Object moveShadow(MouseEvent event) {

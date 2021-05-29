@@ -1,7 +1,7 @@
 package com.hikari.hellofx.entity;
 
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 public interface IConnection {
 	public void connectDestination(ConnectionInPoint o);

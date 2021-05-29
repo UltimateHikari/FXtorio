@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.hikari.hellofx.base.BaseService;
+import com.hikari.hellofx.entity.model.basic.BasicEntityModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 import lombok.Getter;
 
@@ -41,7 +44,7 @@ public class MergerModel extends BasicEntityModel {
 	}
 
 	public int amountOfConnectedPoints() {
-		return ins.stream().map((o) -> (o.isFree() ? 0 : 1)).reduce(0, (a, b) -> a + b);
+		return ins.stream().map(o -> (o.isFree() ? 0 : 1)).reduce(0, (a, b) -> a + b);
 
 	}
 

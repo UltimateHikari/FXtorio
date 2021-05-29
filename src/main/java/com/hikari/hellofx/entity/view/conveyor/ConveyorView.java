@@ -4,9 +4,9 @@ import java.util.ArrayDeque;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.entity.Item;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.conveyor.Conveyor;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 
 import javafx.geometry.Point2D;

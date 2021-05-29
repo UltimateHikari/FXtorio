@@ -1,4 +1,4 @@
-package com.hikari.hellofx.entity.model;
+package com.hikari.hellofx.entity.model.basic;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +9,9 @@ import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IPowerConnectable;
 import com.hikari.hellofx.entity.IServiceNotifier;
+import com.hikari.hellofx.entity.model.ConnectableState;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 
 import lombok.Setter;
 
@@ -26,8 +29,8 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	}
 
 	public void notifyService() {
-		synchronized (basicService) {
-			basicService.notify();
+		synchronized (basicService.getMonitor()) {
+			basicService.getMonitor().notifyAll();
 		}
 	}
 

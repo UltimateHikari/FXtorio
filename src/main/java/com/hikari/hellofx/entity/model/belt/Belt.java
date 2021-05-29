@@ -4,22 +4,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.hikari.hellofx.base.BaseModel;
-import com.hikari.hellofx.entity.IConnection;
-import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
+import com.hikari.hellofx.entity.model.basic.BasicConnectionModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 import javafx.geometry.Point2D;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class Belt extends BaseModel implements IConnection, ISuspendable {
+public class Belt extends BasicConnectionModel {
 	private static final double CELL_SIZE = 20;
-	private boolean isDetached = false;
 	private static final int CELL_TRAVEL_TIME = 500;
 
+	@Getter
 	private int slotsCount;
 
 	// 0 .. slotsCount - 1
@@ -47,23 +45,8 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 	}
 
 	private void initItems() {
-		items = Stream.generate(() -> new ItemCarriage(slotsCount - 1)).limit(slotsCount)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public void turnOff() {
-		//always on
-	}
-
-	@Override
-	public void turnOn() {
-		//always on
-	}
-
-	@Override
-	public boolean isOn() {
-		return true;
+		items = Stream.generate(() -> new ItemCarriage(slotsCount - 1))
+				.limit(slotsCount).collect(Collectors.toList());
 	}
 
 	@Override
@@ -80,23 +63,8 @@ public class Belt extends BaseModel implements IConnection, ISuspendable {
 		return CELL_TRAVEL_TIME;
 	}
 
-	public double getSlotsCount() {
-		return slotsCount;
-	}
-
 	public List<ItemCarriage> getItemModels() {
 		return items;
-	}
-
-	@Override
-	public void markDetached() {
-		//TODO disconnect from other end 
-		isDetached = true;
-	}
-
-	@Override
-	public boolean isDetached() {
-		return isDetached;
 	}
 
 }

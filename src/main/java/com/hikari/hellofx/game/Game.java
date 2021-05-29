@@ -12,7 +12,7 @@ import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IConnection;
-import com.hikari.hellofx.entity.model.ConnectionPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.BasicEntityView;
 
@@ -49,7 +49,6 @@ public class Game extends BaseModel {
 	}
 
 	public BasicEntityView removeEntity(IConnectable model) {
-		// TODO rework to proper interrupt and stop-the-world
 		entityServices.get(model).safeStop();
 		entityServices.remove(model);
 		var view = entityViews.remove(model);

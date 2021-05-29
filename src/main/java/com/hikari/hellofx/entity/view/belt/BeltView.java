@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hikari.hellofx.base.BaseModel;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.belt.Belt;
 import com.hikari.hellofx.entity.model.belt.ItemCarriage;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 
 import javafx.geometry.Point2D;

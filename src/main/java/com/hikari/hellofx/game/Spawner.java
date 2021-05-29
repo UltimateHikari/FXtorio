@@ -9,8 +9,8 @@ import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IConnection;
 import com.hikari.hellofx.entity.IServiceNotifier;
 import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.BasicEntityView;
 import com.hikari.hellofx.game.control.ClassPack;
@@ -31,7 +31,6 @@ public class Spawner {
 	private Spawner() {
 	}
 
-	// TODO register threads somehow
 	public static void spawnConnection(ConnectionOutPoint out, ConnectionInPoint in, ClassPack pack)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {

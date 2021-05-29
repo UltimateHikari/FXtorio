@@ -3,8 +3,8 @@ package com.hikari.hellofx.entity.view;
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelSubscriber;
 import com.hikari.hellofx.entity.BindingController;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 import com.hikari.hellofx.game.GameAction;
 import com.hikari.hellofx.game.control.FollowUpAction;
 

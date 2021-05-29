@@ -27,7 +27,7 @@ public class AssemblerService extends BaseService{
 			model.notifySubs();
 			model.getOut().put(item);
 		}
-		model.setPayload(null);;
+		model.setPayload(null);
 		model.notifySubs();
 	}
 }

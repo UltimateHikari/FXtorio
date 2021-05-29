@@ -2,7 +2,7 @@ package com.hikari.hellofx.entity;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelSubscriber;
-import com.hikari.hellofx.entity.model.ConnectionPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 import com.hikari.hellofx.game.GameController;
 import com.hikari.hellofx.game.control.ControlTransferObject;
 

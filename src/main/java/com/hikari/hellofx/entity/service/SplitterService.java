@@ -3,8 +3,8 @@ package com.hikari.hellofx.entity.service;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.Item;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.SplitterModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 import lombok.extern.log4j.Log4j2;
 

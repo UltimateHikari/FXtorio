@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.hikari.hellofx.base.BaseService;
+import com.hikari.hellofx.entity.model.basic.BasicEntityModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 import lombok.Getter;
 

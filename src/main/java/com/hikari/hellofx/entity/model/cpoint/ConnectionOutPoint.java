@@ -1,4 +1,4 @@
-package com.hikari.hellofx.entity.model;
+package com.hikari.hellofx.entity.model.cpoint;
 
 import com.hikari.hellofx.entity.IServiceNotifier;
 

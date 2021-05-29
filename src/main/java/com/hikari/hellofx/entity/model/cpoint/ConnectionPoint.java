@@ -1,4 +1,4 @@
-package com.hikari.hellofx.entity.model;
+package com.hikari.hellofx.entity.model.cpoint;
 
 import java.util.concurrent.Semaphore;
 
@@ -32,10 +32,10 @@ public class ConnectionPoint extends BaseModel {
 	private final Semaphore isFull = new Semaphore(0);
 	private Item heldObject = null;
 
-	public ConnectionPoint(IServiceNotifier entity, Double offsetX_, Double offsetY_) {
+	public ConnectionPoint(IServiceNotifier entity, Double offsetX, Double offsetY) {
 		parentEntity = entity;
-		offsetX = offsetX_;
-		offsetY = offsetY_;
+		this.offsetX = offsetX;
+		this.offsetY = offsetY;
 	}
 
 	public boolean isFree() {
@@ -49,8 +49,8 @@ public class ConnectionPoint extends BaseModel {
 		}
 	}
 
-	public void connect(IConnection connection_) {
-		connection = connection_;
+	public void connect(IConnection connection) {
+		this.connection = connection;
 		notifyParentService();
 	}
 
@@ -73,7 +73,6 @@ public class ConnectionPoint extends BaseModel {
 		var res = heldObject;
 		heldObject = null;
 		isEmpty.release();
-		//notifyParent();
 		return res;
 	}
 

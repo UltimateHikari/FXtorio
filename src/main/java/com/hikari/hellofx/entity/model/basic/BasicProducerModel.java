@@ -1,4 +1,4 @@
-package com.hikari.hellofx.entity.model;
+package com.hikari.hellofx.entity.model.basic;
 
 import java.util.List;
 import java.util.NoSuchElementException;

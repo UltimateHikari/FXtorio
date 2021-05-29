@@ -7,9 +7,9 @@ import com.hikari.hellofx.base.IModelSubscriber;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
-import com.hikari.hellofx.entity.model.ConnectionPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 import com.hikari.hellofx.game.GameAction;
 import com.hikari.hellofx.game.control.BareAction;
 
