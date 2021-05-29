@@ -14,9 +14,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public abstract class BasicProducerModel extends BasicEntityModel implements IProducer{
 	@Getter
-	private Recipe currentRecipe;
-	
-	//TODO override turnOn for getting first recipe
+	private Recipe currentRecipe = RecipeManager.instance().getRecipeList(this.getClass()).get(0);
 	
 	@Override
 	public void setCurrentRecipe(Item item) throws NoSuchElementException{
