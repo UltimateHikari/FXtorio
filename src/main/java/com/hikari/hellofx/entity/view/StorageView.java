@@ -9,9 +9,7 @@ import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.StorageModel;
 
 import javafx.scene.paint.Color;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 public class StorageView extends BasicEntityView {
 	private static final Color STORAGECOLOR = Color.AQUAMARINE;
 
@@ -27,10 +25,8 @@ public class StorageView extends BasicEntityView {
 	protected List<Slice> generateSlices(IConnectable model) {
 		var storage = ((StorageModel) model).getStorage();
 		var storageSize = ((StorageModel) model).getStorageSize();
-		List<Slice> list =  storage.keySet().stream()
+		return storage.keySet().stream()
 				.map(s -> new Slice(((double) storage.get(s)) / ((double) storageSize), Item.valueOf(s).getColor()))
 				.collect(Collectors.toList());
-		log.info(list);
-		return list;
 	}
 }

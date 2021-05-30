@@ -14,9 +14,7 @@ import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 
 import lombok.Setter;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 public abstract class BasicEntityModel extends BaseModel implements IConnectable, IPowerConnectable, IServiceNotifier {
 	@Setter
 	private Object payload = null;
@@ -32,7 +30,6 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 
 	public void notifyService() {
 		synchronized (basicService.getMonitor()) {
-			log.info("notified");
 			basicService.armItemsQueued();
 			basicService.getMonitor().notifyAll();
 		}

@@ -7,9 +7,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import lombok.extern.log4j.Log4j2;
 
-@Log4j2
 class ShapePane extends StackPane {
 	private final Rectangle field;
 	private final Text label;
@@ -50,15 +48,12 @@ class ShapePane extends StackPane {
 			pane.setMouseTransparent(true);
 			for (Slice i : slices) {
 				var y = size*(i.getHeight());
-				log.info(offset + y);
 				var slice = new Rectangle(0, offset, size, y);
 				slice.setFill(i.getColor());
 				pane.getChildren().add(slice);
 				offset += y;
 			}
 			getChildren().add(label);
-		}else {
-			log.info("omitting slices render");
 		}
 	}
 
