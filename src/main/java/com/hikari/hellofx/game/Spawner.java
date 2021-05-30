@@ -38,26 +38,19 @@ public class Spawner {
 			if(out.parentEquals(in)) {
 				throw new IllegalArgumentException("points have same parent");
 			}
-			log.info("spwn " + cpack.toString());
 
 			BaseModel model = cpack.getModel().getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class)
 					.newInstance(out, in);
-			log.info("subbed1");
 			BasicConnectionView spawned = cpack.getView()
 					.getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class).newInstance(out, in);
-			log.info("subbed2");
 			BaseService service = cpack.getService().getDeclaredConstructor(ISuspendable.class)
 					.newInstance((ISuspendable) model);
-			log.info("subbed3");
 			model.subscribe(spawned);
-			log.info("subbed4");
 			model.notifySubs();
-			log.info("subbed");
 			game.addConnection((IConnection) model, spawned, service);
-			log.info("added");
 			view.showSpawned(spawned);
 			service.start();
-			log.info("connected");
+			log.info("connected " + cpack.toString());
 		} else {
 			throw new IllegalArgumentException("wrong classpack");
 		}

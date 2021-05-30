@@ -43,11 +43,6 @@ public class MergerModel extends BasicEntityModel {
 		turnOn();
 	}
 
-	public int amountOfConnectedPoints() {
-		return ins.stream().map(o -> (o.isFree() ? 0 : 1)).reduce(0, (a, b) -> a + b);
-
-	}
-
 	@Override
 	public synchronized Integer getFillCount() {
 		// nothing stays inside

@@ -18,5 +18,7 @@ public interface IConnectable extends ISuspendable {
 
 	public List<ConnectionPoint> filterFreePoints(Class<? extends ConnectionPoint> point);
 
+	public List<ConnectionPoint> filterNonFreePoints(Class<? extends ConnectionPoint> point);
+	
 	public Integer getFillCount();
 }

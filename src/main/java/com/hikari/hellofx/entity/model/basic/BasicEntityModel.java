@@ -2,6 +2,7 @@ package com.hikari.hellofx.entity.model.basic;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.hikari.hellofx.base.BaseModel;
@@ -79,8 +80,17 @@ public abstract class BasicEntityModel extends BaseModel implements IConnectable
 	}
 
 	public List<ConnectionPoint> filterFreePoints(Class<? extends ConnectionPoint> point) {
-		List<? extends ConnectionPoint> list = (point.equals(ConnectionInPoint.class) ? getInPoints() : getOutPoints());
-		return list.stream().filter(ConnectionPoint::isFree).collect(Collectors.toUnmodifiableList());
+		return filterPoints(point, ConnectionPoint::isFree);
+	}
+
+	public List<ConnectionPoint> filterNonFreePoints(Class<? extends ConnectionPoint> point) {
+		return filterPoints(point, (p -> !p.isFree()));
+	}
+
+	public List<ConnectionPoint> filterPoints(Class<? extends ConnectionPoint> point,
+			Predicate<? super ConnectionPoint> predicate) {
+		return (point.equals(ConnectionInPoint.class) ? getInPoints() : getOutPoints()).stream().filter(predicate)
+				.collect(Collectors.toUnmodifiableList());
 	}
 
 }

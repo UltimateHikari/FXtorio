@@ -22,7 +22,7 @@ public class ConnectionPoint extends BaseModel {
 	@Getter
 	private double lastViewX;
 	@Getter
-	private double lastViewY; 
+	private double lastViewY;
 	@Getter
 	private IConnection connection = null;
 	private final IServiceNotifier parentEntity;
@@ -42,8 +42,12 @@ public class ConnectionPoint extends BaseModel {
 		return (connection == null);
 	}
 
+	public boolean isEmpty() {
+		return (heldObject == null);
+	}
+
 	protected void notifyParentService() {
-		log.info("notifying " + parentEntity.toString());
+		log.trace("notifying " + parentEntity.toString());
 		parentEntity.notifyService();
 	}
 
@@ -106,12 +110,12 @@ public class ConnectionPoint extends BaseModel {
 			return res;
 		}
 	}
-	
-	//this two for preventing self-connecting with spawner
+
+	// this two for preventing self-connecting with spawner
 	IServiceNotifier getParentEntity() {
 		return parentEntity;
 	}
-	
+
 	public boolean parentEquals(ConnectionPoint other) {
 		return parentEntity.equals(other.getParentEntity());
 	}

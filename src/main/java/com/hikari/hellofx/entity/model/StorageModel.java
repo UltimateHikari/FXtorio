@@ -9,12 +9,10 @@ import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
 import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 import lombok.Getter;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.Collections;
 import java.util.HashMap;
 
-@Log4j2
 public class StorageModel extends BasicEntityModel {
 	@Getter
 	private final Map<String, Integer> storage = new HashMap<>();
@@ -41,6 +39,5 @@ public class StorageModel extends BasicEntityModel {
 	public void addItem(Item o) {
 		storage.merge(o.toString(), 1, ((a,b) -> a + b));
 		storageSize++;
-		log.info(storage);
 	}
 }

@@ -12,6 +12,8 @@ import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IConnection;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.BasicEntityView;
@@ -39,8 +41,8 @@ public class Game extends BaseModel {
 		//look at this monstrocity x)
 		List<BasicConnectionView> res = new ArrayList<>();
 		List<IConnection> modelCollections = Stream.concat(
-				model.getInPoints().stream().filter(c -> !c.isFree()).map(ConnectionPoint::getConnection), 
-				model.getOutPoints().stream().filter(c -> !c.isFree()).map(ConnectionPoint::getConnection))
+				model.filterNonFreePoints(ConnectionInPoint.class).stream().map(ConnectionPoint::getConnection), 
+				model.filterNonFreePoints(ConnectionOutPoint.class).stream().map(ConnectionPoint::getConnection))
 				.collect(Collectors.toList());
 		for(IConnection i : modelCollections) {
 			i.markDetached();
