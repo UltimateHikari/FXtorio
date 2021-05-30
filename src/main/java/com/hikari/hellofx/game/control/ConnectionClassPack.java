@@ -4,10 +4,10 @@ import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.model.conveyor.Conveyor;
 import com.hikari.hellofx.entity.view.conveyor.ConveyorView;
-import com.hikari.hellofx.entity.service.ConveyorService;
+import com.hikari.hellofx.entity.service.connection.BeltService;
+import com.hikari.hellofx.entity.service.connection.ConveyorService;
 import com.hikari.hellofx.entity.model.belt.Belt;
 import com.hikari.hellofx.entity.view.belt.BeltView;
-import com.hikari.hellofx.entity.service.BeltService;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 
 import lombok.AllArgsConstructor;

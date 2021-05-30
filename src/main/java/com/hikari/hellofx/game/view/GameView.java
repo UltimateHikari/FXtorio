@@ -70,4 +70,8 @@ public class GameView extends GridPane{
 		gameField.remove(shadowView);
 		shadowView.disable();
 	}
+	
+	public void stopTheWorld() {
+		gController.stopTheWorld();
+	}
 }

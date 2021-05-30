@@ -10,16 +10,24 @@ public abstract class BaseService extends Thread{
 	private final ISuspendable model;
 	@Getter
 	private final Object monitor = new Object();
+	private boolean hasItemsQueued = false;
 	
 	protected BaseService(ISuspendable model) {
 		this.model = model;
 	}
 	
+	public void armItemsQueued() {
+		synchronized(monitor) {
+			hasItemsQueued = true;
+		}
+	}
+	
 	protected void selfWait() throws InterruptedException {
 		synchronized(monitor) {
-			while(!model.isOn()) {
+			while(!hasItemsQueued || !model.isOn()) {
 				monitor.wait();
 			}
+			hasItemsQueued = false;
 		}
 	}
 	

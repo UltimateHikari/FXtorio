@@ -1,5 +1,6 @@
 package com.hikari.hellofx;
 
+import com.hikari.hellofx.game.view.ExitButton;
 import com.hikari.hellofx.game.view.NavButton;
 
 import javafx.geometry.Insets;
@@ -20,7 +21,7 @@ public class MenuView extends GridPane{
 		add(new Button("New game"), 0, 1);
 		add(new Button("Load game"), 0, 2);
 		add(new Button("Credits"), 0, 3);
-		add(new Button("Exit"), 0, 4);
+		add(new ExitButton(controller, "Exit"), 0, 4);
 		
 	}
 }

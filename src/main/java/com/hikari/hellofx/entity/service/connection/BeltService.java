@@ -1,4 +1,4 @@
-package com.hikari.hellofx.entity.service;
+package com.hikari.hellofx.entity.service.connection;
 
 import java.util.stream.Collectors;
 

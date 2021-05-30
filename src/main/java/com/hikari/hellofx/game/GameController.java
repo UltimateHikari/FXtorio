@@ -278,4 +278,8 @@ public class GameController{
 		game.getField().subscribe(gameField);
 
 	}
+
+	public void stopTheWorld() {
+		game.removeAll();
+	}
 }

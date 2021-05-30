@@ -42,11 +42,9 @@ public class ConnectionPoint extends BaseModel {
 		return (connection == null);
 	}
 
-	private void notifyParentService() {
-		synchronized (parentEntity) {
-			log.info("notifying " + parentEntity.toString());
-			parentEntity.notifyService();
-		}
+	protected void notifyParentService() {
+		log.info("notifying " + parentEntity.toString());
+		parentEntity.notifyService();
 	}
 
 	public void connect(IConnection connection) {
@@ -82,7 +80,6 @@ public class ConnectionPoint extends BaseModel {
 		heldObject = o;
 		log.debug(" taking " + heldObject.toString());
 		isFull.release();
-		notifyParentService();
 	}
 
 	public boolean offer(Item o) {
@@ -93,7 +90,6 @@ public class ConnectionPoint extends BaseModel {
 			heldObject = o;
 			isFull.release();
 			log.debug(" +offered " + heldObject.toString());
-			notifyParentService();
 			return true;
 		}
 	}
@@ -106,7 +102,6 @@ public class ConnectionPoint extends BaseModel {
 			log.debug(" +polled " + heldObject.toString());
 			var res = heldObject;
 			heldObject = null;
-			notifyParentService();
 			isEmpty.release();
 			return res;
 		}

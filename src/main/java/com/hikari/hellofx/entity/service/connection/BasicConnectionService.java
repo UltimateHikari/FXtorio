@@ -1,4 +1,4 @@
-package com.hikari.hellofx.entity.service;
+package com.hikari.hellofx.entity.service.connection;
 
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
@@ -17,7 +17,6 @@ public abstract class BasicConnectionService extends BaseService{
 	public void run() {
 		while (true) {
 			try {
-				selfWait();
 				performCycle();
 			} catch (InterruptedException e) {
 				log.error("Interrupted");

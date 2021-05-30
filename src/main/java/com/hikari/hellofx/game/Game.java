@@ -65,7 +65,16 @@ public class Game extends BaseModel {
 		connectionServices.put(connection, service);
 	}
 
-	public void forEachEntity(Consumer<IConnectable> f) {
-		entityModels.stream().forEach(f);
+	public void removeAll() {
+		forEachEntity(this::removeConnections);
+		for(IConnectable i : entityModels) {
+			entityServices.get(i).safeStop();
+			entityServices.remove(i);
+		}
 	}
+	
+	public void forEachEntity(Consumer<IConnectable> f) {
+			entityModels.stream().forEach(f);
+	}
+
 }

@@ -16,12 +16,13 @@ public class AppModel extends BaseModel {
 		super.notifySubs();
 	}
 	
-	public boolean isStopped() {
-		return isStopped;
+	public void setStopped() {
+		isStopped = true;
+		super.notifySubs();
 	}
 	
-	public void stop() {
-		isStopped = true;
+	public boolean isStopped() {
+		return isStopped;
 	}
 
 }

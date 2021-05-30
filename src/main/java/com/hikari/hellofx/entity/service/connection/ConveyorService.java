@@ -1,4 +1,4 @@
-package com.hikari.hellofx.entity.service;
+package com.hikari.hellofx.entity.service.connection;
 
 import com.hikari.hellofx.entity.ISuspendable;
 import com.hikari.hellofx.entity.Item;

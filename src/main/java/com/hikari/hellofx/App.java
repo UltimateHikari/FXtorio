@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelSubscriber;
+import com.hikari.hellofx.game.view.GameView;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -64,8 +66,10 @@ public class App extends Application implements IModelSubscriber {
 	public void modelChanged(BaseModel model) {
 		if (model instanceof AppModel amodel) {
 			if(amodel.isStopped()) {
+				log.info("being stopped");
 				try {
-					stop();
+					askGameToStop();
+					Platform.exit();
 				} catch (Exception e) {
 					//dont want to propagate  non-informative "throws exception" everywhere
 					//just for exiting program in the end anyways
@@ -77,6 +81,14 @@ public class App extends Application implements IModelSubscriber {
 		} else {
 			throw new IllegalArgumentException("wrong appmodel");
 		}
+	}
+
+	private void askGameToStop() {
+		/*
+		 * TODO potential leak again here? why app knows about specific view, 
+		 * and view pokes controller for stopping?
+		 */
+		((GameView)scenes.get(SceneClass.GAME).getRoot()).stopTheWorld();
 	}
 
 }

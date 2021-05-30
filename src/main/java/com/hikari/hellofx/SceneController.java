@@ -17,4 +17,8 @@ public class SceneController {
 			log.error("Error changing scene: ", e);
 		}
 	}
+	
+	public void exit() {
+		model.setStopped();
+	}
 }
