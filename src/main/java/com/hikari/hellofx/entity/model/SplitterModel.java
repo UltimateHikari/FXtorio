@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.hikari.hellofx.base.BaseService;
+import com.hikari.hellofx.entity.model.basic.BasicEntityModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 
 import lombok.Getter;
 
@@ -38,11 +41,6 @@ public class SplitterModel extends BasicEntityModel {
 	public void connectService(BaseService service) {
 		super.connectService(service);
 		turnOn();
-	}
-
-	public int amountOfConnectedPoints() {
-		return outs.stream().map((o) -> (o.isFree() ? 0 : 1)).reduce(0, (a, b) -> a + b);
-
 	}
 
 	@Override

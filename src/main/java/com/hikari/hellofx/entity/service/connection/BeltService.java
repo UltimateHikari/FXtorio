@@ -1,16 +1,16 @@
-package com.hikari.hellofx.entity.service;
+package com.hikari.hellofx.entity.service.connection;
 
 import java.util.stream.Collectors;
 
-import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.belt.Belt;
-import com.hikari.hellofx.entity.model.belt.ModelItem;
+import com.hikari.hellofx.entity.model.belt.ItemCarriage;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class BeltService extends BaseService {
+public class BeltService extends BasicConnectionService {
 	private int base = 0;
 	private int end = 0;
 	private Belt bModel;
@@ -39,12 +39,11 @@ public class BeltService extends BaseService {
 
 	private void offerItem() {
 		if (haveReadyItems()) {
-			ModelItem current = bModel.getItemModels().get(base);
-			Object o = current.removeItem();
+			ItemCarriage current = bModel.getItemModels().get(base);
+			var o = current.removeItem();
 			if (bModel.getDst().offer(o)) {
 				base = cycleIncrement(base);
 				current.dispatch();
-				;
 			} else {
 				current.putItem(o);
 			}
@@ -53,7 +52,7 @@ public class BeltService extends BaseService {
 
 	private void pollItem() {
 		if (haveEmptySlots()) {
-			Object o = bModel.getSrc().poll();
+			Item o = bModel.getSrc().poll();
 			if (o != null) {
 				bModel.getItemModels().get(end).putItem(o);
 				end = cycleIncrement(end);
@@ -64,21 +63,21 @@ public class BeltService extends BaseService {
 	private void moveCells() {
 		log.debug("base/end: " + base + "/" + end);
 		for (int i = base; i != end; i = cycleIncrement(i)) {
-			ModelItem current = bModel.getItemModels().get(i);
+			ItemCarriage current = bModel.getItemModels().get(i);
 			if ((i == base && current.notEndReached()) || (current.notEndReached()
 					&& current.notClosePredecessorTo(bModel.getItemModels().get(cycleDecrement(i))))) {
 				current.move();
 			}
 		}
-		log.debug(bModel.getItemModels().stream().map(ModelItem::toString).collect(Collectors.joining(",")));
+		log.debug(bModel.getItemModels().stream().map(ItemCarriage::toString).collect(Collectors.joining(",")));
 	}
 
 	private int cycleDecrement(int a) {
-		return Math.floorMod(a - 1, (int) bModel.getSlotsCount());
+		return Math.floorMod(a - 1, bModel.getSlotsCount());
 	}
 
 	private int cycleIncrement(int a) {
-		return (a + 1) % (int) bModel.getSlotsCount();
+		return (a + 1) % bModel.getSlotsCount();
 	}
 
 }

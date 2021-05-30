@@ -1,4 +1,4 @@
-package com.hikari.hellofx.game.classpack;
+package com.hikari.hellofx.game.control;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.BaseService;
@@ -6,16 +6,19 @@ import com.hikari.hellofx.entity.view.BasicEntityView;
 import com.hikari.hellofx.entity.view.AssemblerView;
 import com.hikari.hellofx.entity.view.ConstructorView;
 import com.hikari.hellofx.entity.view.MinerView;
+import com.hikari.hellofx.entity.view.MergerView;
 import com.hikari.hellofx.entity.view.SplitterView;
 import com.hikari.hellofx.entity.view.StorageView;
 import com.hikari.hellofx.entity.model.AssemblerModel;
 import com.hikari.hellofx.entity.model.ConstructorModel;
 import com.hikari.hellofx.entity.model.MinerModel;
+import com.hikari.hellofx.entity.model.MergerModel;
 import com.hikari.hellofx.entity.model.SplitterModel;
 import com.hikari.hellofx.entity.model.StorageModel;
 import com.hikari.hellofx.entity.service.AssemblerService;
 import com.hikari.hellofx.entity.service.ConstructorService;
 import com.hikari.hellofx.entity.service.MinerService;
+import com.hikari.hellofx.entity.service.MergerService;
 import com.hikari.hellofx.entity.service.SplitterService;
 import com.hikari.hellofx.entity.service.StorageService;
 
@@ -28,6 +31,7 @@ public enum EntityClassPack implements ClassPack{
 	CONSTRUCTOR(ConstructorModel.class, ConstructorView.class, ConstructorService.class),
 	MINER(MinerModel.class, MinerView.class, MinerService.class),
 	SPLITTER(SplitterModel.class, SplitterView.class, SplitterService.class),
+	MERGER(MergerModel.class, MergerView.class, MergerService.class),
 	STORAGE(StorageModel.class, StorageView.class, StorageService.class);
 	
 	@Getter

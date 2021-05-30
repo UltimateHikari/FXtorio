@@ -7,15 +7,15 @@ import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.IConnection;
-import com.hikari.hellofx.entity.IServiceable;
+import com.hikari.hellofx.entity.IServiceNotifier;
 import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 import com.hikari.hellofx.entity.view.BasicEntityView;
-import com.hikari.hellofx.game.classpack.ClassPack;
-import com.hikari.hellofx.game.classpack.ConnectionClassPack;
-import com.hikari.hellofx.game.classpack.EntityClassPack;
+import com.hikari.hellofx.game.control.ClassPack;
+import com.hikari.hellofx.game.control.ConnectionClassPack;
+import com.hikari.hellofx.game.control.EntityClassPack;
 import com.hikari.hellofx.game.view.GameView;
 
 import lombok.Setter;
@@ -27,9 +27,10 @@ public class Spawner {
 	private static Game game;
 	@Setter
 	private static GameView view;
+	
+	private Spawner() {
+	}
 
-	// TODO register threads somehow
-	// TODO ban self-connection
 	public static void spawnConnection(ConnectionOutPoint out, ConnectionInPoint in, ClassPack pack)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
@@ -37,7 +38,6 @@ public class Spawner {
 			if(out.parentEquals(in)) {
 				throw new IllegalArgumentException("points have same parent");
 			}
-			log.info("spwn " + cpack.toString());
 
 			BaseModel model = cpack.getModel().getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class)
 					.newInstance(out, in);
@@ -45,14 +45,12 @@ public class Spawner {
 					.getDeclaredConstructor(ConnectionOutPoint.class, ConnectionInPoint.class).newInstance(out, in);
 			BaseService service = cpack.getService().getDeclaredConstructor(ISuspendable.class)
 					.newInstance((ISuspendable) model);
-
 			model.subscribe(spawned);
 			model.notifySubs();
-
-			game.addConnection((IConnection) model);
+			game.addConnection((IConnection) model, spawned, service);
 			view.showSpawned(spawned);
 			service.start();
-			log.info("connected");
+			log.info("connected " + cpack.toString());
 		} else {
 			throw new IllegalArgumentException("wrong classpack");
 		}
@@ -71,9 +69,9 @@ public class Spawner {
 					.newInstance((ISuspendable) model);
 
 			model.subscribe(spawned);
-			((IServiceable) model).connectService(service);
+			((IServiceNotifier) model).connectService(service);
 			view.showSpawned(spawned);
-			game.addEntity((IConnectable) model);
+			game.addEntity((IConnectable) model, spawned, service);
 			service.start();
 		} else {
 			throw new IllegalArgumentException("wrong classpack");

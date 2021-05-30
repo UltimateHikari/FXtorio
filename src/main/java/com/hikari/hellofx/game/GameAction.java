@@ -10,5 +10,6 @@ public enum GameAction {
 	CONNECT_OUT,
 	DESPAWN,
 	CANCEL,
+	RECIPE,
 	NOP,
 }

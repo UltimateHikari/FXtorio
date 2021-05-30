@@ -1,5 +1,6 @@
 package com.hikari.hellofx.entity.view;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.hikari.hellofx.base.BaseModel;
@@ -7,8 +8,11 @@ import com.hikari.hellofx.base.IModelSubscriber;
 import com.hikari.hellofx.entity.BindingController;
 import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.entity.model.ConnectionPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 import com.hikari.hellofx.game.GameAction;
+import com.hikari.hellofx.game.control.BareAction;
 
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
@@ -27,7 +31,7 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		setPrefSize(SIZE, SIZE);
 
 		shapePane = new ShapePane(SIZE, color);
-		shapePane.setOnMouseClicked(event -> bController.handleClick(event, GameAction.INFO));
+		shapePane.setOnMouseClicked(event -> bController.handleClick(new BareAction(GameAction.INFO, event)));
 		placeDefaultChildren();
 	}
 
@@ -36,6 +40,7 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		if (model instanceof IConnectable cModel) {
 			String labelText = checkPower(cModel) + " " + checkFill(cModel);
 			Platform.runLater(() -> {
+				shapePane.renderSlices(generateSlices(cModel));
 				shapePane.getLabel().setText(labelText);
 				showPoints(cModel);
 			});
@@ -47,10 +52,10 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 		clearChildren();
 		switch (state) {
 		case IN_POINTS:
-			showPoints(cModel.getInPoints());
+			showPoints(cModel.filterFreePoints(ConnectionInPoint.class));
 			break;
 		case OUT_POINTS:
-			showPoints(cModel.getOutPoints());
+			showPoints(cModel.filterFreePoints(ConnectionOutPoint.class));
 			break;
 		case NO_POINTS:
 			break;
@@ -86,5 +91,10 @@ public class BasicEntityView extends Pane implements IModelSubscriber {
 
 	private String checkFill(IConnectable model) {
 		return model.getFillCount().toString();
+	}
+	
+	protected List<Slice> generateSlices(IConnectable model) {
+		//for overriding in views working with shape
+		return Collections.emptyList();
 	}
 }

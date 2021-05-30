@@ -1,11 +1,12 @@
-package com.hikari.hellofx.entity.view;
+package com.hikari.hellofx.entity.view.info;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelInfo;
 import com.hikari.hellofx.entity.BindingController;
+import com.hikari.hellofx.entity.IProducer;
 import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.game.view.DespawnButton;
-import com.hikari.hellofx.game.view.SuspendButton;
+import com.hikari.hellofx.entity.Item;
+import com.hikari.hellofx.entity.RecipeManager;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -29,12 +30,34 @@ public class ConnectableInfo extends VBox implements IModelInfo {
 
 	@Override
 	public void modelChanged(BaseModel model) {
-		String state = "My state is " + ((ISuspendable) model).isOn();
+		// controller notifies before actually showing
+
+		if (model instanceof IProducer producer) {
+			initRecipeButtons(producer);
+		}
 		Platform.runLater(() -> {
-			text.setText(state + "\n I am " + model);
+			var state = stringifyState(model);
+			text.setText(state);
 			btn.setText("turn " + stringifyReversePowerState((ISuspendable) model));
 			log.debug(state);
 		});
+	}
+
+	public String stringifyState(BaseModel model) {
+		String state = "My state is " + ((ISuspendable) model).isOn();
+		if (model instanceof IProducer producer) {
+			state = state + "\n producing " + producer.getCurrentRecipe().produce();
+		}
+		return state;
+	}
+
+	private void initRecipeButtons(IProducer model) {
+		// TODO: now it is like Minecraft recipes - you need to remember ingredients
+		// at least placement doesnt matter due to usage of Set
+		log.info(model.getClass().getName(), model);
+		for (Item i : RecipeManager.instance().getAllPossibleProducables(model.getClass())) {
+			add(new RecipeButton(controller, i.toString(), i));
+		}
 	}
 
 	private String stringifyReversePowerState(ISuspendable model) {

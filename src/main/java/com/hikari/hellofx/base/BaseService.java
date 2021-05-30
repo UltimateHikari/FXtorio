@@ -2,17 +2,32 @@ package com.hikari.hellofx.base;
 
 import com.hikari.hellofx.entity.ISuspendable;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@RequiredArgsConstructor
 public abstract class BaseService extends Thread{
 	private final ISuspendable model;
+	@Getter
+	private final Object monitor = new Object();
+	private boolean hasItemsQueued = false;
+	
+	protected BaseService(ISuspendable model) {
+		this.model = model;
+	}
+	
+	public void armItemsQueued() {
+		synchronized(monitor) {
+			hasItemsQueued = true;
+		}
+	}
 	
 	protected void selfWait() throws InterruptedException {
-		synchronized(this) {
-			wait();
+		synchronized(monitor) {
+			while(!hasItemsQueued || !model.isOn()) {
+				monitor.wait();
+			}
+			hasItemsQueued = false;
 		}
 	}
 	
@@ -22,17 +37,21 @@ public abstract class BaseService extends Thread{
 		return model;
 	}
 	
+	public void safeStop() {
+		this.interrupt();
+	}
+	
 	@Override
 	public void run() {
 		while (true) {
 			try {
-				while(!model.isOn()) {
-					selfWait();
-				}
+				selfWait();
 				performCycle();
 			} catch (InterruptedException e) {
 				log.error("Interrupted");
-				//TODO interrupt mb?
+				this.interrupt();
+				return;
+				//TODO conditional variable? methods for safer stop/start/kill
 			}
 		}
 	}

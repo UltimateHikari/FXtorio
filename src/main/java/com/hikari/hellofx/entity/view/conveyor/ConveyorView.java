@@ -3,9 +3,10 @@ package com.hikari.hellofx.entity.view.conveyor;
 import java.util.ArrayDeque;
 
 import com.hikari.hellofx.base.BaseModel;
-import com.hikari.hellofx.entity.model.ConnectionInPoint;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.conveyor.Conveyor;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
 import com.hikari.hellofx.entity.view.BasicConnectionView;
 
 import javafx.geometry.Point2D;
@@ -13,8 +14,8 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class ConveyorView extends BasicConnectionView {
-	// todo rework to single pool of refire-able transitions for caching
-	private final ArrayDeque<EntityTransition> transitions = new ArrayDeque<EntityTransition>(10);
+	//Kept for legacy, belt impl is far better
+	private final ArrayDeque<EntityTransition> transitions = new ArrayDeque<>(10);
 	Line road;
 	Duration duration = Duration.millis(1000); // default
 	private final Point2D start;
@@ -33,9 +34,10 @@ public class ConveyorView extends BasicConnectionView {
 	public void modelChanged(BaseModel model) {
 		duration = (Duration.millis(((Conveyor) model).getTravelTime()));
 		var e = ((Conveyor) model).getLastConnectionEvent();
+		Item item = (Item)((Conveyor) model).getPayload();
 		switch (e) {
 		case DEPARTED:
-			var entityTransition = new EntityTransition(duration, start, end, this);
+			var entityTransition = new EntityTransition(duration, start, end, this, item);
 			transitions.add(entityTransition);
 			break;
 		case ARRIVED:

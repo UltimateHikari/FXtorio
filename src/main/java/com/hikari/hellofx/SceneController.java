@@ -6,8 +6,8 @@ import lombok.extern.log4j.Log4j2;
 public class SceneController {
 	private final AppModel model;
 	
-	public SceneController(AppModel model_) {
-		model = model_;
+	public SceneController(AppModel model) {
+		this.model = model;
 	}
 	
 	public void changeCurrentScene(SceneClass nextSceneName){
@@ -16,5 +16,9 @@ public class SceneController {
 		} catch (Exception e) {
 			log.error("Error changing scene: ", e);
 		}
+	}
+	
+	public void exit() {
+		model.setStopped();
 	}
 }

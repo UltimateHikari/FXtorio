@@ -2,9 +2,13 @@ package com.hikari.hellofx.entity.model;
 
 import java.util.List;
 
+import com.hikari.hellofx.entity.model.basic.BasicProducerModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionInPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
+
 import lombok.Getter;
 
-public class ConstructorModel extends BasicEntityModel {
+public class ConstructorModel extends BasicProducerModel {
 	@Getter
 	private final ConnectionInPoint in = new ConnectionInPoint(this, -0.5, 0.0);
 	@Getter

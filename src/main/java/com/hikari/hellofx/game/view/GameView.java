@@ -1,10 +1,9 @@
 package com.hikari.hellofx.game.view;
 
 import com.hikari.hellofx.SceneController;
-import com.hikari.hellofx.entity.view.ConnectableInfo;
-import com.hikari.hellofx.entity.IConnectable;
 import com.hikari.hellofx.entity.model.EntityShadow;
 import com.hikari.hellofx.entity.view.EntityShadowView;
+import com.hikari.hellofx.entity.view.info.ConnectableInfo;
 import com.hikari.hellofx.game.GameController;
 
 import javafx.scene.Node;
@@ -39,11 +38,15 @@ public class GameView extends GridPane{
 		gameField.add(spawned);
 	}
 	
+	public void removeOrphan(Node orphanedNode) {
+		gameField.remove(orphanedNode);
+	}
+	
 	public VBox getInfo() {
 		return infoMenu;
 	}
 	
-	public void showInfo(IConnectable model, ConnectableInfo info) {
+	public void showInfo(ConnectableInfo info) {
 		getChildren().remove(infoMenu);
 		infoMenu = info;
 		add(infoMenu, 1, 0);
@@ -66,5 +69,9 @@ public class GameView extends GridPane{
 		shadow.unsubscribe(shadowView);
 		gameField.remove(shadowView);
 		shadowView.disable();
+	}
+	
+	public void stopTheWorld() {
+		gController.stopTheWorld();
 	}
 }

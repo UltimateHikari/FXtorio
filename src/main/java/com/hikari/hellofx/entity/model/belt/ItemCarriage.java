@@ -1,15 +1,16 @@
 package com.hikari.hellofx.entity.model.belt;
 
 import com.hikari.hellofx.base.BaseModel;
+import com.hikari.hellofx.entity.Item;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RequiredArgsConstructor
-public class ModelItem extends BaseModel{
+public class ItemCarriage extends BaseModel{
 	
-	private Object payload;
+	private Item payload;
 	private int position = 0;
 	private final int maxPosition;
 	//IDLE is not really used..
@@ -32,7 +33,7 @@ public class ModelItem extends BaseModel{
 		return (position != maxPosition);
 	}
 	
-	public boolean notClosePredecessorTo(ModelItem item) {
+	public boolean notClosePredecessorTo(ItemCarriage item) {
 		return position < item.getPosition() - 1;
 	}
 
@@ -45,14 +46,18 @@ public class ModelItem extends BaseModel{
 		return status;
 	}
 	
-	public void putItem(Object o) {
+	public void putItem(Item o) {
 		payload = o;
 	}
 	
-	public Object removeItem() {
-		Object result = payload;
+	public Item removeItem() {
+		Item result = payload;
 		payload = null;
 		return result;
+	}
+	
+	public Item peekItem() {
+		return payload;
 	}
 		
 	public String getPayloadName() {

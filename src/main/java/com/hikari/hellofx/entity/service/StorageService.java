@@ -2,6 +2,7 @@ package com.hikari.hellofx.entity.service;
 
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.StorageModel;
 
 public class StorageService extends BaseService{
@@ -12,8 +13,8 @@ public class StorageService extends BaseService{
 
 	protected void performCycle() throws InterruptedException {
 		var model = (StorageModel)getModel();	
-		Object o = model.getIn().get();
-		model.getStorage().add(o);
+		Item o = model.getIn().get();
+		model.addItem(o);
 		model.notifySubs();
 	}
 }

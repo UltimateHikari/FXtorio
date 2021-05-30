@@ -14,11 +14,11 @@ public class MinerService extends BaseService{
 	protected void performCycle() throws InterruptedException {
 		var model = (MinerModel)getModel();
 		sleep(PRODUCTION_TIME);
-		var o = new Object();
+		var o = model.getCurrentRecipe().produce();
 		model.setPayload(o);
 		model.notifySubs();
 		model.getOut().put(o);
-		model.setPayload(o);
+		model.setPayload(null);
 		model.notifySubs();
 	}
 	

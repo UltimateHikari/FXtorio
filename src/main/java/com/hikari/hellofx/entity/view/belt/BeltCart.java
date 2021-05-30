@@ -2,30 +2,41 @@ package com.hikari.hellofx.entity.view.belt;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelSubscriber;
-import com.hikari.hellofx.entity.model.belt.ModelItem;
+import com.hikari.hellofx.entity.model.belt.ItemCarriage;
 import com.hikari.hellofx.entity.model.belt.ModelItemStatus;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class BeltCart extends Circle implements IModelSubscriber {
+public class BeltCart extends StackPane implements IModelSubscriber {
 	private static final int CART_RADIUS = 10;
+	private static final Color DEFAULT_COLOR = Color.WHITE;
 	private final TranslateTransition tr = new TranslateTransition();
+	private Circle cart = null;
+	private Text text = new Text();
+	private String tag = "";
+	private Color fill;
 	private String payloadName;
 
 	public BeltCart(Point2D position, Point2D translation, Duration travelTime) {
-		super(position.getX(), position.getY(), CART_RADIUS);
-		setFill(Color.VIOLET);
+		cart = new Circle(CART_RADIUS);
+		setLayoutX(position.getX() - CART_RADIUS);
+		setLayoutY(position.getY() - CART_RADIUS);
+		cart.setFill(DEFAULT_COLOR);
 		setCache(true);
 		setCacheHint(CacheHint.SPEED);
 		initTranslation(translation, travelTime);
+		this.getChildren().add(cart);
+		this.getChildren().add(text);
 		this.setVisible(false);
 	}
 
@@ -38,6 +49,8 @@ public class BeltCart extends Circle implements IModelSubscriber {
 
 	private void move() {
 		this.setVisible(true);
+		cart.setFill(fill);
+		text.setText(tag);
 		tr.play();
 		log.trace("moved " + payloadName);
 	}
@@ -51,10 +64,12 @@ public class BeltCart extends Circle implements IModelSubscriber {
 
 	@Override
 	public void modelChanged(BaseModel model) {
-		if (model instanceof ModelItem m) {
+		if (model instanceof ItemCarriage m) {
 			ModelItemStatus status = m.getStatus();
 			payloadName = m.getPayloadName();
 			if (status == ModelItemStatus.MOVED) {
+				fill = m.peekItem().getColor();
+				tag = m.peekItem().getTag();
 				Platform.runLater(this::move);
 			} else if (status == ModelItemStatus.DISPATCHED) {
 				Platform.runLater(this::rewind);

@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GameField extends Pane implements IModelSubscriber {
+	private static final double WIDTH = 1200;
+	private static final double HEIGHT = 800;
 	private final Rectangle field;
 	private final GameController gcontroller;
 	private final EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
@@ -22,10 +24,10 @@ public class GameField extends Pane implements IModelSubscriber {
 		}
 	};
 
-	public GameField(GameController gcontroller_) {
-		gcontroller = gcontroller_;
-		setPrefSize(640, 480);
-		field = new Rectangle(0, 0, 640, 480);
+	public GameField(GameController gcontroller) {
+		this.gcontroller = gcontroller;
+		setPrefSize(WIDTH, HEIGHT);
+		field = new Rectangle(0, 0, WIDTH, HEIGHT);
 		field.setFill(Color.GAINSBORO);
 		add(field);
 	}

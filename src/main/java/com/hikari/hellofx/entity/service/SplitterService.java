@@ -1,53 +1,37 @@
 package com.hikari.hellofx.entity.service;
 
+import java.util.List;
+
 import com.hikari.hellofx.base.BaseService;
 import com.hikari.hellofx.entity.ISuspendable;
-import com.hikari.hellofx.entity.model.ConnectionOutPoint;
+import com.hikari.hellofx.entity.Item;
 import com.hikari.hellofx.entity.model.SplitterModel;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionOutPoint;
+import com.hikari.hellofx.entity.model.cpoint.ConnectionPoint;
 
-import lombok.extern.log4j.Log4j2;
+public class SplitterService extends BaseService {
+	private Item heldItem = null;
 
-@Log4j2
-public class SplitterService extends BaseService{
-	private static final int BLOCKED_POINTS_TRUST_AMOUNT = 4;
 	public SplitterService(ISuspendable model) {
 		super(model);
 	}
-	
-	private void commutateOneObject(SplitterModel model) throws InterruptedException {
-		Object o;
-		var trust = BLOCKED_POINTS_TRUST_AMOUNT;
-		o = model.getIn().get();
-		model.notifySubs();
-		for (;;) {
-			for (ConnectionOutPoint p : model.getOuts()) {
-				if (!p.isFree() && p.offer(o)) {
-					return;
-				}
+
+	private void commutate(SplitterModel model, List<ConnectionPoint> list) throws InterruptedException {
+		for (ConnectionPoint p : list) {
+			if (heldItem == null) {
+				heldItem = model.getIn().get();
 			}
-			trust--;
-			if (trust == 0) {
-				trust = BLOCKED_POINTS_TRUST_AMOUNT;
-				// go wait for someone to connect/ become free
-				log.info("zzz");
-				selfWait();
-				log.info("awaken2");
+			if (p.offer(heldItem)) {
+				heldItem = null;
 			}
 		}
 	}
 
 	protected void performCycle() throws InterruptedException {
-		var model = (SplitterModel)getModel();
-		var amount = model.amountOfConnectedPoints();
-		if (amount == 0) {
-			log.info("zzz");
-			selfWait();
-			log.info("awaken1");
-		} else {
-			// TODO what about disconnects?
-			for (var i = 0; i < amount; i++) {
-				commutateOneObject(model);
-			}
+		var model = (SplitterModel) getModel();
+		var list = model.filterPoints(ConnectionOutPoint.class, (p -> (!p.isFree()) && p.isEmpty()));
+		if (!list.isEmpty()) {
+			commutate(model, list);
 		}
 	}
 }

@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import com.hikari.hellofx.base.BaseModel;
 import com.hikari.hellofx.base.IModelSubscriber;
+import com.hikari.hellofx.game.view.GameView;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -22,12 +24,13 @@ public class App extends Application implements IModelSubscriber {
 	private final AppModel appModel = new AppModel();
 	private final SceneController sceneController = new SceneController(appModel);
 	private final HashMap<SceneClass, Scene> scenes = new HashMap<>();
-	private static final Integer WIDTH = 1280;
-	private static final Integer HEIGHT = 720;
+	private static final Integer WIDTH = 1600;
+	private static final Integer HEIGHT = 900;
+	private static final int STOP_ERROR_CODE = -1;
 
 	@Override
-	public void start(Stage stage_) throws Exception {
-		stage = stage_;
+	public void start(Stage stage) throws Exception {
+		this.stage = stage;
 		stage.setTitle("fxtorio");
 		appModel.subscribe(this);
 
@@ -46,7 +49,7 @@ public class App extends Application implements IModelSubscriber {
 	 * Mandatory pairs Model + View Name + NameView
 	 */
 
-	private void prepareScenes() throws ClassNotFoundException, InstantiationException, IllegalAccessException,
+	private void prepareScenes() throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		for (SceneClass s : SceneClass.values()) {
 			GridPane newPane = s.getSceneClass().getDeclaredConstructor(SceneController.class)
@@ -61,10 +64,31 @@ public class App extends Application implements IModelSubscriber {
 
 	@Override
 	public void modelChanged(BaseModel model) {
-		if (!(model instanceof AppModel)) {
+		if (model instanceof AppModel amodel) {
+			if(amodel.isStopped()) {
+				log.info("being stopped");
+				try {
+					askGameToStop();
+					Platform.exit();
+				} catch (Exception e) {
+					//dont want to propagate  non-informative "throws exception" everywhere
+					//just for exiting program in the end anyways
+					log.error("error while stopping", e);
+					System.exit(STOP_ERROR_CODE);
+				}
+			}
+			stage.setScene(scenes.get(appModel.getCurrentScene()));
+		} else {
 			throw new IllegalArgumentException("wrong appmodel");
 		}
-		stage.setScene(scenes.get(appModel.getCurrentScene()));
+	}
+
+	private void askGameToStop() {
+		/*
+		 * TODO potential leak again here? why app knows about specific view, 
+		 * and view pokes controller for stopping?
+		 */
+		((GameView)scenes.get(SceneClass.GAME).getRoot()).stopTheWorld();
 	}
 
 }
